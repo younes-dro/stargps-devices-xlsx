@@ -1,0 +1,19 @@
+{
+    "name": "stargps/devices-management",
+    "description": "Management of GPS devices SIM card credit.",
+    "type": "project",
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.22"
+    },
+    "autoload": {
+        "psr-4": {
+            "Stargps\\DevicesManagement\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "younes-dro",
+            "email": "dro66_8@hotmail.fr"
+        }
+    ]
+}

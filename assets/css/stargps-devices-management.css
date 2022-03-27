@@ -1,0 +1,277 @@
+/*
+*
+*/
+
+.stargps-devices-management-logo{
+    max-width: 50px;
+    margin-right: 8px;
+    border-radius: 4px;
+    height: auto;
+}
+.skltbs-theme-light .skltbs-tab.skltbs-active {
+    color: #fff;
+    background: #488ac3;
+}
+.stargps-spinner{
+    background: url(../images/spinner.gif) no-repeat;
+    background-size: contain;
+    display: inline-block;
+    visibility: hidden;
+    vertical-align: middle;
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+    width: 60px;
+    height: 60px;
+    margin: 4px 10px 0;
+}
+.stargps-spinner-xlsx{
+    background: url(../images/245.gif) no-repeat;
+    background-size: contain;
+    display: inline-block;
+    visibility: hidden;
+    vertical-align: middle;
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+    width: 256px;
+    height: 40px;
+    margin: 4px 10px 0;
+}
+.stargps-is-active{
+  visibility: visible;
+}
+
+.spinner-small{
+        width: 54px;
+    height: 40px;
+}
+.stargps-is-done{
+    visibility: visible;
+    background: none;
+
+}
+.fixed .column-sim-no{
+    width: 130px;
+}
+.cpanelbutton {
+    height: 30px;
+    width: 30px;
+    padding-left: 0px;
+    margin: 0 0 5px 5px;
+    padding-right: 0px;
+    border: 1px solid #AAA;
+    background: linear-gradient(to bottom, #fcfcfc 20%, #adadad 100%);
+    border-radius: 2px;
+}
+/**************************************************************
+*
+* Devices Tab
+*
+**************************************************************/
+
+.devicesForm {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: start;
+    align-content: stretch;
+    align-items: flex-start;
+    border: 1px solid #eee;
+    padding: 40px;
+}
+.devicesForm:first-of-type {
+ border-bottom: none;   
+}
+.column{
+    margin-right: 40px;
+}
+.column:nth-child(1) {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+    }
+
+.column:nth-child(2) {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+    }
+
+.column:nth-child(3) {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+ }
+.column label{
+     font-weight: bold;
+ }
+a.stargps-devices-management-btn{
+    background-color: #458ecb;
+    border-radius: 10px;
+    color: #fdfefe;
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    cursor: pointer;    
+}
+a.stargps-devices-management-btn:hover{
+    background-color: #7b9ebd;
+    
+}
+div.listDevices{
+
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+span.select-all-recharge{
+    border: 1px solid #ccc;
+    border-radius: 17%;
+    width: 40px;
+    height: 30px;
+    line-height: 30px;
+    cursor: pointer;
+    display: block;
+}
+span.select-all-recharge.clicked{
+    background-color: #458ECB;
+    color: #fff;    
+}
+
+/**************************************************************
+*
+* API Tab
+*
+**************************************************************/
+
+div.api_column {
+    width: 300px;
+    margin-right: 5px;
+}
+div.api_links{
+    display: flex;
+    flex-wrap: wrap;
+}
+.api_column input {
+    font-size: 1em !important;
+    min-height: 28px;
+    width: 100%;
+}
+.api_actions {
+    margin-left: 5px;
+ 
+    
+}
+div.submit-wrapper{
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;    
+}
+.api_actions .stargps-spinner{
+    width: 20px;
+    height: 20px;
+}
+
+.api_actions button {
+    height: 30px;
+    width: 30px;
+    padding-left: 0px;
+    margin: 0 0 5px 5px;
+    padding-right: 0px;
+    border: 1px solid #AAA;
+    background: linear-gradient(to bottom, #fcfcfc 20%, #adadad 100%);
+    border-radius: 2px;
+}
+div.api_actions button:hover {
+    cursor: pointer;
+    background: linear-gradient(to bottom, #cdcdcd 10%, #fcfcfc 100%);
+}
+div.api_actions button[disabled]:hover {
+    cursor: default;
+    background: linear-gradient(to bottom, #fcfcfc 20%, #adadad 100%);
+}
+span.old_sim_no{
+    background-color: #b85757;
+    color: #fff;
+    display: block;
+    padding: 2px 8px;
+    margin-bottom: 5px;
+}
+span.new_sim_no{
+    background-color: #79ba80;
+        color: #fff;
+    display: block;
+    padding: 2px 8px;
+    margin-bottom: 5px;
+}
+@media (max-width: 1470px){
+
+}
+@media (max-width: 1470px){
+
+.api_actions button {
+    margin-right: 2.5px;
+}    
+}
+
+/**************************************************************
+*
+* Parametre Tab
+*
+**************************************************************/
+form.form-new-api{
+    display: flex;
+}
+div.type-api{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+div.type-api .type-gps{
+    display: flex;
+    /* flex-wrap: wrap; */
+    align-items: flex-start;
+    flex-direction: column;
+}
+div.type-api input{
+    font-size: 1em !important;
+    min-height: 28px;
+    min-width: 300px;
+margin-bottom: 10px;    
+}
+div.type-api button {
+    height: 30px;
+    width: 30px;
+    padding-left: 0px;
+    margin: 0 0 5px 5px;
+    padding-right: 0px;
+    border: 1px solid #AAA;
+    background: linear-gradient(to bottom, #fcfcfc 20%, #adadad 100%);
+    border-radius: 2px;
+}
+div.type-api button:hover {
+    cursor: pointer;
+    background: linear-gradient(to bottom, #cdcdcd 10%, #fcfcfc 100%);
+}
+div.type-api button[disabled]:hover {
+    cursor: default;
+    background: linear-gradient(to bottom, #fcfcfc 20%, #adadad 100%);
+}
+p.responseAPI{
+    padding: 5px 10px;
+    /*border: 1px solid;*/
+    margin-left: 40px;
+    min-width:40%;
+}
+.postbox-header{
+    border: none;
+    background-color: #fbfbfb;
+    padding-left: 5px;
+}
+button.send-sim-valider,
+button.send-sim-reload{
+    
+    visibility: hidden;
+}
+button.send-sim-valider.stargps-is-active,
+button.send-sim-reload.stargps-is-active{
+    visibility: visible;
+}
