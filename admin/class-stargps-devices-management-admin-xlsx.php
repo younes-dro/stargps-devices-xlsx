@@ -359,7 +359,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
 		$device_id = $_POST['device_id']; 
        
 		$where_clause = "  WHERE id =" . $device_id;
-		$effectiveDate = strtotime( "+11 weeks", strtotime( date ( "d-m-Y" ) ) );
+		$effectiveDate = strtotime( "+80 days", strtotime( date ( "d-m-Y" ) ) );
 		$next_recharge = date( "d-m-Y", $effectiveDate );
 		$sql_query = "UPDATE `{$table_devices}` SET `next-recharge` = '" . $next_recharge . "' , `date-recharge`='" . date( "d-m-Y") . "'" . $where_clause . " ;";
                 $wpdb->query( $sql_query );
