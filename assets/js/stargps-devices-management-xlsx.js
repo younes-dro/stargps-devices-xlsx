@@ -73,6 +73,42 @@ jQuery(function($){
         });        
     }
     
+        $('div#list_file_xlsx').on('click','.delete-xlxs',function(){
+            
+            var $button = $(this);
+            var c =  confirm("confirmer la suppression ?");
+            if (c === false) return;
+            
+            $.ajax({
+                url: starGPSDevicesManagementXlsxParams.admin_ajax,
+                type: 'POST',
+                context: this,
+                data: {'action' : 'delete_xlxs', 'file_name': $(this).data('name') },
+                beforeSend: function() {
+                    $(this).prop( "disabled", true );
+                    $(this).siblings("span.spinner-small").addClass("stargps-is-active").show();
+                    $(this).parent().parent().css('opacity', '0.3');
+                },            
+                success: function (data) {
+                    //console.log(data);
+                    if( data === 'ok'){
+                        $(this).parent().parent().fadeOut();
+                    }else{
+                        console.log('Error');
+                        $(this).parent().parent().css('opacity', '1');
+                        $(this).siblings("span.spinner-small").removeClass("stargps-is-active").addClass("stargps-is-done").show();
+                        $(this).parent().parent().css('background-color', '#f00');
+                    }
+                        
+                },
+                error: function (response, textStatus, errorThrown ) {
+                     $('div#result_import_xlsx').html( textStatus + " :  " + response.status + " : " + errorThrown );
+                },
+                complete: function () {
+                    $(this).siblings("span.spinner-small").removeClass("stargps-is-active").addClass("stargps-is-done").show();                                 
+                }            
+            });            
+        }); 
         $('div#list_file_xlsx').on('click','.import-xlxs',function(){
             
            // var $button = $(this);
@@ -98,7 +134,7 @@ jQuery(function($){
                     $(this).prop( "disabled", false );
                 }            
             });            
-        });    
+        });        
     
 		$('#stargps_device_management_date_recharge').click(function (e) {
                     e.preventDefault();

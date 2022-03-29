@@ -15,6 +15,7 @@ function stargps_device_management_get_files_xlsx(){
 		$table .= '<th scope="col" class="manage-column ">Nom ficher </th>';
 		$table .= '<th scope="col"  class="manage-column ">Size</th>';
 		$table .= '<th scope="col"  class="manage-column ">Run</th>';
+		$table .= '<th scope="col"  class="manage-column ">Supprimer</th>';                
 		$table .= '</tr>'; 
 		$table .= '</thead>';
 		$table .= '<tbody id="the-list">';
@@ -24,10 +25,11 @@ function stargps_device_management_get_files_xlsx(){
 			if ( is_file( $file ) ) {
 				$filesize = size_format( filesize( $file ) );
 				$filename = basename( $file );
-				$table .= '<tr>';
+				$table .= '<tr id="table_' . $filename . '">';
 				$table .= '<td>' . $filename . '</td>';
 				$table .= '<td>' . $filesize . '</td>';                                
 				$table .= '<td><button data-name="' . $filename . '"  type="button" title="Lancer"  class="import-xlxs dashicons dashicons-controls-play"></button></td>';                                                                
+				$table .= '<td><button data-name="' . $filename . '"  type="button" title="Lancer"  class="delete-xlxs dashicons dashicons-table-col-delete"></button><span class="spinner-small stargps-spinner"></span></td>';                                                                
 				$table .= '</tr>';
 			}
 		}

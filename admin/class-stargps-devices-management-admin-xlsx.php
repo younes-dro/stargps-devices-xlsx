@@ -66,7 +66,11 @@ class Stargps_Devices_Management_Admin_Xlsx {
 		$s = preg_replace( "/&(.)(acute|cedil|circ|ring|tilde|uml|grave);/", "$1", $s );
 		$s = preg_replace( '#&([A-za-z]{2})(?:lig);#', '1', $s ); // pour les ligatures e.g. 'Å“'
 		return strtolower( sanitize_file_name( $s ) );
-        }        
+        }
+        
+        /**
+         * Upload file Xlsx
+         */
 	public function file_upload_callback(){
             
 		$arr_img_ext = array( 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel' );
@@ -85,6 +89,28 @@ class Stargps_Devices_Management_Admin_Xlsx {
                 
  		exit();	           
 	}
+        
+        /**
+         * Delete Xlsx file
+         */
+	public function delete_xlxs (){
+            
+            $file_name = $_POST['file_name'];
+            $abs_path_file = $this->xlsx_folder . '/' . $file_name;
+            
+            if ( file_exists( $this->xlsx_folder . '/' . $file_name ) ){
+                
+                if( wp_delete_file_from_directory( $abs_path_file , $this->xlsx_folder ) ){  
+                    echo 'ok';
+                }else{
+                    echo '0';
+                }
+            }else{
+                echo 'non';
+            }
+            
+            exit();	           
+	}        
         
         /**
          * Refresh Xlsx files
