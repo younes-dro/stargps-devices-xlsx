@@ -44,16 +44,10 @@ function stargps_device_management_get_files_xlsx(){
  */
 function stargps_device_management_get_table_select_menu(){
 	global $wpdb;
+	$TABLE_SCHEMA =  $wpdb->dbname;
+	$PREFIX = $wpdb->prefix;        
         
-	if( ( $_SERVER['SERVER_NAME'] ) === '127.0.0.2' ){
-		$TABLE_SCHEMA = 'stargps-management';
-		$PREFIX = 'wp';
-	}else{
-		$TABLE_SCHEMA = 'wptestdb';
-		$PREFIX = 'wptest';                
-	}
-        
-	$table_xlsx = "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = '" .$TABLE_SCHEMA . "' AND TABLE_NAME LIKE '" . $PREFIX . "_xlsx_%'";
+	$table_xlsx = "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = '" .$TABLE_SCHEMA . "' AND TABLE_NAME LIKE '" . $PREFIX . "xlsx_%'";
         
 	$tables = $wpdb->get_results( $table_xlsx, ARRAY_A ); 
         
