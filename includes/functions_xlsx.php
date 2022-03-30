@@ -79,7 +79,7 @@ function  stargps_device_management_head_table_xlsx( $from ='' ){
 	$table = '<table class="wp-list-table widefat fixed striped table-view-list posts">';
 	$table .= '<thead>';
 	$table .= '<tr>';
-
+	$table .= '<th scope="col" class="manage-column ">N°</th>';
 	$table .= '<th scope="col" class="manage-column ">ID</th>';
 	$table .= '<th scope="col"  class="manage-column ">Customer</th>';
 //	$table .= '<th scope="col"  class="manage-column ">B</th>';

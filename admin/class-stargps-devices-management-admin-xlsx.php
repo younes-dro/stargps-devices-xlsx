@@ -269,28 +269,22 @@ class Stargps_Devices_Management_Admin_Xlsx {
              
 		$sql = "SELECT * FROM {$table_devices} " . $where . " ;";
 		$devices = $wpdb->get_results( $sql , ARRAY_A );
-////                
-//                echo '<pre>';
-//                echo ($sql);
-//                echo '</pre>';
-//                exit();
-                   
+
+                $row_increment = 1; 
 		if ( is_array( $devices ) && count( $devices ) ){
-				//echo $title . '<br><br>';
+				echo '<h2>Nombre de resultat: ' . count( $devices ) . '</h2><br>';
                                 echo stargps_device_management_head_table_xlsx( 'devices' );
 				echo '<tbody id="the-list">'; 
 				foreach ( $devices as $device ) {
-                                    
-					echo '<tr>';
-					
-				echo '<td>' . $device['id'] . '</td>';
-				echo '<td>' . $device['customer-name'] . '</td>';
-//				echo '<td>'.$device->#.'</td>';
-				echo '<td>' . $device['login'] . '</td>';
-				echo '<td>' . $device['tel-clt'] . '</td>';
-				echo '<td>' . $device['target-name'] . '</td>';
-				echo '<td>' . $device['idimei'] . '</td>';
-				echo '<td>'.
+                                    echo '<tr>';
+                                    echo '<td><b>' . $row_increment . '</b></td>';                                    
+                                    echo '<td>' . $device['id'] . '</td>';
+                                    echo '<td>' . $device['customer-name'] . '</td>';
+                                    echo '<td>' . $device['login'] . '</td>';
+                                    echo '<td>' . $device['tel-clt'] . '</td>';
+                                    echo '<td>' . $device['target-name'] . '</td>';
+                                    echo '<td>' . $device['idimei'] . '</td>';
+                                    echo '<td>'.
                                         $device['sim-no'].
                                         '<br><button  type="button" title="Send recharge " data-sim-no="'. $device['sim-no'] .'" data-id="' . $device['id'] . '" data-table="' . $_POST['app'] . '" class="send-sim-recharge cpanelbutton dashicons dashicons-controls-play"></button> '
                                         .'<span class="stargps-spinner spinner-small"></span>'
@@ -304,7 +298,8 @@ class Stargps_Devices_Management_Admin_Xlsx {
 				echo '<td>' . $device['next-recharge'] . '</td>'; 
 				echo '<td>' . $device['app'] . '</td>'; 
                                 echo '<td>' . $device['remarks'] . '</td>';                                         
-				echo '</tr>';   
+				echo '</tr>';
+                                $row_increment++;
                                 }
                                 echo '</tbody>'; 
 				echo '</table>';                                
