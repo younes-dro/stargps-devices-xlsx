@@ -355,10 +355,10 @@
 				url: starGPSDevicesManagementXlsxParams.admin_ajax,
 				type: "POST",
 				context: this,
-				data: { 'action': 'stargps_device_management_date_recharge_80_jours' , 'app': $('#app').val(), 'recharge_80_j' : '1'},
+				data: { 'action': 'stargps_device_management_date_recharge_80_jours' , 'app': $('#app_80').val(), 'recharge_80_j' : '1'},
 				beforeSend: function () {
-                                    $(".stargps-spinner").addClass("stargps-is-active").show();
-                                    $('div.resultDevices').html('');
+                                    $("div.listDevices80 span.stargps-spinner").addClass("stargps-is-active").show();
+                                    $('div.resultDevices80').html('');
 				},
 				success: function (data) {         
 					if (data.error) {
@@ -366,7 +366,7 @@
 						alert(data.error.msg);
 					} else {
 						
-                                                $('div.resultDevices').html( data );
+                                                $('div.resultDevices80').html( data );
 						//console.log(data);
 					}
 				},
@@ -375,7 +375,7 @@
 				},
 				complete: function () {
                                     
-                                    $(".stargps-spinner").removeClass("stargps-is-active").hide();
+                                    $("div.listDevices80 span.stargps-spinner").removeClass("stargps-is-active").hide();
 				}
 			});
 		});

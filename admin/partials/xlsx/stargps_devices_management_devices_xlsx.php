@@ -42,9 +42,7 @@
             <a id="stargps_device_management_date_recharge" class="stargps-devices-management-btn">Submit</a>
         </div>
 </form>
-<div>
-    <h3>80 jours passés de la date de  recharge</h3><a id="stargps_device_management_date_recharge_80_jours" class="stargps-devices-management-btn">Submit</a>
-</div>
+
 <div class="listDevices">
     <span class="stargps-spinner"></span>
     <div class="resultDevices"></div>
