@@ -1,4 +1,4 @@
-jQuery(function($){
+(function($){
     
     if ( starGPSDevicesManagementXlsxParams.is_admin){
         		$('.date_picker').datepicker({
@@ -313,7 +313,10 @@ jQuery(function($){
 			});
 		});                
     
-    }  
-});
+    }
+    $.skeletabs.setDefaults({
+        keyboard: false,
+    }); 
+})(jQuery);
 
 
