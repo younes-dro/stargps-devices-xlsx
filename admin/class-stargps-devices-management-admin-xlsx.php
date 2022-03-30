@@ -258,13 +258,20 @@ class Stargps_Devices_Management_Admin_Xlsx {
                     if( ! empty( $_POST['type_device'] ) ){
                         $where.= " AND `type` LIKE '%". $_POST['type_device'] ."%'"; 
                     } 
+                    if( ! empty( $_POST['tel_clt'] ) ){
+                        $where.= " AND `tel-clt` LIKE '%". $_POST['tel_clt'] ."%'"; 
+                    }
+                    if( ! empty( $_POST['sim_no'] ) ){
+                        $where.= " AND `sim-no` LIKE '%". $_POST['sim_no'] ."%'"; 
+                    }                    
+                    
                 }
              
 		$sql = "SELECT * FROM {$table_devices} " . $where . " ;";
 		$devices = $wpdb->get_results( $sql , ARRAY_A );
 ////                
 //                echo '<pre>';
-//                var_dump($sql);
+//                echo ($sql);
 //                echo '</pre>';
 //                exit();
                    

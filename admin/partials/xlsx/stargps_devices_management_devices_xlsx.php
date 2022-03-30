@@ -1,20 +1,30 @@
     <form id="form" name="form" method="post" action="index.html">
         <h1>Devices</h1>
         <div id="stylized" class="devicesForm">
-        <div class="column">
-            <?php stargps_device_management_get_table_select_menu();?>
+            <div class="column">
+                <?php stargps_device_management_get_table_select_menu();?>
+            </div>
+            <div class="column">
+                <label>Customer Name: </label>
+                <input type="text" name="customer_name" id="customer_name"/>
+            </div>
+            <div class="column">
+                <label>Tel CTL: </label>
+                <input type="text" name="tel_clt" id="tel_clt"/>
+            </div>            
         </div>
-        <div class="column">
-            <label>Customer Name: </label>
-            <input type="text" name="customer_name" id="customer_name"/>
-        </div>            
-        <div class="column">
-            <label>IMEI: </label>
-            <input type="text" name="imei" id="imei"/>
-        </div>             
-                      
-        </div>
- <div class="devicesForm">        
+        <div id="stylized" class="devicesForm">
+
+            <div class="column">
+                <label>SIM no: </label>
+                <input type="text" name="sim_no" id="sim_no"/>
+            </div>            
+            <div class="column">
+                <label>IMEI: </label>
+                <input type="text" name="imei" id="imei"/>
+            </div>
+        </div>        
+        <div class="devicesForm">        
         <div class="column">
             <label>Type Device: </label>
             <input type="text" name="type_device" id="type_device"/>
