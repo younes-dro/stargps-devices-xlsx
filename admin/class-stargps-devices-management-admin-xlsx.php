@@ -418,5 +418,66 @@ class Stargps_Devices_Management_Admin_Xlsx {
                 
             exit();
         }
+        public function stargps_device_management_devices_recharge_manuelle_xlsx(){      
+	
+		$_POST["ddlar"]="ok";
+		if( ( $_SERVER['SERVER_NAME'] ) === '127.0.0.2' ){
+			$TO = 'dqL0XKRHwlQ:APA91bGIM6Icd639RMjvLKpIBXNI9hAEre4wnMp-sm1-MQMuJQi_KUVn-lSSyB_5QEbh5BB2jrquaBoHu0saiTfQR-mFAc9t4CpcXI15-e2KRrqfVrWC-8nvKCvDYHurjuaiWS8YLZu-';
+		}else{
+			$TO = 'fCaIZj7pBSI:APA91bFwHPYmL6QeGnNC_ERs2xTvnXwx4ZSM3tzPvuSUOWcDakSK3pLOeiAqdZwQWQLZ_6U6j0_dRUL8LaeIjLgpO7NmcdzQ8ZejXmwhHkqCJEnXjFpaSJq0KcBSf1ethNtTycFRzlTA';
+		}
+                $check = preg_match ("/\b0[0-9]+(?:\.[0-9]+)?\b/" , trim( $_POST["nmsms"] ) );
+                
+                if ( $check === 0 ){
+                    echo '<div class="notice notice-error is-dismissible"><p>Saisir un num valide</p></div>';
+                    exit();                    
+                }
+		if( isset( $_POST["ddlar"] ) && isset( $_POST["nmsms"] ) ){
+                    
+			define( 'API_ACCESS_KEY', 'AAAA1VrkBqE:APA91bE3OYDhgZPVqNTl4oWnMh2NLUgiyDL4yB-KvAtcgl8q-A632IBuDnNCGjKr72kQkkODH8PZ1aPgiT26sOjJ9bFtyTBhhFFwv7NlCaUYxoy6wnDpc2IwZaKljqaLQswFAd96lESt');
+ 
+			$msg = array(
+				'body' 	=> $_POST["nmsms"] ,
+				'Title'	=> "ok",
+				'matr'	=> " aan aan aan"  , 
+				'id'	=> rand(1,10000) ,       	
+				'agance' => "najm",         	
+				'tyype'	=> 248,
+				'androidNotificationChannel'	=> "foreground_najm"
+			);
+			$fields = array(
+				'to' => $TO,
+				'data'	=> $msg
+			);
+	
+	
+			$headers = array(
+				'Authorization: key=' . API_ACCESS_KEY,
+				'Content-Type: application/json'
+			);
         
+			#Send Reponse To FireBase Server	
+			$ch = curl_init();
+			curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
+			curl_setopt( $ch,CURLOPT_POST, true );
+			curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+			curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+			curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+			curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
+			$result = curl_exec($ch );
+                	if( curl_errno( $ch ) ){
+				$error_msg = curl_error($ch);
+			}
+			curl_close( $ch );
+		
+			if ( isset( $error_msg ) ) {
+				echo 'Erreur cUrl';
+				exit();
+			}  
+                
+			echo "OK!";
+
+			exit();                
+		}
+	}        
 }

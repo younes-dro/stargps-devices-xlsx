@@ -311,7 +311,41 @@
                                     $(".stargps-spinner").removeClass("stargps-is-active").hide();
 				}
 			});
-		});                
+		});
+        $('#run_recharge_manuelle').on('click',function(){
+                    //console.log($('#recharge_manuelle').val());
+                    //return;
+			$.ajax({
+				url: starGPSDevicesManagementXlsxParams.admin_ajax,
+				type: "POST",
+				context: this,
+				data: { 'action': 'stargps_device_management_devices_recharge_manuelle_xlsx' , 'nmsms' : $('#recharge_manuelle').val(), 'stargps_device_management_nonce': starGPSDevicesManagementXlsxParams.stargps_device_management_nonce },
+				beforeSend: function () {
+                                    $(this).prop( "disabled", true );
+                                    $('.result_manuelle').html('');
+                                    $(".stargps-spinner").addClass("stargps-is-active").show();
+                                   
+				},
+				success: function (data) {         
+					if (data.error) {
+						
+						alert(data.error.msg);
+					} else {
+						
+                                                $('.result_manuelle').html(data);
+						//console.log(data);
+					}
+				},
+				error: function (response, textStatus, errorThrown ) {
+					console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+				},
+				complete: function () {
+                                    
+                                    $(".stargps-spinner").removeClass("stargps-is-active").hide();
+                                    $(this).prop( "disabled", false );
+				}
+			});                   
+                });                
     
     }
     $.skeletabs.setDefaults({

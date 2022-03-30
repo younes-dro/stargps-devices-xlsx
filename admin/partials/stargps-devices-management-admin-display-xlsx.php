@@ -25,6 +25,10 @@
 				</button>
 				</li>   
                                 <?php } ?>
+				<li class="skltbs-tab-item">
+				<button class="skltbs-tab" data-identity="upload" ><?php echo __( '<span class="dashicons dashicons-smartphone"></span> Recharge manuelle', 'stargps-devices-management' ); ?>	
+				</button>
+				</li>                                
                                
 			
                         </ul>
@@ -44,6 +48,8 @@
 				<?php require_once STARGPSDEVICESMANAGEMENT_PLUGIN_DIR_PATH . 'admin/partials/xlsx/stargps_devices_management_remove.php'; ?>
 				</div> 
                             <?php } ?>
-                            
+				<div id='stargps-devices-management_manuelle' class="stargps-devices-management-tab-conetent skltbs-panel">
+				<?php require_once STARGPSDEVICESMANAGEMENT_PLUGIN_DIR_PATH . 'admin/partials/xlsx/stargps_devices_management_manuelle_xlsx.php'; ?>
+				</div>                            
 			</div>  
 		</div>
