@@ -28,15 +28,23 @@
             success: function (response) {
                 $this.val('');
                 var result = $.parseJSON(response);
+                if( result.re === 'f' ){
+                    var c =  confirm("Fichier existe . confirmer l'upload ?");
+                    if (c === false ){
+                        cancel_upload( result.file_tmp_name );
+                    }else{
+                        confirm_upload( result.file_tmp_name );
+                    }   
+                    return;
+                }
+                $this.val('');
                 if( result.re === '1' ){
-//                    console.log('1');
                     $('div#result_upload_xlsx').html('<div class="notice notice-success is-dismissible"><p>Fichier uploadé avec succès</p></div>');
                     refresh_list_file_xlsx();
                 }else if( result.re === '0' ){
                      $('div#result_upload_xlsx').html('<div class="notice notice-error is-dismissible"><p>Server Error</p></div>');
                 }else{
                     // Ext not supported
-//                    console.log('Ex');
                     $('div#result_upload_xlsx').html( '<div class="notice notice-warning is-dismissible"><p>l\'extension du fichier non acceptée</p></div>' );
                 }
                 
@@ -49,7 +57,66 @@
             }            
         });
     });
-    
+    function cancel_upload (file_name){
+        $.ajax({
+            url: starGPSDevicesManagementXlsxParams.admin_ajax,
+            type: 'POST',
+            data: {'action' : 'cancel_upload', 'file_name': file_name },
+            beforeSend: function() {
+                $(".stargps-spinner-xlsx").addClass("stargps-is-active").show();
+                $('div#result_upload_xlsx').html('');
+            },            
+            success: function (response) {
+                var result = $.parseJSON(response);
+                if( result.re === '1' ){
+                    $('div#result_upload_xlsx').html('<div class="notice notice-success is-dismissible"><p>Uploade annulé</p></div>');
+                    refresh_list_file_xlsx();
+                }else if( result.re === '0' ){
+                     $('div#result_upload_xlsx').html('<div class="notice notice-error is-dismissible"><p>Server Error</p></div>');
+                }else{
+                    // Server Error
+                    $('div#result_upload_xlsx').html( '<div class="notice notice-warning is-dismissible"><p>Server Error</p></div>' );
+                }
+                
+            },
+            error: function (response, textStatus, errorThrown ) {
+                console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+            },
+            complete: function () {
+                 $(".stargps-spinner-xlsx").removeClass("stargps-is-active").hide();
+            }            
+        });        
+    }
+    function confirm_upload (file_name) {
+        $.ajax({
+            url: starGPSDevicesManagementXlsxParams.admin_ajax,
+            type: 'POST',
+            data: {'action' : 'confirm_upload', 'file_name': file_name },
+            beforeSend: function() {
+                $(".stargps-spinner-xlsx").addClass("stargps-is-active").show();
+                $('div#result_upload_xlsx').html('');
+            },            
+            success: function (response) {
+                var result = $.parseJSON(response);
+                if( result.re === '1' ){
+                    $('div#result_upload_xlsx').html('<div class="notice notice-success is-dismissible"><p>Fichier uploadé avec succès</p></div>');
+                    refresh_list_file_xlsx();
+                }else if( result.re === '0' ){
+                     $('div#result_upload_xlsx').html('<div class="notice notice-error is-dismissible"><p>Server Error</p></div>');
+                }else{
+                    // Server Error
+                    $('div#result_upload_xlsx').html( '<div class="notice notice-warning is-dismissible"><p>Server Error</p></div>' );
+                }
+                
+            },
+            error: function (response, textStatus, errorThrown ) {
+                console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+            },
+            complete: function () {
+                 $(".stargps-spinner-xlsx").removeClass("stargps-is-active").hide();
+            }            
+        });
+    }
     function refresh_list_file_xlsx(){
         $.ajax({
             url: starGPSDevicesManagementXlsxParams.admin_ajax,

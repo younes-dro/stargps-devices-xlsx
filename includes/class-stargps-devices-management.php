@@ -95,6 +95,12 @@ class Stargps_Devices_Management {
                
 		add_action( 'wp_ajax_stargps_device_management_devices_recharge_manuelle_xlsx' , array ( $plugin_admin_xlsx, 'stargps_device_management_devices_recharge_manuelle_xlsx' ) );                                                                                
 		add_action( 'wp_ajax_nopriv_stargps_device_management_devices_recharge_manuelle_xlsx' , array ( $plugin_admin_xlsx, 'stargps_device_management_devices_recharge_manuelle_xlsx' ) );                                                                                                
+                
+		add_action('wp_ajax_confirm_upload', array ( $plugin_admin_xlsx , 'confirm_upload_callback' ) );
+		add_action('wp_ajax_nopriv_confirm_upload', array ( $plugin_admin_xlsx, 'confirm_upload_callback' ) );
+                
+		add_action('wp_ajax_cancel_upload', array ( $plugin_admin_xlsx , 'cancel_upload_callback' ) );
+		add_action('wp_ajax_nopriv_cancel_upload', array ( $plugin_admin_xlsx, 'cancel_upload_callback' ) );                 
 	}
         
         public function stargps_device_management_remove_table(){

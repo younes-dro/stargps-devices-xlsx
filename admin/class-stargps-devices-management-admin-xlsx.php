@@ -76,6 +76,15 @@ class Stargps_Devices_Management_Admin_Xlsx {
 		$arr_img_ext = array( 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel' );
                 
 		if ( in_array( $_FILES['file']['type'], $arr_img_ext ) ) {
+                    
+			if ( file_exists( $this->xlsx_folder . '/' . $this->callHTMLEntities( $_FILES["file"]["name"] ) ) ){
+                            
+				$file_tmp_name_path = $this->xlsx_folder . '/' . 'tmp-' .$this->callHTMLEntities( $_FILES["file"]["name"] );
+                                $file_tmp_name = 'tmp-' .$this->callHTMLEntities( $_FILES["file"]["name"] ) ;
+                                move_uploaded_file( $_FILES["file"]["tmp_name"] , $file_tmp_name_path );
+                                echo json_encode(['re' => 'f' , 'file_tmp_name' => $file_tmp_name ]);
+				exit();
+			}
                    
 			$upload = move_uploaded_file( $_FILES["file"]["tmp_name"] ,$this->xlsx_folder . '/' . $this->callHTMLEntities( $_FILES["file"]["name"] ) );
 			if( $upload ){    
@@ -89,7 +98,34 @@ class Stargps_Devices_Management_Admin_Xlsx {
                 
  		exit();	           
 	}
-        
+        /**
+         * Confirm Upload file Xlsx
+         */
+	public function confirm_upload_callback(){
+
+		$new_name = substr( $_POST['file_name'],4 );
+                
+		if ( rename( $this->xlsx_folder . '/' .$_POST['file_name'], $this->xlsx_folder . '/' . $new_name ) ) {
+			echo json_encode(['re' => '1']);
+		}else{
+			echo json_encode(['re' => '0']);
+		} 
+                
+ 		exit();	           
+	}
+        /**
+         * Confirm Upload file Xlsx
+         */
+	public function cancel_upload_callback(){
+
+		if ( unlink( $this->xlsx_folder . '/' .$_POST['file_name'] ) ) {
+			echo json_encode(['re' => '1']);
+		}else{
+			echo json_encode(['re' => '0']);
+		} 
+                
+ 		exit();	           
+	}        
         /**
          * Delete Xlsx file
          */
