@@ -249,8 +249,8 @@ class Stargps_Devices_Management_Admin_Xlsx {
                     if( ! empty( $_POST['next_recharge'] ) ){
                        $where.= " AND `next-recharge` = '". $_POST['next_recharge'] ."'";
                     }                
-                    if( ! empty( $_POST['target_name'] ) ){
-                       $where.= " AND `target-name` LIKE '%". $_POST['target_name'] ."%'"; 
+                    if( ! empty( $_POST['customer_name'] ) ){
+                       $where.= " AND `customer-name` LIKE '%". $_POST['customer_name'] ."%'"; 
                     }
                     if( ! empty( $_POST['imei'] ) ){
                         $where.= " AND `idimei` LIKE '%". $_POST['imei'] ."%'"; 

@@ -5,8 +5,8 @@
             <?php stargps_device_management_get_table_select_menu();?>
         </div>
         <div class="column">
-            <label>Target Name: </label>
-            <input type="text" name="target_name" id="target_name"/>
+            <label>Customer Name: </label>
+            <input type="text" name="customer_name" id="customer_name"/>
         </div>            
         <div class="column">
             <label>IMEI: </label>
