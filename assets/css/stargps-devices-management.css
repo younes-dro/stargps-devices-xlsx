@@ -275,3 +275,25 @@ button.send-sim-valider.stargps-is-active,
 button.send-sim-reload.stargps-is-active{
     visibility: visible;
 }
+div.newRows{
+display: flex; 
+align-items: center;    
+}
+div.newRows form{
+    margin-top: 40px;
+}
+div.newRows form div.line{
+    margin-bottom: 20px;
+    background-color: #f1f1f1;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+div.newRows label{
+    font-weight: bold;
+}
+div.newRows span{
+    cursor: pointer;
+    width: 40px;
+    display: inline-block;
+}

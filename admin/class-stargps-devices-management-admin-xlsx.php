@@ -359,7 +359,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
                 
                 $eighty_days_from_now = date("Y-m-d" , strtotime( date( "Y-m-d", strtotime( "+80 day" ) ) ) );
                 $where = " WHERE `id` = '" . $device_id . "' AND  STR_TO_DATE( `next-recharge` , '%d-%m-%Y') <= '" . $eighty_days_from_now . "' ";
-		$sql = "SELECT * FROM {$table_name} " . $where . " ;";
+		$sql = "SELECT * FROM `{$table_name}` " . $where . " ;"; 
 		$result = $wpdb->get_results( $sql , ARRAY_A );                
                                             
                 if ( count( $result )  === 1 ){
@@ -581,5 +581,33 @@ class Stargps_Devices_Management_Admin_Xlsx {
 
 			exit();                
 		}
-	}        
+	}
+        public function generate_form_rows(){
+            
+            //var_dump($_POST);
+            $num_rows = $_POST['num_rows'];
+            $app = $_POST['app'];
+            $html = '<form name="new_devices" id="new_devices">';
+            for ( $i = 0 ; $i < $num_rows ; $i++ ){
+                
+                $html .= '<div class="line">';
+                $html .= '<input type="text" name="customer-name_' . $i . '" placeholder="Customer name" />';
+                $html .= '<input type="number" name="groupe_' . $i . '" placeholder="Group ID" />';
+                $html .= '<input type="text" name="login_' . $i . '" placeholder="Login" />';
+                $html .= '<input type="text" name="tel_ctl_' . $i . '" placeholder="Tel Client" />';
+                $html .= '<input type="text" name="idimei_' . $i . '" placeholder="IDIMEI" />';
+                $html .= '<input type="text" name="sim_no_' . $i . '" placeholder="SIM No" />';
+                $html .= '<input type="text" name="type_' . $i . '" placeholder="Type" />';
+                $html .= '<input type="text" name="sim_op' . $i . '" placeholder="SIM Operateur" />';
+                $html .= '<input type="text" name="remarks_' . $i . '" placeholder="Remarks" />';
+                $html .= '</div>';
+            }
+            $html .= '<input type="hidden" name="num_rows" value="' . $num_rows . '">';
+            $html .= '<input type="hidden" name="selected_app" value="' . $app . '">';
+            $html .= '<a id="add_new_devices" class="stargps-devices-management-btn">Submit</a>';
+            $html .= '</form>';
+            
+            echo $html;
+            exit();
+        }
 }

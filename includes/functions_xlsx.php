@@ -92,6 +92,29 @@ function stargps_device_management_get_table_select_menu_80(){
 		echo 'Pas de Table';
 	}
 }
+function stargps_device_management_get_table_select_menu_new_devices(){
+	global $wpdb;
+	$TABLE_SCHEMA =  $wpdb->dbname;
+	$PREFIX = $wpdb->prefix;        
+        
+	$table_xlsx = "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = '" .$TABLE_SCHEMA . "' AND TABLE_NAME LIKE '" . $PREFIX . "xlsx_%'";
+        
+	$tables = $wpdb->get_results( $table_xlsx, ARRAY_A ); 
+        
+	if ( is_array( $tables ) && count( $tables ) ) {
+	?>
+	<label>Application: </label>
+            <select name="app" id="app_new_devices">
+                <option id="" value=""> - </option>
+	<?php foreach ( $tables as $key => $table ) { ?>
+		<option value="<?php echo $table['TABLE_NAME'] ?>"><?php echo $table['TABLE_NAME'] ?></option>                
+	<?php } ?>
+	</select>         
+	<?php             
+	}else{
+		echo 'Pas de Table';
+	}
+}
 function  stargps_device_management_head_table_xlsx( $from ='' ){
     $select_all_recharge= '';
 	( $from === 'devices') ? $select_all_recharge = '<span class="select-all-recharge dashicons dashicons-saved"></span><span class="spinner-small"></span>' : '';

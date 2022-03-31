@@ -103,7 +103,10 @@ class Stargps_Devices_Management {
 		add_action('wp_ajax_nopriv_confirm_upload', array ( $plugin_admin_xlsx, 'confirm_upload_callback' ) );
                 
 		add_action('wp_ajax_cancel_upload', array ( $plugin_admin_xlsx , 'cancel_upload_callback' ) );
-		add_action('wp_ajax_nopriv_cancel_upload', array ( $plugin_admin_xlsx, 'cancel_upload_callback' ) );                 
+		add_action('wp_ajax_nopriv_cancel_upload', array ( $plugin_admin_xlsx, 'cancel_upload_callback' ) );
+                
+		add_action('wp_ajax_generate_form_rows', array ( $plugin_admin_xlsx , 'generate_form_rows' ) );
+		add_action('wp_ajax_nopriv_generate_form_rows', array ( $plugin_admin_xlsx, 'generate_form_rows' ) );                
 	}
         
         public function stargps_device_management_remove_table(){

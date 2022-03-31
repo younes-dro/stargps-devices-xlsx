@@ -247,7 +247,7 @@
                                    $(this).siblings("span.spinner-small").addClass("stargps-is-active").show();
                                    
 				},
-				success: function (data) { 
+				success: function (data) {
                                     var result = $.parseJSON(data);  
                                     if( result.re === '1' ){
 					var c =  confirm("La date Next Recharge est moins de 80 jours . confirmer ou annuler ?");
@@ -449,7 +449,44 @@
                                     $(this).prop( "disabled", false );
 				}
 			});                   
-                });                
+                });
+                $('span.generate-form-rows').on('click', function(){
+                    var app = $('#app_new_devices').val();
+                    var num_rows = $('#number_rows').val();
+			$.ajax({
+				url: starGPSDevicesManagementXlsxParams.admin_ajax,
+				type: "POST",
+				context: this,
+				data: { 'action': 'generate_form_rows' , 'app' : app, 'num_rows' : num_rows, 'stargps_device_management_nonce': starGPSDevicesManagementXlsxParams.stargps_device_management_nonce },
+				beforeSend: function () {
+                                    $(this).prop( "display", "none" );
+                                    $("div.newRows span.stargps-spinner").addClass("stargps-is-active").show();
+                                   
+				},
+				success: function (data) {  
+                                    //console.log(data);
+                                    //return;
+					if (data.error) {
+						
+						alert(data.error.msg);
+					} else {
+						
+                                                $('.resultNewRows').html(data);
+						//console.log(data);
+					}
+				},
+				error: function (response, textStatus, errorThrown ) {
+					console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+				},
+				complete: function () {
+                                    
+                                    $("div.newRows span.stargps-spinner").removeClass("stargps-is-active").hide();
+                                    $(this).prop( "display", 'inline-block' );
+				}
+			});                   
+                });                    
+               
+                
     
     }
     $.skeletabs.setDefaults({
