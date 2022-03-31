@@ -348,11 +348,20 @@ class Stargps_Devices_Management_Admin_Xlsx {
 	}
 	public function stargps_device_management_send_recharge_sim_xlsx(){
 		global $wpdb;
+                $table_name = $_POST['table'];
+                $device_id = $_POST['device_id'];
                 
-//                echo '</pre>';
-//                var_dump($_POST);
-//                echo '</pre>';                              
-//                exit();
+                $eighty_days_from_now = date("Y-m-d" , strtotime( date( "Y-m-d", strtotime( "+80 day" ) ) ) );
+                $where .= " WHERE `id` = '" . $device_id . "' AND  STR_TO_DATE( `next-recharge` , '%d-%m-%Y') <= '" . $eighty_days_from_now . "' ";
+		$sql = "SELECT * FROM {$table_name} " . $where . " ;";
+		$result = $wpdb->get_results( $sql , ARRAY_A );                
+                                            
+                if ( count( $result )  === 1 ){
+                    echo json_encode(['re' => '1']);
+                    
+                    exit();
+                }
+                
                                
 		$_POST["ddlar"]="ok";
 
@@ -405,20 +414,75 @@ class Stargps_Devices_Management_Admin_Xlsx {
 				echo 'Erreur cUrl';
 				exit();
 			}
-                	
-			echo "OK!";
+                	echo json_encode(['re' => 'OK!']);
+		
+
+			exit();
+		}            
+	}
+	public function stargps_device_management_confirm_send_recharge_sim_xlsx(){
+                
+                               
+		$_POST["ddlar"]="ok";
+
+		if( ( $_SERVER['SERVER_NAME'] ) === '127.0.0.2' ){
+			$TO = 'dqL0XKRHwlQ:APA91bGIM6Icd639RMjvLKpIBXNI9hAEre4wnMp-sm1-MQMuJQi_KUVn-lSSyB_5QEbh5BB2jrquaBoHu0saiTfQR-mFAc9t4CpcXI15-e2KRrqfVrWC-8nvKCvDYHurjuaiWS8YLZu-';
+		}else{
+			$TO = 'fCaIZj7pBSI:APA91bFwHPYmL6QeGnNC_ERs2xTvnXwx4ZSM3tzPvuSUOWcDakSK3pLOeiAqdZwQWQLZ_6U6j0_dRUL8LaeIjLgpO7NmcdzQ8ZejXmwhHkqCJEnXjFpaSJq0KcBSf1ethNtTycFRzlTA';
+		}
+                
+		if( isset( $_POST["ddlar"] ) && isset( $_POST["nmsms"] ) ){
+                    
+			define( 'API_ACCESS_KEY', 'AAAA1VrkBqE:APA91bE3OYDhgZPVqNTl4oWnMh2NLUgiyDL4yB-KvAtcgl8q-A632IBuDnNCGjKr72kQkkODH8PZ1aPgiT26sOjJ9bFtyTBhhFFwv7NlCaUYxoy6wnDpc2IwZaKljqaLQswFAd96lESt');
+ 
+			$msg = array(
+				'body' 	=> $_POST["nmsms"] ,
+				'Title'	=> "ok",
+				'matr'	=> " aan aan aan"  , 
+				'id'	=> rand(1,10000) ,       	
+				'agance' => "najm",         	
+				'tyype'	=> 248,
+				'androidNotificationChannel'	=> "foreground_najm"
+			);
+			$fields = array(
+				'to' => $TO,
+				'data'	=> $msg
+			);
+	
+	
+			$headers = array(
+				'Authorization: key=' . API_ACCESS_KEY,
+				'Content-Type: application/json'
+			);
+        
+			#Send Reponse To FireBase Server	
+			$ch = curl_init();
+			curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
+			curl_setopt( $ch,CURLOPT_POST, true );
+			curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+			curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+			curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+			curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
+			$result = curl_exec($ch );
+			if( curl_errno( $ch ) ){
+				$error_msg = curl_error($ch);
+                   
+			}
+			curl_close( $ch );
+		
+			if (isset($error_msg)) {
+				echo 'Erreur cUrl';
+				exit();
+			}
+                	echo json_encode(['re' => 'OK!']);
+		
 
 			exit();
 		}            
 	}        
 	public function stargps_device_management_send_valider_recharge_sim_xlsx(){
 		global $wpdb;
-                
-//                echo '</pre>';
-//                var_dump($_POST);
-//                echo '</pre>';                              
-//                exit();
-                
+                                
 		$table_devices = $_POST['table'];                
 		$device_id = $_POST['device_id']; 
        
@@ -428,10 +492,6 @@ class Stargps_Devices_Management_Admin_Xlsx {
 		$sql_query = "UPDATE `{$table_devices}` SET `next-recharge` = '" . $next_recharge . "' , `date-recharge`='" . date( "d-m-Y") . "'" . $where_clause . " ;";
                 $wpdb->query( $sql_query );
                 
-//                echo '</pre>';
-//                var_dump($sql_query);
-//                echo '</pre>';                              
-//                exit();
 		
                 echo "Valider!";
 

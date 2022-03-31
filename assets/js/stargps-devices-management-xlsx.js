@@ -233,7 +233,7 @@
 				}
 			});
 		});
-		$('div.resultDevices').on('click','.send-sim-recharge',function(){
+		$('div.resultDevices , div.resultDevices80').on('click','.send-sim-recharge',function(){
                    // console.log($(this).data('sim-no'));
                     
 			$.ajax({
@@ -247,31 +247,68 @@
                                    $(this).siblings("span.spinner-small").addClass("stargps-is-active").show();
                                    
 				},
-				success: function (data) {         
-					if (data.error) {
-						
-						alert(data.error.msg);
-					} else {
-						
-                                                //$('.result').html(data);
-						console.log(data);
-					}
+				success: function (data) { 
+                                    var result = $.parseJSON(data);  
+                                    if( result.re === '1' ){
+					var c =  confirm("La date Next Recharge est moins de 80 jours . confirmer ou annuler ?");
+					if (c === false ){
+						$(this).siblings("span.spinner-small").removeClass("stargps-is-active");                                                
+                                                $(this).prop( "disabled", false );                                       
+						return;
+					}else{
+						confirm_send_recharge( $(this),  $(this).data('sim-no') );
+                                                return;
+					}                                        
+                                        return;
+                                    }
+					$(this).siblings("span.spinner-small").removeClass("stargps-is-active").addClass("stargps-is-done").show();
+					$(this).siblings("span.spinner-small").html('sent!');
+					$(this).siblings("button.send-sim-valider").addClass("stargps-is-active").show();
+					$(this).siblings("button.send-sim-reload").addClass("stargps-is-active").show();                                     
+
 				},
 				error: function (response, textStatus, errorThrown ) {
 					console.log( textStatus + " :  " + response.status + " : " + errorThrown );
 				},
-				complete: function () {
-                                    
-					$(this).siblings("span.spinner-small").removeClass("stargps-is-active").addClass("stargps-is-done").show();
-					$(this).siblings("span.spinner-small").html('sent!');
-					$(this).siblings("button.send-sim-valider").addClass("stargps-is-active").show();
-					$(this).siblings("button.send-sim-reload").addClass("stargps-is-active").show();                                    
+				complete: function ( data) {
+                                 
                                     
 				}
 			}); 
                         
 		}); 
-		$('div.resultDevices').on('click','button.send-sim-valider',function(){
+                function confirm_send_recharge(obj, sim_no){
+                    
+                    
+			$.ajax({
+				url: starGPSDevicesManagementXlsxParams.admin_ajax,
+				type: "POST",
+				context: this,
+				data: { 'action': 'stargps_device_management_confirm_send_recharge_sim_xlsx' ,  'nmsms': sim_no, 'stargps_device_management_nonce': starGPSDevicesManagementXlsxParams.stargps_device_management_nonce },
+				beforeSend: function () {
+                                    obj.prop( "disabled", true );
+                                    //$('.result').html('');
+                                   obj.siblings("span.spinner-small").addClass("stargps-is-active").show();
+                                   
+				},
+				success: function (data) { 
+                                    var result = $.parseJSON(data);
+                                    console.log(result);
+				},
+				error: function (response, textStatus, errorThrown ) {
+					console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+				},
+				complete: function ( data) {
+					obj.siblings("span.spinner-small").removeClass("stargps-is-active").addClass("stargps-is-done").show();
+					obj.siblings("span.spinner-small").html('sent!');
+					obj.siblings("button.send-sim-valider").addClass("stargps-is-active").show();
+					obj.siblings("button.send-sim-reload").addClass("stargps-is-active").show();                                   
+                                    
+				}
+			});                     
+                    
+                }
+		$('div.resultDevices, div.resultDevices80').on('click','button.send-sim-valider',function(){
                    // console.log($(this).data('sim-no'));
                     
 			$.ajax({
@@ -308,7 +345,7 @@
                         
                 }); 
                 
-		$('div.resultDevices').on('click','button.send-sim-reload',function(){
+		$('div.resultDevices, div.resultDevices80').on('click','button.send-sim-reload',function(){
 //                    console.log();
                     $(this).siblings("button.send-sim-recharge").prop( "disabled", false );
                     $(this).siblings("button.send-sim-valider").prop( "disabled", false );

@@ -83,6 +83,9 @@ class Stargps_Devices_Management {
 		
                 add_action( 'wp_ajax_stargps_device_management_send_recharge_sim_xlsx' , array ( $plugin_admin_xlsx, 'stargps_device_management_send_recharge_sim_xlsx' ) );                                                                
 		add_action( 'wp_ajax_nopriv_stargps_device_management_send_recharge_sim_xlsx' , array ( $plugin_admin_xlsx, 'stargps_device_management_send_recharge_sim_xlsx' ) );                                                                                
+                
+                add_action( 'wp_ajax_stargps_device_management_confirm_send_recharge_sim_xlsx' , array ( $plugin_admin_xlsx, 'stargps_device_management_confirm_send_recharge_sim_xlsx' ) );                                                                
+		add_action( 'wp_ajax_nopriv_stargps_device_management_confirm_send_recharge_sim_xlsx' , array ( $plugin_admin_xlsx, 'stargps_device_management_confirm_send_recharge_sim_xlsx' ) );                
 		
                 add_action( 'wp_ajax_stargps_device_management_send_valider_recharge_sim_xlsx' , array ( $plugin_admin_xlsx, 'stargps_device_management_send_valider_recharge_sim_xlsx' ) );                                                                
 		add_action( 'wp_ajax_nopriv_stargps_device_management_send_valider_recharge_sim_xlsx' , array ( $plugin_admin_xlsx, 'stargps_device_management_send_valider_recharge_sim_xlsx' ) );                
