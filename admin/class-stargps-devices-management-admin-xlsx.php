@@ -312,7 +312,8 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                 echo stargps_device_management_head_table_xlsx( 'devices' );
 				echo '<tbody id="the-list">'; 
 				foreach ( $devices as $device ) {
-                                    echo '<tr>';
+                                    $no_need = ( DateTime::createFromFormat('d-m-Y', $device['date-recharge'] ) === false ) ? 'style="background-color: #b2b0c8;"' : '';
+                                    echo '<tr ' . $no_need. '>';
                                     echo '<td><b>' . $row_increment . '</b></td>';                                    
                                     echo '<td>' . $device['id'] . '</td>';
                                     echo '<td>' . $device['customer-name'] . '</td>';
@@ -320,6 +321,9 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                     echo '<td>' . $device['tel-clt'] . '</td>';
                                     echo '<td>' . $device['target-name'] . '</td>';
                                     echo '<td>' . $device['idimei'] . '</td>';
+                                    if( ! empty ( $no_need ) ){
+                                        echo '<td>Off</<td>';
+                                    }else{
                                     echo '<td>'.
                                         $device['sim-no'].
                                         '<br><button  type="button" title="Send recharge " data-sim-no="'. $device['sim-no'] .'" data-id="' . $device['id'] . '" data-table="' . $_POST['app'] . '" class="send-sim-recharge cpanelbutton dashicons dashicons-controls-play"></button> '
@@ -327,6 +331,8 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                         .'<br><button  type="button" data-id="' . $device['id'] . '" data-table="' . $_POST['app'] . '"  class="send-sim-valider cpanelbutton dashicons dashicons-saved"></button>'
                                         .'<br><button  type="button" class="send-sim-reload cpanelbutton dashicons dashicons-image-rotate"></button>'
                                         .'</td>';
+                                        
+                                    }                                    
 				echo '<td>' . $device['type'] . '</td>';
 				echo '<td>' . $device['expiry'] . '</td>';
 				echo '<td>' . $device['sim-op'] . '</td>';
@@ -352,7 +358,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
                 $device_id = $_POST['device_id'];
                 
                 $eighty_days_from_now = date("Y-m-d" , strtotime( date( "Y-m-d", strtotime( "+80 day" ) ) ) );
-                $where .= " WHERE `id` = '" . $device_id . "' AND  STR_TO_DATE( `next-recharge` , '%d-%m-%Y') <= '" . $eighty_days_from_now . "' ";
+                $where = " WHERE `id` = '" . $device_id . "' AND  STR_TO_DATE( `next-recharge` , '%d-%m-%Y') <= '" . $eighty_days_from_now . "' ";
 		$sql = "SELECT * FROM {$table_name} " . $where . " ;";
 		$result = $wpdb->get_results( $sql , ARRAY_A );                
                                             
