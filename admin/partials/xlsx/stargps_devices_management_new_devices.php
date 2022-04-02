@@ -3,7 +3,7 @@
 <div class="newRows">
 <?php stargps_device_management_get_table_select_menu_new_devices();?>
 
-    <input type="number" name="number_rows" id="number_rows">
+    <input type="number" name="number_rows" min="1" id="number_rows">
     <span class="generate-form-rows dashicons dashicons-table-row-before"></span>
 </div>
 

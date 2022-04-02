@@ -584,30 +584,72 @@ class Stargps_Devices_Management_Admin_Xlsx {
 	}
         public function generate_form_rows(){
             
-            //var_dump($_POST);
+            
+            if( empty( $_POST['app'] ) || empty( $_POST['num_rows'] ) ){
+            
+                echo '<div class="notice notice-error is-dismissible"><p>Selectionner une Application ou un nombre valide </p></div>';
+                exit();
+            }
+            
             $num_rows = $_POST['num_rows'];
             $app = $_POST['app'];
-            $html = '<form name="new_devices" id="new_devices">';
-            for ( $i = 0 ; $i < $num_rows ; $i++ ){
-                
+            $html=  '';
+            for ( $i = 0 ; $i < $num_rows ; $i++ ){            
+                $html .= '<form name="new_devices">';
                 $html .= '<div class="line">';
-                $html .= '<input type="text" name="customer-name_' . $i . '" placeholder="Customer name" />';
-                $html .= '<input type="number" name="groupe_' . $i . '" placeholder="Group ID" />';
-                $html .= '<input type="text" name="login_' . $i . '" placeholder="Login" />';
-                $html .= '<input type="text" name="tel_ctl_' . $i . '" placeholder="Tel Client" />';
-                $html .= '<input type="text" name="idimei_' . $i . '" placeholder="IDIMEI" />';
-                $html .= '<input type="text" name="sim_no_' . $i . '" placeholder="SIM No" />';
-                $html .= '<input type="text" name="type_' . $i . '" placeholder="Type" />';
-                $html .= '<input type="text" name="sim_op' . $i . '" placeholder="SIM Operateur" />';
-                $html .= '<input type="text" name="remarks_' . $i . '" placeholder="Remarks" />';
-                $html .= '</div>';
+                $html .= '<input type="text" name="customer-name" placeholder="Customer name" />';
+                $html .= '<input type="number" name="groupe" placeholder="Group ID" />';
+                $html .= '<input type="text" name="login" placeholder="Login" />';
+                $html .= '<input type="text" name="tel_ctl" placeholder="Tel Client" />';
+                $html .= '<input type="text" name="idimei" placeholder="IDIMEI" />';
+                $html .= '<input type="text" name="sim_no" placeholder="SIM No" />';
+                $html .= '<input type="text" name="type" placeholder="Type" />';
+                $html .= '<input type="text" name="sim_op" placeholder="SIM Operateur" />';
+                $html .= '<input type="text" name="remarks" placeholder="Remarks" />';
+                $html .= '<span class="stargps-spinner"></span></div>';
+                $html .= '<input type="hidden" name="num_rows" value="' . $num_rows . '">';
+                $html .= '<input type="hidden" name="selected_app" value="' . $app . '">';
+                $html .= '</form>';
             }
-            $html .= '<input type="hidden" name="num_rows" value="' . $num_rows . '">';
-            $html .= '<input type="hidden" name="selected_app" value="' . $app . '">';
             $html .= '<a id="add_new_devices" class="stargps-devices-management-btn">Submit</a>';
-            $html .= '</form>';
-            
             echo $html;
             exit();
         }
+        public function add_new_devices(){
+		global $wpdb;
+                
+		$number_array = count( $_POST['new_devices'] );
+                
+		$app_key = $number_array - 1;
+		$table_name = $_POST['new_devices'][$app_key]['value'];
+                
+		$plus_one_year = strtotime( "+1 year", strtotime( date ( "d-m-Y" ) ) );
+		$expiry = date( "d-m-Y", $plus_one_year );
+                $current_date = date ( "d-m-Y" );
+		$plus_80_days = strtotime( "+80 days", strtotime( date ( "d-m-Y" ) ) );
+		$next_recharge = date( "d-m-Y", $plus_80_days );                
+			$data = array(
+				'customer-name' =>  $_POST['new_devices'][0]['value'] , 
+				'#' =>  $_POST['new_devices'][1]['value'] ,
+				'login' =>  $_POST['new_devices'][2]['value'] ,
+				'tel-clt' =>  $_POST['new_devices'][3]['value'] ,
+				'target-name' =>  $_POST['new_devices'][0]['value'] ,
+				'idimei' =>  $_POST['new_devices'][4]['value'] ,
+				'sim-no' =>  $_POST['new_devices'][5]['value'] ,
+				'type' =>  $_POST['new_devices'][6]['value'] ,
+				'expiry' => $expiry,
+				'sim-op' =>   $_POST['new_devices'][7]['value'] ,
+				'date-recharge' => $current_date,
+				'next-recharge' => $next_recharge,
+				'app' =>  $table_name ,                                    
+				'remarks' =>  $_POST['new_devices'][8]['value']   ); 
+                        
+				if( $wpdb->insert( $table_name, $data) ){    
+					echo json_encode(['re' => 'yes']);
+				}else{
+					echo json_encode(['re' => 'no']);
+                                }
+
+            exit();
+        }        
 }

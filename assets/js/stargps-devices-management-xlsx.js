@@ -460,6 +460,7 @@
 				data: { 'action': 'generate_form_rows' , 'app' : app, 'num_rows' : num_rows, 'stargps_device_management_nonce': starGPSDevicesManagementXlsxParams.stargps_device_management_nonce },
 				beforeSend: function () {
                                     $(this).prop( "display", "none" );
+                                    $('div.resultNewRows').html('');
                                     $("div.newRows span.stargps-spinner").addClass("stargps-is-active").show();
                                    
 				},
@@ -485,9 +486,48 @@
 				}
 			});                   
                 });                    
-               
+                $('div.newRows').on( 'click', 'a#add_new_devices', function(e){
+                    e.preventDefault();
+                    //$(this).css('cursor','progress');
+                    $(this).css('display','none');
+                    var forms = $('form[name="new_devices"]');
+                    
+                    forms.each(function(selindex) {
+                        
+                        //console.log($(this).serializeArray());
+			$.ajax({
+				url: starGPSDevicesManagementXlsxParams.admin_ajax,
+				type: "POST",
+				context: this,
+				data: {'action': 'add_new_devices', 'new_devices': $(this).serializeArray()}, 
+				beforeSend: function () {
+                                    //$(this).prop( "disabled", true );
+                                    $(this).find("span.stargps-spinner").addClass("stargps-is-active").show();
+                                   
+				},
+				success: function (data) {
+                                    //console.log(data);
+                                    //return;
+                                    var result = $.parseJSON(data);
+					if (result.re === 'yes') {
+						$(this).find("span.stargps-spinner").removeClass("stargps-is-active stargps-spinner").addClass("dashicons dashicons-saved");
+                                                return;
+					}
+                                        if(result.re === 'no'){
+                                            $(this).find("span.stargps-spinner").removeClass("stargps-is-active stargps-spinner").addClass("dashicons dashicons-dismiss");
+                                            return;
+                                        }
+				},
+				error: function (response, textStatus, errorThrown ) {
+					console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+				},
+				complete: function () {
+                                    
+				}
+			});                        
+                    });                   
+                });                
                 
-    
     }
     $.skeletabs.setDefaults({
         keyboard: false,
