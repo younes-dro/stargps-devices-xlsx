@@ -651,5 +651,87 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                 }
 
             exit();
-        }        
+        }
+	public function relancer() {
+		global $wpdb;
+                
+		$table_devices = '`' . $_POST['app'] . '`';
+                $mois = '`' . $_POST['mois'] . '`';
+                
+                if( empty( $_POST['app'] ) || empty( $_POST['mois']  ) ){
+                    echo '<div class="notice notice-error is-dismissible"><p>Selectionner une Application et une période</p></div>';
+                    exit();
+                }
+                
+                $where = ' WHERE 1=1';
+                $title = "Devices date d'expiration du mois: ";
+                if( $_POST['mois'] === 'mois_en_cours' ) {
+                    
+                    $where .= " AND month(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = month(curdate() ) ";
+                    $title .= date('m');
+                    
+                } else if( $_POST['mois'] === 'mois_prochain' ){
+                    
+                    $next_month = date('m',strtotime('+1 month'));
+                    $where .= " AND month(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = '". $next_month . "'  ";
+                    $title .= $next_month;
+                    
+                }else if ($_POST['mois'] === 'mois_dernier' ){
+                   
+                    $last_month = date('m',strtotime('-1 month'));
+                    $where .= " AND month(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = '". $last_month . "'  ";
+                    $title .= $last_month;
+                }
+ 
+             
+		$sql = "SELECT * FROM {$table_devices} " . $where . " ;";
+		$devices = $wpdb->get_results( $sql , ARRAY_A );
+
+
+                $row_increment = 1; 
+		if ( is_array( $devices ) && count( $devices ) ){
+				echo '<h2>' . $title . ' <br>Nombre de resultat: ' . count( $devices ) . '</h2><br>';
+                                echo stargps_device_management_head_table_xlsx( 'devices' );
+				echo '<tbody id="the-list">'; 
+				foreach ( $devices as $device ) {
+                                    $no_need = ( DateTime::createFromFormat('d-m-Y', $device['date-recharge'] ) === false ) ? 'style="background-color: #b2b0c8;"' : '';
+                                    echo '<tr ' . $no_need. '>';
+                                    echo '<td><b>' . $row_increment . '</b></td>';                                    
+                                    echo '<td>' . $device['id'] . '</td>';
+                                    echo '<td>' . $device['customer-name'] . '</td>';
+                                    echo '<td>' . $device['login'] . '</td>';
+                                    echo '<td>' . $device['tel-clt'] . '</td>';
+                                    echo '<td>' . $device['target-name'] . '</td>';
+                                    echo '<td>' . $device['idimei'] . '</td>';
+                                    if( ! empty ( $no_need ) ){
+                                        echo '<td>Off</<td>';
+                                    }else{
+                                    echo '<td>'.
+                                        $device['sim-no']
+                                        //'<br><button  type="button" title="Send recharge " data-sim-no="'. $device['sim-no'] .'" data-id="' . $device['id'] . '" data-table="' . $_POST['app'] . '" class="send-sim-recharge cpanelbutton dashicons dashicons-controls-play"></button> '
+                                        ///.'<span class="stargps-spinner spinner-small"></span>'
+                                        //.'<br><button  type="button" data-id="' . $device['id'] . '" data-table="' . $_POST['app'] . '"  class="send-sim-valider cpanelbutton dashicons dashicons-saved"></button>'
+                                        //.'<br><button  type="button" class="send-sim-reload cpanelbutton dashicons dashicons-image-rotate"></button>'
+                                        .'</td>';
+                                        
+                                    }                                    
+				echo '<td>' . $device['type'] . '</td>';
+				echo '<td>' . $device['expiry'] . '</td>';
+				echo '<td>' . $device['sim-op'] . '</td>';
+				echo '<td>' . $device['date-recharge'] . '</td>';
+				echo '<td>' . $device['next-recharge'] . '</td>'; 
+				echo '<td>' . $device['app'] . '</td>'; 
+                                echo '<td>' . $device['remarks'] . '</td>';                                         
+				echo '</tr>';
+                                $row_increment++;
+                                }
+                                echo '</tbody>'; 
+				echo '</table>';                                
+		}else{
+                    echo 'Pas de devices ! ';
+                }
+                                    
+                
+                exit();
+	}        
 }

@@ -15,6 +15,9 @@
 				<button class="skltbs-tab" data-identity="devices-80-jours" ><?php echo __( '<span class="dashicons dashicons-calendar-alt"></span> 80 Jours', 'stargps-devices-management' ); ?></button>
 				</li>
 				<li class="skltbs-tab-item">
+				<button class="skltbs-tab" data-identity="relancer" ><?php echo __( '<span class="dashicons dashicons-image-filter"></span> Relancer', 'stargps-devices-management' ); ?></button>
+				</li>                                
+				<li class="skltbs-tab-item">
 				<button class="skltbs-tab" data-identity="new-devices" ><?php echo __( '<span class="dashicons dashicons-database-add"></span> Add devices', 'stargps-devices-management' ); ?></button>
 				</li>                                
 				<li class="skltbs-tab-item">
@@ -45,6 +48,9 @@
 				<div id="ets_stargps-devices-management_devices_80_jours" class="stargps-devices-management-tab-conetent skltbs-panel">
 				<?php require_once STARGPSDEVICESMANAGEMENT_PLUGIN_DIR_PATH . 'admin/partials/xlsx/stargps_devices_management_80_jours.php'; ?>
 				</div>
+				<div id="ets_stargps-devices-management_devices_relancer" class="stargps-devices-management-tab-conetent skltbs-panel">
+				<?php require_once STARGPSDEVICESMANAGEMENT_PLUGIN_DIR_PATH . 'admin/partials/xlsx/stargps_devices_management_relancer.php'; ?>
+				</div>                            
 				<div id="ets_stargps-devices-management_new_devices" class="stargps-devices-management-tab-conetent skltbs-panel">
 				<?php require_once STARGPSDEVICESMANAGEMENT_PLUGIN_DIR_PATH . 'admin/partials/xlsx/stargps_devices_management_new_devices.php'; ?>
 				</div>                             

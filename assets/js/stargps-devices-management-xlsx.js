@@ -526,7 +526,39 @@
 				}
 			});                        
                     });                   
-                });                
+                });
+		$('#stargps_device_management_date_recharge_relancer').click(function (e) {
+                    e.preventDefault();
+                    //console.log('relancer');
+                    //return;
+			$.ajax({
+				url: starGPSDevicesManagementXlsxParams.admin_ajax,
+				type: "POST",
+				context: this,
+				data: { 'action': 'stargps_device_management_relancer' , 'app': $('#app_relancer').val(), 'mois' : $('#relancer').val()},
+				beforeSend: function () {
+                                    $("div.listDevicesRelancer span.stargps-spinner").addClass("stargps-is-active").show();
+                                    $('div.resultDevicesRelancer').html('');
+				},
+				success: function (data) {         
+					if (data.error) {
+						
+						alert(data.error.msg);
+					} else {
+						
+                                                $('div.resultDevicesRelancer').html( data );
+						//console.log(data);
+					}
+				},
+				error: function (response, textStatus, errorThrown ) {
+					console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+				},
+				complete: function () {
+                                    
+                                    $("div.listDevicesRelancer span.stargps-spinner").removeClass("stargps-is-active").hide();
+				}
+			});
+		});                
                 
     }
     $.skeletabs.setDefaults({
