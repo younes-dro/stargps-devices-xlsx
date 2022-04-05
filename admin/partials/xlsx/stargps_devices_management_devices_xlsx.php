@@ -6,8 +6,8 @@
             </div>
             <div class="column customer_search">
                 <label>Customer Name: </label>
-                <input type="text" name="customer_name" id="customer_name"/>
-                <ul class="customer_name_after_search"></ul>
+                <input  type="text" name="customer_name" id="customer_name"/>
+                <ul id="customer_name_after_search" class="customer_name_after_search"></ul>
             </div>
             <div class="column">
                 <label>Tel CTL: </label>

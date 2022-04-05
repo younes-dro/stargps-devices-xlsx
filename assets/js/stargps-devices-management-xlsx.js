@@ -239,23 +239,41 @@
                     $('ul.customer_name_after_search').html("");
                     $('td.customer-name').each(function(index){
                         //console.log($(this).text());
-                        li += '<li>'+$(this).text() +'</li>';
+                        li += '<li><a href="#">'+$(this).text() +'</a></li>';
                     });
                     $('ul.customer_name_after_search').html(li);
                     
                 }
                 $('#customer_name').on("keyup change", function(e) {
                     $('ul.customer_name_after_search').css('display', 'block');
+                    var input, filter, ul, li, a, i, txtValue;
+                    input = document.getElementById("customer_name");
+                    filter = input.value.toUpperCase();
+                    ul = document.getElementById("customer_name_after_search");
+                    li = ul.getElementsByTagName("li");
+                    for (i = 0; i < li.length; i++) {
+                        a = li[i].getElementsByTagName("a")[0];
+                        txtValue = a.textContent || a.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            li[i].style.display = "";
+                        } else {
+                            li[i].style.display = "none";
+                        }
+                    }                    
                 });
+                $(document).on("click", 'ul.customer_name_after_search > li > a',function(e) {
+                    e.preventDefault();
+                });                 
                 $(document).on("click", function(e) {
                     if ( e.target.id != 'ok' ) {
                      $('ul.customer_name_after_search').css('display', 'none');   
                     }
                 }); 
-                $(document).on('click','ul.customer_name_after_search > li', function(e){
+                $(document).on('click','ul.customer_name_after_search > li > a', function(e){
                     $('#customer_name').val($(this).text());
 //                    console.log($(this).text());
                 });
+                
 		$('div.resultDevices , div.resultDevices80').on('click','.send-sim-recharge',function(){
                    // console.log($(this).data('sim-no'));
                     

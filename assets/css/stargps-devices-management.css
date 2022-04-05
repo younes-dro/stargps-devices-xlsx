@@ -316,6 +316,16 @@ ul.customer_name_after_search li{
     cursor: pointer;
     margin-bottom: 10px;
 }
-ul.customer_name_after_search li:hover{
-    background-color: #ccc;
+ul.customer_name_after_search li a {
+  border: 1px solid #ddd; 
+  margin-top: -1px; 
+  background-color: #f6f6f6; 
+  padding: 12px;
+  text-decoration: none; 
+  font-size: 18px; 
+  color: black; 
+  display: block; 
+}
+ul.customer_name_after_search li  a:hover:not(.header) {
+    background-color:  #eee;
 }
