@@ -322,7 +322,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                     echo '<tr ' . $no_need. '>';
                                     echo '<td><b>' . $row_increment . '</b></td>';                                    
                                     echo '<td>' . $device['id'] . '</td>';
-                                    echo '<td>' . $device['customer-name'] . '</td>';
+                                    echo '<td class="customer-name">' . $device['customer-name'] . '</td>';
                                     echo '<td>' . $device['login'] . '</td>';
                                     echo '<td>' . $device['tel-clt'] . '</td>';
                                     echo '<td>' . $device['target-name'] . '</td>';

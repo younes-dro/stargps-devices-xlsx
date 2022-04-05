@@ -221,6 +221,7 @@
 					} else {
 						
                                                 $('div.resultDevices').html( data );
+                                                fill_customer_name();
 						//console.log(data);
 					}
 				},
@@ -233,6 +234,28 @@
 				}
 			});
 		});
+                function fill_customer_name(){
+                    var li = "";
+                    $('ul.customer_name_after_search').html("");
+                    $('td.customer-name').each(function(index){
+                        //console.log($(this).text());
+                        li += '<li>'+$(this).text() +'</li>';
+                    });
+                    $('ul.customer_name_after_search').html(li);
+                    
+                }
+                $('#customer_name').on("keyup change", function(e) {
+                    $('ul.customer_name_after_search').css('display', 'block');
+                });
+                $(document).on("click", function(e) {
+                    if ( e.target.id != 'ok' ) {
+                     $('ul.customer_name_after_search').css('display', 'none');   
+                    }
+                }); 
+                $(document).on('click','ul.customer_name_after_search > li', function(e){
+                    $('#customer_name').val($(this).text());
+//                    console.log($(this).text());
+                });
 		$('div.resultDevices , div.resultDevices80').on('click','.send-sim-recharge',function(){
                    // console.log($(this).data('sim-no'));
                     

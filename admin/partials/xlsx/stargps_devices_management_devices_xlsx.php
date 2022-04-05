@@ -4,9 +4,10 @@
             <div class="column">
                 <?php stargps_device_management_get_table_select_menu();?>
             </div>
-            <div class="column">
+            <div class="column customer_search">
                 <label>Customer Name: </label>
                 <input type="text" name="customer_name" id="customer_name"/>
+                <ul class="customer_name_after_search"></ul>
             </div>
             <div class="column">
                 <label>Tel CTL: </label>
@@ -23,12 +24,12 @@
                 <label>IMEI: </label>
                 <input type="text" name="imei" id="imei"/>
             </div>
-        </div>        
-        <div class="devicesForm">        
         <div class="column">
             <label>Type Device: </label>
             <input type="text" name="type_device" id="type_device"/>
-        </div>
+        </div>            
+        </div>        
+        <div class="devicesForm">        
         <div class="column">
             <label>Date recharge: </label>
             <input type="text" name="DateOfRecharge" class="form-control date_recharge date_picker" value="" />

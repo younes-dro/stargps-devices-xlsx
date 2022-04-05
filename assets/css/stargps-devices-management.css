@@ -297,3 +297,25 @@ div.newRows span{
     width: 40px;
     display: inline-block;
 }
+div.column.customer_search{
+    position: relative;
+}
+ul.customer_name_after_search{
+    border: 1px solid;
+    max-height: 166px;
+    overflow: hidden;
+    overflow-y: scroll;
+    position: absolute;
+    top: 25px;
+    width: 90%;
+    left: 26px;
+    background-color: #f1f2f1;
+    display: none;
+}
+ul.customer_name_after_search li{
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+ul.customer_name_after_search li:hover{
+    background-color: #ccc;
+}
