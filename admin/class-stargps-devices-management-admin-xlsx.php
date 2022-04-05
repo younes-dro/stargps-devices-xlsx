@@ -196,11 +196,13 @@ class Stargps_Devices_Management_Admin_Xlsx {
 		}
                                 
 		$createSQL = "CREATE TABLE IF NOT EXISTS `$table_name`
-		( `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT, ".implode(" LONGTEXT , ", $table_columns ). " 
-		LONGTEXT, UNIQUE KEY id (id)) $charset_collate;";
-		dbDelta( $createSQL );           
+		( `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT, ".implode(" VARCHAR(191) , ", $table_columns ). " 
+		LONGTEXT, UNIQUE KEY (`id`) , UNIQUE KEY `uniq_id` (`idimei`,`sim-no`) ) $charset_collate;";
+                
+		$createdTable = dbDelta( $createSQL );           
 
                 $count = 0;
+                $errors = '';
 		if ( ! ( $wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name ) ) {
 			foreach ( $data_array as  $k =>$data ) {
                                     
@@ -242,21 +244,25 @@ class Stargps_Devices_Management_Admin_Xlsx {
 					$table_columns_insert[10] => $l10,
 					$table_columns_insert[11] => $l11,
 					$table_columns_insert[12] => $l12,                                    
-					$table_columns_insert[13] => $l13 );  
+					$table_columns_insert[13] => $l13 );
+                                
 				if( $wpdb->insert( $table_name, $data) ){                                                         
 					$count++;
-				}
+				}  else {
+                                   $errors .= '<div class="notice notice-error is-dismissible">' . $wpdb->last_error . '</div>';
+                                   
+                                }
 			}
 		} else{
 			echo 'Table was not created';
-		}    
-                echo '<h4>Table crée: <b>' . $table_name . '</b></h4>';
-                echo '<h4>Nombre de ligne inséré: '. $count . '</h4>';
-
+		} 
+		echo '<h4>Table crée: <b>' . $table_name . '</b></h4>';
+		echo '<h4>Nombre de ligne inséré: '. $count . '</h4>';
                 
-                exit();
-
-		
+		if ( !empty( $errors ) ){
+			echo $errors;
+		}
+                
             exit();
 	}
         
