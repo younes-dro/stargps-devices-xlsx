@@ -673,24 +673,27 @@ class Stargps_Devices_Management_Admin_Xlsx {
                 $title = "Devices date d'expiration du mois: ";
                 if( $_POST['mois'] === 'mois_en_cours' ) {
                     
-                    $where .= " AND month(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = month(curdate() ) ";
+                    $where .= " AND month(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = month(curdate() ) AND year(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = year(curdate()) ";
                     $title .= date('m');
                     
                 } else if( $_POST['mois'] === 'mois_prochain' ){
                     
                     $next_month = date('m',strtotime('+1 month'));
-                    $where .= " AND month(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = '". $next_month . "'  ";
+                    $where .= " AND month(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = '". $next_month . "' AND year(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = year(curdate())  ";
                     $title .= $next_month;
                     
                 }else if ($_POST['mois'] === 'mois_dernier' ){
                    
                     $last_month = date('m',strtotime('-1 month'));
-                    $where .= " AND month(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = '". $last_month . "'  ";
+                    $where .= " AND month(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = '". $last_month . "' AND year(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = year(curdate()) ";
                     $title .= $last_month;
                 }
  
              
 		$sql = "SELECT * FROM {$table_devices} " . $where . " ;";
+                
+//                echo $sql;
+//                exit();
 		$devices = $wpdb->get_results( $sql , ARRAY_A );
 
 
