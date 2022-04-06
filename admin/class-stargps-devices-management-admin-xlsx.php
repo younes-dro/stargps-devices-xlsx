@@ -319,8 +319,8 @@ class Stargps_Devices_Management_Admin_Xlsx {
 				echo '<tbody id="the-list">'; 
 				foreach ( $devices as $device ) {
                                     $no_need = ( DateTime::createFromFormat('d-m-Y', $device['date-recharge'] ) === false ) ? 'style="background-color: #b2b0c8;"' : '';
-                                    echo '<tr ' . $no_need. '>';
-                                    echo '<td><b>' . $row_increment . '</b></td>';                                    
+                                    echo '<tr data-id=' . $device['id'] . ' class="line-'.$device['id'].'"' . $no_need. '>';
+                                    echo '<td><b>' . $row_increment . '</b><span data-id=' . $device['id'] . '  class="dashicons dashicons-edit modification_rapide"> Edit</span></td>';                                    
                                     echo '<td>' . $device['id'] . '</td>';
                                     echo '<td class="customer-name">' . $device['customer-name'] . '</td>';
                                     echo '<td>' . $device['login'] . '</td>';
@@ -347,6 +347,32 @@ class Stargps_Devices_Management_Admin_Xlsx {
 				echo '<td>' . $device['app'] . '</td>'; 
                                 echo '<td>' . $device['remarks'] . '</td>';                                         
 				echo '</tr>';
+                                /**
+                                 * Edit 
+                                 */
+                                echo '<tr class="edit-' . $device['id'] . ' inline-edit-row inline-edit-row-post quick-edit-row quick-edit-row-post inline-edit-post inline-editor" >';
+                                echo '<td>';
+                                echo '<fieldset class="inline-edit-col-left">';
+                                echo '<legend class="inline-edit-legend">Modification rapide</legend>';
+                                echo '<div class="inline-edit-col">';
+                                echo '<label><span class="title">Customer</span><span class="input-text-wrap"><input type="text" name="post_title" class="ptitle" value="' . $device['customer-name'] . '"></span></label>';
+                                echo '<label><span class="title">Slug</span><span class="input-text-wrap"><input type="text" name="post_name" value="' . $device['tel-clt'] . '" autocomplete="off" spellcheck="false"></span></label>';
+                                echo '<label><span class="title">Slug</span><span class="input-text-wrap"><input type="text" name="post_name" value="' . $device['target-name'] . '" autocomplete="off" spellcheck="false"></span></label>';
+
+                                echo '</div>';
+                                echo '</fieldset>';
+                                echo '<fieldset class="inline-edit-col-left">';
+                                echo '<legend class="inline-edit-legend">Modification rapide</legend>';
+                                echo '<div class="inline-edit-col">';
+                                echo '<label><span class="title">Customer</span><span class="input-text-wrap"><input type="text" name="post_title" class="ptitle" value="' . $device['customer-name'] . '"></span></label>';
+                                echo '<label><span class="title">Slug</span><span class="input-text-wrap"><input type="text" name="post_name" value="' . $device['tel-clt'] . '" autocomplete="off" spellcheck="false"></span></label>';
+                                echo '<label><span class="title">Slug</span><span class="input-text-wrap"><input type="text" name="post_name" value="' . $device['target-name'] . '" autocomplete="off" spellcheck="false"></span></label>';
+
+                                echo '</div>';
+                                echo '</fieldset>';                                
+                                echo '<button data-id=' . $device['id'] . ' type="button" class="annuler button cancel alignleft">Annuler</button>';                                
+                                echo '</td>';
+                                echo '</tr>';
                                 $row_increment++;
                                 }
                                 echo '</tbody>'; 

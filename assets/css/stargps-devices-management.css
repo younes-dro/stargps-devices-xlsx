@@ -329,3 +329,23 @@ ul.customer_name_after_search li a {
 ul.customer_name_after_search li  a:hover:not(.header) {
     background-color:  #eee;
 }
+.inline-edit-row{
+    display: none;
+}
+.inline-edit-row fieldset{
+    
+}
+span.modification_rapide{
+    
+    display: block;
+    
+    cursor: pointer;
+    font-size: 12px;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+}
+
+.show-hide{
+    display: block;
+}

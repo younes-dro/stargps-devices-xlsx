@@ -599,8 +599,18 @@
                                     $("div.listDevicesRelancer span.stargps-spinner").removeClass("stargps-is-active").hide();
 				}
 			});
-		});                
-                
+		});
+                $(document).on('click' , 'span.modification_rapide', function(e){
+                    
+                    var device_id = $(this).data('id');
+                   // $('tr.line-'+device_id).css('display', 'none');
+                    $('tr.edit-'+device_id).css('display', 'block');
+                });
+                $(document).on('click', 'button.annuler' , function(){
+                    var device_id = $(this).data('id');
+                    //$('tr.line-'+device_id).css('display', 'block');
+                    $('tr.edit-'+device_id).css('display', 'none');
+                });
     }
     $.skeletabs.setDefaults({
         keyboard: false,
