@@ -332,8 +332,20 @@ ul.customer_name_after_search li  a:hover:not(.header) {
 .inline-edit-row{
     display: none;
 }
-.inline-edit-row fieldset{
+#wpbody-content .inline-edit-row fieldset {
+float: left;
+width: 33.333%;
+}
+#wpbody-content .inline-edit-row form{
     
+    margin-bottom: 10px;
+    margin-top: 10px;    
+}
+div.inline-edit-col{
+    margin-bottom: 20px;
+}
+#wpbody-content .inline-edit-row button.annuler{
+    margin-right: 10px;
 }
 span.modification_rapide{
     

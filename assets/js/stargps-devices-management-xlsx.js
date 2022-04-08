@@ -603,13 +603,47 @@
                 $(document).on('click' , 'span.modification_rapide', function(e){
                     
                     var device_id = $(this).data('id');
-                   // $('tr.line-'+device_id).css('display', 'none');
-                    $('tr.edit-'+device_id).css('display', 'block');
+                    $('tr.edit-'+device_id).css('display', 'table-row');
                 });
                 $(document).on('click', 'button.annuler' , function(){
                     var device_id = $(this).data('id');
-                    //$('tr.line-'+device_id).css('display', 'block');
                     $('tr.edit-'+device_id).css('display', 'none');
+                });
+                $(document).on('click', 'button.update-rapide', function(){
+                    var device_id = $(this).data('id');
+                    var data_form = $('#form-'+device_id).serializeArray();
+//                    console.log(data_form);
+			$.ajax({
+				url: starGPSDevicesManagementXlsxParams.admin_ajax,
+				type: "POST",
+				context: this,
+				data: { 'action': 'stargps_device_management_update_rapide' , 'data_form': data_form},
+				beforeSend: function () {
+                                    $("span.spinner-"+device_id).addClass("stargps-is-active").show();
+                                   
+				},
+				success: function (data) {
+                                    var result = $.parseJSON(data);
+                                    console.log(result);
+					if (result.re === 'yes') {
+						$("span.spinner-"+device_id).removeClass("stargps-is-active");
+                                                $("span.confirm-"+device_id).html("Updated!");
+                                                return;
+					}
+                                        if(result.re === 'no'){
+                                            $("span.spinner-"+device_id).removeClass("stargps-is-active");
+                                            $("span.confirm-"+device_id).html("Nothing changed!");
+                                            return;
+                                        }
+				},
+				error: function (response, textStatus, errorThrown ) {
+					console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+				},
+				complete: function () {
+                                    
+                                    //$(this).prev("span.stargps-spinner").removeClass("stargps-is-active").hide();
+				}
+			});                    
                 });
     }
     $.skeletabs.setDefaults({

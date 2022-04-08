@@ -112,7 +112,10 @@ class Stargps_Devices_Management {
 		add_action('wp_ajax_nopriv_add_new_devices', array ( $plugin_admin_xlsx, 'add_new_devices' ) );
                 
 		add_action('wp_ajax_stargps_device_management_relancer', array ( $plugin_admin_xlsx , 'relancer' ) );
-		add_action('wp_ajax_nopriv_stargps_device_management_relancer', array ( $plugin_admin_xlsx, 'relancer' ) );                
+		add_action('wp_ajax_nopriv_stargps_device_management_relancer', array ( $plugin_admin_xlsx, 'relancer' ) );
+                
+		add_action('wp_ajax_stargps_device_management_update_rapide', array ( $plugin_admin_xlsx , 'update_rapide' ) );
+		add_action('wp_ajax_nopriv_stargps_device_management_update_rapide', array ( $plugin_admin_xlsx, 'update_rapide' ) );                 
 	}
         
         public function stargps_device_management_remove_table(){

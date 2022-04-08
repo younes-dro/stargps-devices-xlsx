@@ -350,27 +350,43 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                 /**
                                  * Edit 
                                  */
-                                echo '<tr class="edit-' . $device['id'] . ' inline-edit-row inline-edit-row-post quick-edit-row quick-edit-row-post inline-edit-post inline-editor" >';
-                                echo '<td>';
+                                echo '<tr class="edit-' . $device['id'] . ' inline-edit-row ">';
+                                echo '<td colspan="15">';
+                                echo '<form id="form-' . $device['id'] . '">';
                                 echo '<fieldset class="inline-edit-col-left">';
-                                echo '<legend class="inline-edit-legend">Modification rapide</legend>';
+                                //echo '<legend class="inline-edit-legend">Modification rapide</legend>';
                                 echo '<div class="inline-edit-col">';
-                                echo '<label><span class="title">Customer</span><span class="input-text-wrap"><input type="text" name="post_title" class="ptitle" value="' . $device['customer-name'] . '"></span></label>';
-                                echo '<label><span class="title">Slug</span><span class="input-text-wrap"><input type="text" name="post_name" value="' . $device['tel-clt'] . '" autocomplete="off" spellcheck="false"></span></label>';
-                                echo '<label><span class="title">Slug</span><span class="input-text-wrap"><input type="text" name="post_name" value="' . $device['target-name'] . '" autocomplete="off" spellcheck="false"></span></label>';
+                                echo '<label><span class="title">Customer: </span><span class="input-text-wrap"><input type="text" name="customer-name" class="ptitle" value="' . $device['customer-name'] . '"></span></label>';
+                                echo '<label><span class="title">Num tel: </span><span class="input-text-wrap"><input type="text" name="tel-clt" value="' . $device['tel-clt'] . '" autocomplete="off" spellcheck="false"></span></label>';
+                                echo '<label><span class="title">Target name: </span><span class="input-text-wrap"><input type="text" name="target-name" value="' . $device['target-name'] . '" autocomplete="off" spellcheck="false"></span></label>';
 
                                 echo '</div>';
                                 echo '</fieldset>';
                                 echo '<fieldset class="inline-edit-col-left">';
-                                echo '<legend class="inline-edit-legend">Modification rapide</legend>';
+                                //echo '<legend class="inline-edit-legend">-----</legend>';                                
                                 echo '<div class="inline-edit-col">';
-                                echo '<label><span class="title">Customer</span><span class="input-text-wrap"><input type="text" name="post_title" class="ptitle" value="' . $device['customer-name'] . '"></span></label>';
-                                echo '<label><span class="title">Slug</span><span class="input-text-wrap"><input type="text" name="post_name" value="' . $device['tel-clt'] . '" autocomplete="off" spellcheck="false"></span></label>';
-                                echo '<label><span class="title">Slug</span><span class="input-text-wrap"><input type="text" name="post_name" value="' . $device['target-name'] . '" autocomplete="off" spellcheck="false"></span></label>';
-
+                                echo '<label><span class="title">SIM no: </span><span class="input-text-wrap"><input type="text" name="sim-no" value="' . $device['sim-no'] . '" autocomplete="off" spellcheck="false"></span></label>';                                
+                                echo '<label><span class="title">Type Device: </span><span class="input-text-wrap"><input type="text" name="type" class="ptitle" value="' . $device['type'] . '"></span></label>';
+                                echo '<label><span class="title">Expiry: </span><span class="input-text-wrap"><input type="text" name="expiry" value="' . $device['expiry'] . '" autocomplete="off" spellcheck="false"></span></label>';
                                 echo '</div>';
-                                echo '</fieldset>';                                
-                                echo '<button data-id=' . $device['id'] . ' type="button" class="annuler button cancel alignleft">Annuler</button>';                                
+                                echo '</fieldset>';
+                                echo '<fieldset class="inline-edit-col-left">';
+                                //echo '<legend class="inline-edit-legend">-----</legend>';                                
+                                echo '<div class="inline-edit-col">';
+                                echo '<label><span class="title">Recharge: </span><span class="input-text-wrap"><input type="text" name="date-recharge" value="' . $device['date-recharge'] . '" autocomplete="off" spellcheck="false"></span></label>';                                
+                                echo '<label><span class="title">Next Re: </span><span class="input-text-wrap"><input type="text" name="next-recharge" value="' . $device['next-recharge'] . '" autocomplete="off" spellcheck="false"></span></label>';                                                                
+                                echo '<label><span class="title">Remarks: </span><span class="input-text-wrap"><input type="text" name="remarks" value="' . $device['remarks'] . '" autocomplete="off" spellcheck="false"></span></label>';
+                                echo '</div>';
+                                echo '</fieldset>';
+                                echo '<input type="hidden" name="table-app" value="' . $_POST['app'] . '">';
+                                echo '<input type="hidden" name="device_id" value="' . $device['id'] . '">';                                
+                                echo '</form>';
+                                echo '<div style="clear: both; margin-bottom:20px">';
+                                echo '<button data-id=' . $device['id'] . ' type="button" class="annuler button cancel">Annuler</button>';                                
+                                echo '<button data-id=' . $device['id'] . ' type="button" class="update-rapide button button-primary save ">Mettre à jour</button>';
+                                echo '<span class="stargps-spinner spinner-' . $device['id'] . '"></span>';
+                                echo '<span class="confirm-' . $device['id'] . '"></span>';
+                                echo '</div>';
                                 echo '</td>';
                                 echo '</tr>';
                                 $row_increment++;
@@ -768,5 +784,29 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                     
                 
                 exit();
-	}        
+	}
+        public function update_rapide(){
+		global $wpdb;
+		$table_name = $_POST['data_form'][9]['value']; 
+			$data = array(
+				'customer-name' =>  $_POST['data_form'][0]['value'] , 
+				'tel-clt' =>  $_POST['data_form'][1]['value'] ,
+				'target-name' =>  $_POST['data_form'][2]['value'] ,
+				'sim-no' =>  $_POST['data_form'][3]['value'] ,
+				'type' =>  $_POST['data_form'][4]['value'] ,
+				'expiry' => $_POST['data_form'][5]['value'] ,
+				'date-recharge' => $_POST['data_form'][6]['value'] ,
+				'next-recharge' => $_POST['data_form'][7]['value'] ,                                 
+				'remarks' =>  $_POST['data_form'][8]['value']   );  
+                        
+                        $where = ['id' => $_POST['data_form'][10]['value'] ];
+                        
+                        if( $wpdb->update( $table_name, $data, $where )){
+                           echo json_encode(['re' => 'yes']);
+                        }else{
+                           echo json_encode(['re' => 'no']);
+                        }
+                        exit();               
+
+        }
 }
