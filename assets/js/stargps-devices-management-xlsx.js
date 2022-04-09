@@ -645,10 +645,100 @@
 				}
 			});                    
                 });
+                $(document).on('click', '#checkAll', function(){
+                    $('.elementDevice').not(this).prop('checked', this.checked);
+                    
+                });
+
+                
     }
     $.skeletabs.setDefaults({
         keyboard: false,
     }); 
 })(jQuery);
+
+(function ($) {
+  $('#update-devices-dialog').dialog({
+    title: 'Update selected devices',
+    dialogClass: 'wp-dialog',
+    autoOpen: false,
+    draggable: false,
+    width: 'auto',
+    modal: true,
+    resizable: false,
+    closeOnEscape: true,
+    position: {
+      my: "center",
+      at: "center",
+      of: window
+    },
+    open: function () {
+      $('.ui-widget-overlay').bind('click', function(){
+        $('#update-devices-dialog').dialog('close');
+      })
+    },
+    create: function () {
+      $('.ui-dialog-titlebar-close').addClass('ui-button');
+    },
+  });
+
+  
+$(document).on('click', '#update_selected_devices', function(){
+    var checked = $('input[name="elementDevice"]:checked').length > 0;
+    if (!checked){
+        alert("Please check at least one checkbox");
+        return false;
+    }  
+    var device_ids = '';
+    $('input[name="elementDevice"]:checked').each(function() {
+        device_ids = device_ids  + this.value + '-'; 
+    });
+    $('div#update-devices-dialog #device_ids').val(device_ids);
+    $('div#update-devices-dialog #update_app').val($('#app').val());
+    
+    $('#update-devices-dialog').dialog('open');
+             
+});
+$(document).on('click', '#run-update', function(){
+
+			$.ajax({
+				url: starGPSDevicesManagementXlsxParams.admin_ajax,
+				type: "POST",
+				context: this,
+				data: { 'action': 'stargps_device_management_update_dialog_form' , 'data_form': $('#update-dialog-form').serializeArray()},
+				beforeSend: function () {
+                                    $(this).next("span.updating-message").text('Updating ...');
+                                   
+				},
+				success: function (data) {
+                                   
+                                    var result = $.parseJSON(data);
+                                    
+					if (result.re === 'yes') {
+                                            $(this).next("span.updating-message").text("Updated!");
+                                            return;
+					}
+					if (result.re === 'no') {
+                                            $(this).next("span.updating-message").text("Failed!");
+                                            return;
+					}                                        
+                                        if(result.re === 'no-change'){
+                                            $(this).next("span.updating-message").text("Nothing changed!");
+                                            return;
+                                        }
+				},
+				error: function (response, textStatus, errorThrown ) {
+					console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+				},
+				complete: function () {
+                                    
+                                    //$(this).prev("span.stargps-spinner").removeClass("stargps-is-active").hide();
+				}
+			});    
+});
+
+
+})(jQuery);
+
 
 

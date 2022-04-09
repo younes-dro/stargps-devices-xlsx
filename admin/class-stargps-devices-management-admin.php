@@ -117,8 +117,11 @@ class Stargps_Devices_Management_Admin {
 	public function display_xlsxl() {
 		wp_enqueue_script( $this->plugin_name . '-tabs-js' );  
 		wp_enqueue_script( 'jquery-ui-datepicker' );               
+                wp_enqueue_script('jquery-ui-core');
+                wp_enqueue_script( 'jquery-ui-dialog' );                
 		wp_enqueue_script( $this->plugin_name . '-xlsx' );
-                
+
+                wp_enqueue_style( 'wp-jquery-ui-dialog' );                
 		wp_enqueue_style( $this->plugin_name . 'devices-management_tabs_css' );
 		wp_enqueue_style( 'jquery-style', '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );                
 		wp_enqueue_script( 'postbox' );

@@ -278,13 +278,14 @@ class Stargps_Devices_Management_Admin_Xlsx {
                     exit();
                 }
                 $where = ' WHERE 1=1';
+                $select_all = false;
                 if( isset( $_POST['recharge_80_j'] ) ){
                    
                     $days_ago = date("Y-m-d" , strtotime( date( "Y-m-d", strtotime( "-80 day" ) ) ) );
                     
                      $where.= " AND  STR_TO_DATE( `date-recharge` , '%d-%m-%Y') <= '" . $days_ago . "' ";
                 }else{
-                    
+                    $select_all = true;
                     if( ! empty( $_POST['date_recharge'] ) ){
                        $where.= " AND `date-recharge` = '". $_POST['date_recharge'] ."'";
                     }
@@ -314,12 +315,20 @@ class Stargps_Devices_Management_Admin_Xlsx {
 
                 $row_increment = 1; 
 		if ( is_array( $devices ) && count( $devices ) ){
+
 				echo '<h2>Nombre de resultat: ' . count( $devices ) . '</h2><br>';
-                                echo stargps_device_management_head_table_xlsx( 'devices' );
+                                if( $select_all ){
+                                    echo '<button class="open-my-dialog" id="update_selected_devices">Update Selected devices</button>';
+                                }
+                                echo stargps_device_management_head_table_xlsx( 'devices', $select_all );
 				echo '<tbody id="the-list">'; 
 				foreach ( $devices as $device ) {
+                                    $check_box_device = "";
+                                    
+                                    ( $select_all ) ? $check_box_device = '<td><input type="checkbox" value="' . $device['id'] . '" name="elementDevice" class="elementDevice" /></td>' : '';                                    
                                     $no_need = ( DateTime::createFromFormat('d-m-Y', $device['date-recharge'] ) === false ) ? 'style="background-color: #b2b0c8;"' : '';
                                     echo '<tr data-id=' . $device['id'] . ' class="line-'.$device['id'].'"' . $no_need. '>';
+                                    echo $check_box_device;
                                     echo '<td><b>' . $row_increment . '</b><span data-id=' . $device['id'] . '  class="dashicons dashicons-edit modification_rapide"> Edit</span></td>';                                    
                                     echo '<td>' . $device['id'] . '</td>';
                                     echo '<td class="customer-name">' . $device['customer-name'] . '</td>';
@@ -809,4 +818,65 @@ class Stargps_Devices_Management_Admin_Xlsx {
                         exit();               
 
         }
+        public function update_dialog_form(){
+		global $wpdb;
+		$table_name = $_POST['data_form'][1]['value'];
+                $device_ids = explode('-', $_POST['data_form'][0]['value'] );
+
+                $n = count($device_ids);
+                $condition = 0;
+                $data = array();
+                for ( $i = 0; $i < $n -1 ; $i++){
+                  
+                  if( $_POST['data_form'][2]['value'] != "0"){
+                      $data['customer-name'] = $_POST['data_form'][2]['value'];
+                      $condition++;
+                  }
+                  if( $_POST['data_form'][3]['value'] != "0"){
+                      $data['login'] = $_POST['data_form'][3]['value'];
+                      $condition++;
+                  }
+                  if( $_POST['data_form'][4]['value'] != "0"){
+                       $data['tel-clt'] = $_POST['data_form'][4]['value'];
+                      $condition++;
+                  }
+                  if( $_POST['data_form'][5]['value'] != "0"){
+                      $data['target-name'] = $_POST['data_form'][5]['value'];
+                      $condition++;
+                  }
+                  if( $_POST['data_form'][6]['value'] != "0"){
+                       $data['type'] = $_POST['data_form'][6]['value'];
+                      $condition++;
+                  }
+                  if( $_POST['data_form'][7]['value'] != "0"){
+                      $data['expiry'] = $_POST['data_form'][7]['value']; 
+                      $condition++;
+                  }
+                  if( $_POST['data_form'][8]['value'] != "0"){
+                      $data['sim-op'] = $_POST['data_form'][8]['value'];
+                      $condition++;
+                  }
+                  if( $_POST['data_form'][9]['value'] != "0"){
+                      $data['remarks'] = $_POST['data_form'][9]['value'];
+                      $condition++;
+                  } 
+                  
+                  if ( $condition === 0){
+                      break;
+                  } 
+                  $where = ['id' => $device_ids[$i] ];
+                  if( ! $wpdb->update( $table_name, $data, $where )){
+                       echo json_encode(['re' => 'no']);
+                       exit();
+                  }
+                }                
+                if( $condition === 0){
+                    echo json_encode(['re' => 'no-change']);
+                    exit();
+                }
+                echo json_encode(['re' => 'yes']);
+                
+                exit();               
+
+        }        
 }

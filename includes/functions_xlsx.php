@@ -115,14 +115,17 @@ function stargps_device_management_get_table_select_menu_new_devices(){
 		echo 'Pas de Table';
 	}
 }
-function  stargps_device_management_head_table_xlsx( $from ='' ){
-    $select_all_recharge= '';
-	( $from === 'devices') ? $select_all_recharge = '<span class="select-all-recharge dashicons dashicons-saved"></span><span class="spinner-small"></span>' : '';
+function  stargps_device_management_head_table_xlsx( $from ='' , $select_all = false ){
     
+    $check_box = '';
     
+	( $select_all ) ? $check_box = '<th scope="col" class="manage-column "><input type="checkbox" id="checkAll" /></th>' : '';
+   
+
 	$table = '<table class="wp-list-table widefat fixed striped table-view-list posts">';
 	$table .= '<thead>';
 	$table .= '<tr>';
+        $table .= $check_box;
 	$table .= '<th scope="col" class="manage-column ">N°</th>';
 	$table .= '<th scope="col" class="manage-column ">ID</th>';
 	$table .= '<th scope="col"  class="manage-column ">Customer</th>';
