@@ -713,33 +713,60 @@ class Stargps_Devices_Management_Admin_Xlsx {
 		global $wpdb;
                 
 		$table_devices = '`' . $_POST['app'] . '`';
-                $mois = '`' . $_POST['mois'] . '`';
+                //$mois = '`' . $_POST['mois'] . '`';
                 
-                if( empty( $_POST['app'] ) || empty( $_POST['mois']  ) ){
-                    echo '<div class="notice notice-error is-dismissible"><p>Selectionner une Application et une période</p></div>';
+                if( empty( $_POST['app'] )  ){
+                    echo '<div class="notice notice-error is-dismissible"><p>Selectionner une Application </p></div>';
                     exit();
                 }
                 
+//                echo '<pre>';
+//                var_dump($_POST);
+//                echo '</pre>';
+                
                 $where = ' WHERE 1=1';
-                $title = "Devices date d'expiration du mois: ";
+                $title = "";
                 if( $_POST['mois'] === 'mois_en_cours' ) {
                     
                     $where .= " AND month(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = month(curdate() ) AND year(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = year(curdate()) ";
-                    $title .= date('m');
+                    $title = "Devices date d'expiration du mois:" . date('m');
                     
                 } else if( $_POST['mois'] === 'mois_prochain' ){
                     
                     $next_month = date('m',strtotime('+1 month'));
                     $where .= " AND month(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = '". $next_month . "' AND year(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = year(curdate())  ";
-                    $title .= $next_month;
+                    $title = "Devices date d'expiration du mois:" . $next_month;
                     
                 }else if ($_POST['mois'] === 'mois_dernier' ){
                    
                     $last_month = date('m',strtotime('-1 month'));
                     $where .= " AND month(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = '". $last_month . "' AND year(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = year(curdate()) ";
-                    $title .= $last_month;
+                    $title = "Devices date d'expiration du mois:" . $last_month;
                 }
- 
+                    if( ! empty( $_POST['date_recharge'] ) ){
+                       $where.= " AND `date-recharge` = '". $_POST['date_recharge'] ."'";
+                    }
+                    if( ! empty( $_POST['next_recharge'] ) ){
+                       $where.= " AND `next-recharge` = '". $_POST['next_recharge'] ."'";
+                    }
+                    if( ! empty( $_POST['expiry_date'] ) ){
+                       $where.= " AND `expiry` = '". $_POST['expiry_date'] ."'";
+                    }                     
+                    if( ! empty( $_POST['customer_name'] ) ){
+                       $where.= " AND `customer-name` LIKE '%". $_POST['customer_name'] ."%'"; 
+                    }
+                    if( ! empty( $_POST['imei'] ) ){
+                        $where.= " AND `idimei` LIKE '%". $_POST['imei'] ."%'"; 
+                    }
+                    if( ! empty( $_POST['type_device'] ) ){
+                        $where.= " AND `type` LIKE '%". $_POST['type_device'] ."%'"; 
+                    } 
+                    if( ! empty( $_POST['tel_clt'] ) ){
+                        $where.= " AND `tel-clt` LIKE '%". $_POST['tel_clt'] ."%'"; 
+                    }
+                    if( ! empty( $_POST['sim_no'] ) ){
+                        $where.= " AND `sim-no` LIKE '%". $_POST['sim_no'] ."%'"; 
+                    } 
              
 		$sql = "SELECT * FROM {$table_devices} " . $where . " ;";
                 
