@@ -283,7 +283,32 @@ class Stargps_Devices_Management_Admin_Xlsx {
                    
                     $days_ago = date("Y-m-d" , strtotime( date( "Y-m-d", strtotime( "-80 day" ) ) ) );
                     
-                     $where.= " AND  STR_TO_DATE( `date-recharge` , '%d-%m-%Y') <= '" . $days_ago . "' ";
+                    $where.= " AND  STR_TO_DATE( `date-recharge` , '%d-%m-%Y') <= '" . $days_ago . "' ";
+                    
+                    if( ! empty( $_POST['date_recharge'] ) ){
+                       $where.= " AND `date-recharge` = '". $_POST['date_recharge'] ."'";
+                    }
+                    if( ! empty( $_POST['next_recharge'] ) ){
+                       $where.= " AND `next-recharge` = '". $_POST['next_recharge'] ."'";
+                    }
+                    if( ! empty( $_POST['expiry_date'] ) ){
+                       $where.= " AND `expiry` = '". $_POST['expiry_date'] ."'";
+                    }                     
+                    if( ! empty( $_POST['customer_name'] ) ){
+                       $where.= " AND `customer-name` LIKE '%". $_POST['customer_name'] ."%'"; 
+                    }
+                    if( ! empty( $_POST['imei'] ) ){
+                        $where.= " AND `idimei` LIKE '%". $_POST['imei'] ."%'"; 
+                    }
+                    if( ! empty( $_POST['type_device'] ) ){
+                        $where.= " AND `type` LIKE '%". $_POST['type_device'] ."%'"; 
+                    } 
+                    if( ! empty( $_POST['tel_clt'] ) ){
+                        $where.= " AND `tel-clt` LIKE '%". $_POST['tel_clt'] ."%'"; 
+                    }
+                    if( ! empty( $_POST['sim_no'] ) ){
+                        $where.= " AND `sim-no` LIKE '%". $_POST['sim_no'] ."%'"; 
+                    }
                 }else{
                     $select_all = true;
                     if( ! empty( $_POST['date_recharge'] ) ){
