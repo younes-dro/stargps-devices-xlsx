@@ -344,6 +344,9 @@ class Stargps_Devices_Management_Admin_Xlsx {
 				echo '<h2>Nombre de resultat: ' . count( $devices ) . '</h2><br>';
                                 if( $select_all ){
                                     echo '<button class="open-my-dialog" id="update_selected_devices">Update Selected devices</button>';
+                                    echo '<button  id="delete_selected_devices">Delete Selected devices</button>';
+                                    echo ' <span class="deleting-message"></span>';
+                                    echo '<input type="hidden" id="delete-devices-app" value="'. $_POST['app'] . '" >';
                                 }
                                 echo stargps_device_management_head_table_xlsx( 'devices', $select_all );
 				echo '<tbody id="the-list">'; 
@@ -927,6 +930,28 @@ class Stargps_Devices_Management_Admin_Xlsx {
                     exit();
                 }
                 echo json_encode(['re' => 'yes']);
+                
+                exit();               
+
+        }
+        public function delete_devices(){
+		global $wpdb;
+                
+		$table_name = $_POST['app'];
+                $device_ids = explode('-', $_POST['device_ids']);
+
+                $ids = implode( ',', array_map( 'absint', $device_ids ) );
+                $sql = "DELETE FROM `{$table_name}` WHERE ID IN($ids)";
+                
+                
+                if( $n = $wpdb->query( $sql ) ){
+                    echo json_encode(['re' => 'yes' , 'n' => $n]);
+                    
+                }else{
+                       echo json_encode(['re' => 'no']);                    
+                       
+                }
+                                
                 
                 exit();               
 

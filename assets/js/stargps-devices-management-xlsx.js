@@ -747,6 +747,55 @@ $(document).on('click', '#run-update', function(){
 				}
 			});    
 });
+$(document).on('click', '#delete_selected_devices', function(){
+    var checked = $('input[name="elementDevice"]:checked').length > 0;
+    if (!checked){
+        alert("Please check at least one checkbox");
+        return false;
+    }  
+    var device_ids = '';
+    $('input[name="elementDevice"]:checked').each(function() {
+        device_ids = device_ids  + this.value + '-'; 
+    });
+
+			$.ajax({
+				url: starGPSDevicesManagementXlsxParams.admin_ajax,
+				type: "POST",
+				context: this,
+				data: { 'action': 'stargps_device_management_delete_devices' , 'device_ids': device_ids, 'app': $('#delete-devices-app').val()},
+				beforeSend: function () {
+                                    $(this).next("span.deleting-message").text('Deleting ...');
+                                   
+				},
+				success: function (data) {
+                                   //console.log(data);
+                                   //return;
+                                    var result = $.parseJSON(data);
+                                    
+					if (result.re === 'yes') {
+                                            $(this).next("span.deleting-message").text( result.n + " devices" + " Deleted!");
+                                             $('.elementDevice').prop('checked', false);
+                                            return;
+					}
+					if (result.re === 'no') {
+                                            $(this).next("span.deleting-message").text("Failed!");
+                                            return;
+					}                                        
+                                        if(result.re === 'no-change'){
+                                            $(this).next("span.deleting-message").text("Nothing changed!");
+                                            return;
+                                        }
+				},
+				error: function (response, textStatus, errorThrown ) {
+					console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+				},
+				complete: function () {
+                                    
+                                    //$(this).prev("span.stargps-spinner").removeClass("stargps-is-active").hide();
+				}
+			});    
+             
+});
 
 
 })(jQuery);

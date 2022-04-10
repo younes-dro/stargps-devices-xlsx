@@ -119,6 +119,9 @@ class Stargps_Devices_Management {
             
 		add_action('wp_ajax_stargps_device_management_update_dialog_form', array ( $plugin_admin_xlsx , 'update_dialog_form' ) );
 		add_action('wp_ajax_nopriv_stargps_device_management_update_dialog_form', array ( $plugin_admin_xlsx, 'update_dialog_form' ) );                
+                
+		add_action('wp_ajax_stargps_device_management_delete_devices', array ( $plugin_admin_xlsx , 'delete_devices' ) );
+		add_action('wp_ajax_nopriv_stargps_device_management_delete_devices', array ( $plugin_admin_xlsx, 'delete_devices' ) );                
 	}
         
         public function stargps_device_management_remove_table(){
