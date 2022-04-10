@@ -242,6 +242,17 @@
                         li += '<li><a href="#">'+$(this).text() +'</a></li>';
                     });
                     $('ul.customer_name_after_search').html(li);
+                    var liText = '', liList = $('ul.customer_name_after_search li'), listForRemove = [];
+                    $(liList).each(function () {
+                        var text = $(this).text();
+                        if (liText.indexOf('|'+ text + '|') == -1){
+                            liText += '|'+ text + '|';
+                        }else{
+                            listForRemove.push($(this));
+                        }
+                    }); 
+                    $(listForRemove).each(function () { $(this).remove(); });                    
+                    
                     
                 }
                 $('#customer_name').on("keyup change", function(e) {
