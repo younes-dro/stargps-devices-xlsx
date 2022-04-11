@@ -345,7 +345,9 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                 if( $select_all ){
                                     echo '<div class="update-delete-button">';
                                     echo '<button class="open-my-dialog button button-primary stargps-devices-management-btn" id="update_selected_devices">Update Selected devices</button>';
+                                    if ( current_user_can( 'administrator' ) ){
                                     echo '<button class="button button-primary stargps-devices-management-btn"  id="delete_selected_devices">Delete Selected devices</button>';
+                                    }
                                     echo ' <span class="deleting-message"></span>';
                                     echo '<input type="hidden" id="delete-devices-app" value="'. $_POST['app'] . '" >';
                                     echo '</div>';
