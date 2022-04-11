@@ -682,6 +682,14 @@ class Stargps_Devices_Management_Admin_Xlsx {
             
             $num_rows = $_POST['num_rows'];
             $app = $_POST['app'];
+            $plus_one_year = strtotime( "+1 year", strtotime( date ( "d-m-Y" ) ) );
+            $expiry_date = date( "d-m-Y", $plus_one_year );
+                
+            $date_recharge = date ( "d-m-Y" );
+		
+            $plus_80_days = strtotime( "+80 days", strtotime( date ( "d-m-Y" ) ) );
+            $next_recharge = date( "d-m-Y", $plus_80_days ); 
+            
             $html=  '';
             for ( $i = 0 ; $i < $num_rows ; $i++ ){            
                 $html .= '<form name="new_devices">';
@@ -693,6 +701,9 @@ class Stargps_Devices_Management_Admin_Xlsx {
                 $html .= '<input type="text" name="idimei" placeholder="IDIMEI" />';
                 $html .= '<input type="text" name="sim_no" placeholder="SIM No" />';
                 $html .= '<input type="text" name="type" placeholder="Type" />';
+                $html .= '<input type="text" name="date_recharge"  value="' . $date_recharge . '" />';
+                $html .= '<input type="text" name="next_recharge"  value="' . $next_recharge . '" />';                
+                $html .= '<input type="text" name="expiry_date" value="' . $expiry_date . '" />';                
                 $html .= '<input type="text" name="sim_op" placeholder="SIM Operateur" />';
                 $html .= '<input type="text" name="remarks" placeholder="Remarks" />';
                 $html .= '<span class="stargps-spinner"></span></div>';
@@ -711,12 +722,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
                 
 		$app_key = $number_array - 1;
 		$table_name = $_POST['new_devices'][$app_key]['value'];
-                
-		$plus_one_year = strtotime( "+1 year", strtotime( date ( "d-m-Y" ) ) );
-		$expiry = date( "d-m-Y", $plus_one_year );
-                $current_date = date ( "d-m-Y" );
-		$plus_80_days = strtotime( "+80 days", strtotime( date ( "d-m-Y" ) ) );
-		$next_recharge = date( "d-m-Y", $plus_80_days );                
+
 			$data = array(
 				'customer-name' =>  $_POST['new_devices'][0]['value'] , 
 				'#' =>  $_POST['new_devices'][1]['value'] ,
@@ -726,12 +732,12 @@ class Stargps_Devices_Management_Admin_Xlsx {
 				'idimei' =>  $_POST['new_devices'][4]['value'] ,
 				'sim-no' =>  $_POST['new_devices'][5]['value'] ,
 				'type' =>  $_POST['new_devices'][6]['value'] ,
-				'expiry' => $expiry,
-				'sim-op' =>   $_POST['new_devices'][7]['value'] ,
-				'date-recharge' => $current_date,
-				'next-recharge' => $next_recharge,
+				'expiry' => $_POST['new_devices'][9]['value'],
+				'sim-op' =>   $_POST['new_devices'][10]['value'] ,
+				'date-recharge' => $_POST['new_devices'][7]['value'],
+				'next-recharge' => $_POST['new_devices'][8]['value'],
 				'app' =>  $table_name ,                                    
-				'remarks' =>  $_POST['new_devices'][8]['value']   ); 
+				'remarks' =>  $_POST['new_devices'][11]['value']   ); 
                         
 				if( $wpdb->insert( $table_name, $data) ){    
 					echo json_encode(['re' => 'yes']);
