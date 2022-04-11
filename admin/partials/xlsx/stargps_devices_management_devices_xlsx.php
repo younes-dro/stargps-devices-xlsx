@@ -37,7 +37,11 @@
         <div class="column">
             <label>Next recharge: </label>
             <input type="text" name="NextOfRecharge" class="form-control next_recharge date_picker" value="" />
-        </div>      
+        </div> 
+        <div class="column">
+            <label>Expiry date: </label>
+            <input type="text" name="ExpiryDate" class="form-control next_recharge date_picker" value="" />
+        </div>            
  </div>
         <div class="submit-wrapper">
             <a id="stargps_device_management_date_recharge" class="stargps-devices-management-btn">Submit</a>

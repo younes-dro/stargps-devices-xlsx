@@ -209,7 +209,7 @@
 				url: starGPSDevicesManagementXlsxParams.admin_ajax,
 				type: "POST",
 				context: this,
-				data: { 'action': 'stargps_device_management_devices_date_recharge_xlsx' ,'date_recharge': $('input[name=DateOfRecharge]').val(),'next_recharge': $('input[name=NextOfRecharge]').val(), 'customer_name': $('#customer_name').val(), 'type_device': $('#type_device').val(), 'app': $('#app').val(), 'imei': $('#imei').val(), 'tel_clt': $('#tel_clt').val(), 'sim_no': $('#sim_no').val(), 'stargps_device_management_nonce': starGPSDevicesManagementXlsxParams.stargps_device_management_nonce },
+				data: { 'action': 'stargps_device_management_devices_date_recharge_xlsx' ,'date_recharge': $('input[name=DateOfRecharge]').val(),'next_recharge': $('input[name=NextOfRecharge]').val(), 'expiry_date': $('input[name=ExpiryDate]').val(), 'customer_name': $('#customer_name').val(), 'type_device': $('#type_device').val(), 'app': $('#app').val(), 'imei': $('#imei').val(), 'tel_clt': $('#tel_clt').val(), 'sim_no': $('#sim_no').val(), 'stargps_device_management_nonce': starGPSDevicesManagementXlsxParams.stargps_device_management_nonce },
 				beforeSend: function () {
                                     $(".stargps-spinner").addClass("stargps-is-active").show();
                                     $('div.resultDevices').html('');

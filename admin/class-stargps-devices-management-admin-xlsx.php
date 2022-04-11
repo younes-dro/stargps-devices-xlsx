@@ -316,7 +316,10 @@ class Stargps_Devices_Management_Admin_Xlsx {
                     }
                     if( ! empty( $_POST['next_recharge'] ) ){
                        $where.= " AND `next-recharge` = '". $_POST['next_recharge'] ."'";
-                    }                
+                    }
+                    if( ! empty( $_POST['expiry_date'] ) ){
+                       $where.= " AND `expiry` = '". $_POST['expiry_date'] ."'";
+                    }                    
                     if( ! empty( $_POST['customer_name'] ) ){
                        $where.= " AND `customer-name` LIKE '%". $_POST['customer_name'] ."%'"; 
                     }
