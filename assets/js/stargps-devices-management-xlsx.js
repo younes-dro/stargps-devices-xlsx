@@ -255,7 +255,7 @@
                     
                     
                 }
-                $('#customer_name').on("keyup change", function(e) {
+                $('#customer_name').on("keyup", function(e) {
                     $('ul.customer_name_after_search').css('display', 'block');
                     var input, filter, ul, li, a, i, txtValue;
                     input = document.getElementById("customer_name");
@@ -272,14 +272,23 @@
                         }
                     }                    
                 });
+                $("#customer_name").focus(function(){
+                    $('ul.customer_name_after_search').css('display', 'block');
+                    return;
+                                         
+                });                
                 $(document).on("click", 'ul.customer_name_after_search > li > a',function(e) {
                     e.preventDefault();
+                    $('ul.customer_name_after_search').css('display', 'none');   
                 });                 
                 $(document).on("click", function(e) {
-                    if ( e.target.id != 'ok' ) {
-                     $('ul.customer_name_after_search').css('display', 'none');   
+                    if(e.target.id == "customer_name"){
+                        return;
                     }
-                }); 
+                    if ( e.target.id != 'ok' ) {
+                       $('ul.customer_name_after_search').css('display', 'none');   
+                   } 
+                });
                 $(document).on('click','ul.customer_name_after_search > li > a', function(e){
                     $('#customer_name').val($(this).text());
 //                    console.log($(this).text());
