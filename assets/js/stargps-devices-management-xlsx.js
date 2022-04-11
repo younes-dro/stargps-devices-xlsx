@@ -727,6 +727,7 @@ $(document).on('click', '#run-update', function(){
                                     
 					if (result.re === 'yes') {
                                             $(this).next("span.updating-message").text("Updated!");
+                                            $('.elementDevice').prop('checked', false);
                                             return;
 					}
 					if (result.re === 'no') {
@@ -747,16 +748,24 @@ $(document).on('click', '#run-update', function(){
 				}
 			});    
 });
-$(document).on('click', '#delete_selected_devices', function(){
-    var checked = $('input[name="elementDevice"]:checked').length > 0;
-    if (!checked){
-        alert("Please check at least one checkbox");
-        return false;
-    }  
-    var device_ids = '';
-    $('input[name="elementDevice"]:checked').each(function() {
-        device_ids = device_ids  + this.value + '-'; 
-    });
+	$(document).on('click', '#delete_selected_devices', function(){
+		var checked = $('input[name="elementDevice"]:checked').length > 0;
+		if (!checked){
+			alert("Please check at least one checkbox");
+			return false;
+		}  
+		var device_ids = '';
+		tr_line_to_fade_out = [];
+		$('input[name="elementDevice"]:checked').each(function() {
+			device_ids = device_ids  + this.value + '-'; 
+			tr_line_to_fade_out.push(this.value);
+		});
+    
+		var c =  confirm("Supprimer définitivement les devices selectionnés ?");
+		if ( c === false ){
+			$('.elementDevice').prop('checked', false);
+			return;
+		}
 
 			$.ajax({
 				url: starGPSDevicesManagementXlsxParams.admin_ajax,
@@ -775,6 +784,10 @@ $(document).on('click', '#delete_selected_devices', function(){
 					if (result.re === 'yes') {
                                             $(this).next("span.deleting-message").text( result.n + " devices" + " Deleted!");
                                              $('.elementDevice').prop('checked', false);
+                                                 $.each(tr_line_to_fade_out, function( i , v ){
+                                                     $('tr.line-'+v).fadeOut("slow");
+                                                     $('tr.edit-'+v).fadeOut("slow");
+                                                 });
                                             return;
 					}
 					if (result.re === 'no') {

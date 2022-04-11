@@ -361,3 +361,9 @@ span.modification_rapide{
 .show-hide{
     display: block;
 }
+div.update-delete-button{
+        margin-bottom: 18px;
+}
+div.update-delete-button button.stargps-devices-management-btn {
+    margin-right: 10px; 
+}

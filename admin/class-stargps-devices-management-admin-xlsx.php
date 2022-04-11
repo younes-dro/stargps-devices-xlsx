@@ -343,10 +343,12 @@ class Stargps_Devices_Management_Admin_Xlsx {
 
 				echo '<h2>Nombre de resultat: ' . count( $devices ) . '</h2><br>';
                                 if( $select_all ){
-                                    echo '<button class="open-my-dialog" id="update_selected_devices">Update Selected devices</button>';
-                                    echo '<button  id="delete_selected_devices">Delete Selected devices</button>';
+                                    echo '<div class="update-delete-button">';
+                                    echo '<button class="open-my-dialog button button-primary stargps-devices-management-btn" id="update_selected_devices">Update Selected devices</button>';
+                                    echo '<button class="button button-primary stargps-devices-management-btn"  id="delete_selected_devices">Delete Selected devices</button>';
                                     echo ' <span class="deleting-message"></span>';
                                     echo '<input type="hidden" id="delete-devices-app" value="'. $_POST['app'] . '" >';
+                                    echo '</div>';
                                 }
                                 echo stargps_device_management_head_table_xlsx( 'devices', $select_all );
 				echo '<tbody id="the-list">'; 
