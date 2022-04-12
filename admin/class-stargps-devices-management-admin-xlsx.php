@@ -277,6 +277,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
                     echo '<div class="notice notice-error is-dismissible"><p>Selectionner une Application</p></div>';
                     exit();
                 }
+                $order_by = "";
                 $where = ' WHERE 1=1';
                 $select_all = false;
                 if( isset( $_POST['recharge_80_j'] ) ){
@@ -334,11 +335,21 @@ class Stargps_Devices_Management_Admin_Xlsx {
                     }
                     if( ! empty( $_POST['sim_no'] ) ){
                         $where.= " AND `sim-no` LIKE '%". $_POST['sim_no'] ."%'"; 
-                    }                    
+                    }
+                    if ( $_POST['order_by'] === 'next-recharge' ){
+                        $order_by = " ORDER BY STR_TO_DATE( `next-recharge` , '%d-%m-%Y') "  . $_POST['order'];
+                    }else if( $_POST['order_by'] === 'date-recharge' ){
+                        $order_by = " ORDER BY STR_TO_DATE( `date-recharge` , '%d-%m-%Y') "  . $_POST['order'];
+                    }else if( $_POST['order_by'] === 'expiry' ){
+                        $order_by = " ORDER BY STR_TO_DATE( `expiry` , '%d-%m-%Y') "  . $_POST['order'];
+                    }else{
+                    $order_by = " ORDER BY `" .  $_POST['order_by'] . "` " . $_POST['order'];
+                    }
                     
                 }
              
-		$sql = "SELECT * FROM {$table_devices} " . $where . " ;";
+		$sql = "SELECT * FROM {$table_devices} " . $where . $order_by . " ;";
+               
 		$devices = $wpdb->get_results( $sql , ARRAY_A );
 
                 $row_increment = 1; 
