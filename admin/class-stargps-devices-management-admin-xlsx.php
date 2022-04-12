@@ -409,7 +409,13 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                 echo '<fieldset class="inline-edit-col-left">';
                                 //echo '<legend class="inline-edit-legend">-----</legend>';                                
                                 echo '<div class="inline-edit-col">';
+                                
+                                if ( current_user_can( 'administrator' ) ){
                                 echo '<label><span class="title">SIM no: </span><span class="input-text-wrap"><input type="text" name="sim-no" value="' . $device['sim-no'] . '" autocomplete="off" spellcheck="false"></span></label>';                                
+                                echo '<label><span class="title">Groupe ID: </span><span class="input-text-wrap"><input type="text" name="groupe-id" value="' . $device['#'] . '" autocomplete="off" spellcheck="false"></span></label>';                                
+                                echo '<label><span class="title">Next Re: </span><span class="input-text-wrap"><input type="text" name="next-recharge" value="' . $device['next-recharge'] . '" autocomplete="off" spellcheck="false"></span></label>';                                                                
+                                }
+                                
                                 echo '<label><span class="title">Type Device: </span><span class="input-text-wrap"><input type="text" name="type" class="ptitle" value="' . $device['type'] . '"></span></label>';
                                 echo '<label><span class="title">Expiry: </span><span class="input-text-wrap"><input type="text" name="expiry" value="' . $device['expiry'] . '" autocomplete="off" spellcheck="false"></span></label>';
                                 echo '</div>';
@@ -418,7 +424,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                 //echo '<legend class="inline-edit-legend">-----</legend>';                                
                                 echo '<div class="inline-edit-col">';
                                 echo '<label><span class="title">Recharge: </span><span class="input-text-wrap"><input type="text" name="date-recharge" value="' . $device['date-recharge'] . '" autocomplete="off" spellcheck="false"></span></label>';                                
-                                echo '<label><span class="title">Next Re: </span><span class="input-text-wrap"><input type="text" name="next-recharge" value="' . $device['next-recharge'] . '" autocomplete="off" spellcheck="false"></span></label>';                                                                
+                                
                                 echo '<label><span class="title">Remarks: </span><span class="input-text-wrap"><input type="text" name="remarks" value="' . $device['remarks'] . '" autocomplete="off" spellcheck="false"></span></label>';
                                 echo '</div>';
                                 echo '</fieldset>';
@@ -864,26 +870,83 @@ class Stargps_Devices_Management_Admin_Xlsx {
 	}
         public function update_rapide(){
 		global $wpdb;
-		$table_name = $_POST['data_form'][9]['value']; 
+		
+                // Admin
+                if ( current_user_can( 'administrator' ) ){
+                    $table_name = $_POST['data_form'][10]['value'];
+                    $sim_no = trim( $_POST['data_form'][3]['value'] );
+                    $device_id = $_POST['data_form'][11]['value'];
+                    
+                    if( check_sim_no($device_id, $sim_no, $table_name ) ){
+                        echo json_encode(['re' => 'duplicate_sim_no']);
+                        exit();
+                        
+                    } else {
+                        if( isset( $_POST['data_form'][8]['value'] ) && !empty( trim ( $_POST['data_form'][8]['value'] ) ) ){
+                            $date_recharge = trim ( $_POST['data_form'][8]['value'] ) ;                                 
+                        }else{
+                            $date_recharge = date("d-m-Y");
+                        }                        
+                        if( isset( $_POST['data_form'][5]['value'] ) && !empty( trim ( $_POST['data_form'][5]['value'] ) ) ){
+                            $next_recharge = $_POST['data_form'][5]['value'] ;                                 
+                        }else{
+                            $next_recharge = date("d-m-Y" , strtotime( "+80 days", strtotime( $date_recharge   ) ) );
+                        }
+                        
 			$data = array(
 				'customer-name' =>  $_POST['data_form'][0]['value'] , 
 				'tel-clt' =>  $_POST['data_form'][1]['value'] ,
 				'target-name' =>  $_POST['data_form'][2]['value'] ,
 				'sim-no' =>  $_POST['data_form'][3]['value'] ,
-				'type' =>  $_POST['data_form'][4]['value'] ,
-				'expiry' => $_POST['data_form'][5]['value'] ,
-				'date-recharge' => $_POST['data_form'][6]['value'] ,
-				'next-recharge' => $_POST['data_form'][7]['value'] ,                                 
-				'remarks' =>  $_POST['data_form'][8]['value']   );  
+                                '#' =>  $_POST['data_form'][4]['value'] ,
+				'type' =>  $_POST['data_form'][6]['value'] ,
+				'expiry' => $_POST['data_form'][7]['value'] ,
+				'date-recharge' => $date_recharge ,
+				'next-recharge' => $next_recharge ,                                 
+				'remarks' =>  $_POST['data_form'][9]['value']   );  
                         
-                        $where = ['id' => $_POST['data_form'][10]['value'] ];
+                        $where = ['id' => $device_id ];
                         
                         if( $wpdb->update( $table_name, $data, $where )){
                            echo json_encode(['re' => 'yes']);
                         }else{
                            echo json_encode(['re' => 'no']);
                         }
-                        exit();               
+                        exit();                        
+                    }
+                    
+                    
+                // User  
+                }else{
+                    $table_name = $_POST['data_form'][7]['value'];
+                    $device_id = $_POST['data_form'][8]['value'];                    
+                    if( isset( $_POST['data_form'][5]['value'] ) && !empty( trim ( $_POST['data_form'][5]['value'] ) ) ){
+                            $date_recharge = trim ( $_POST['data_form'][5]['value'] ) ; 
+                            $next_recharge = date("d-m-Y" , strtotime( "+80 days", strtotime( $date_recharge   ) ) );
+                    }else{
+                            $date_recharge = date("d-m-Y");
+                            $next_recharge = date("d-m-Y" , strtotime( "+80 days", strtotime( date("d-m-Y")   ) ) );
+                    }                                                        
+			$data = array(
+				'customer-name' =>  $_POST['data_form'][0]['value'] , 
+				'tel-clt' =>  $_POST['data_form'][1]['value'] ,
+				'target-name' =>  $_POST['data_form'][2]['value'] ,
+				'type' =>  $_POST['data_form'][3]['value'] ,
+				'expiry' => $_POST['data_form'][4]['value'] ,
+				'date-recharge' => $date_recharge ,
+				'next-recharge' => $next_recharge ,                                 
+				'remarks' =>  $_POST['data_form'][6]['value']   );  
+                        
+                        $where = ['id' => $device_id ];
+                        
+                        if( $wpdb->update( $table_name, $data, $where )){
+                           echo json_encode(['re' => 'yes']);
+                        }else{
+                           echo json_encode(['re' => 'no']);
+                        }
+                        exit();                    
+                }
+                               
 
         }
         public function update_dialog_form(){

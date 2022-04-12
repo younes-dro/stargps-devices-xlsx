@@ -205,5 +205,25 @@ function stargps_device_management_get_table_select_menu_relancer(){
 		echo 'Pas de Table';
 	}
 }
+/**
+ * To check  sim no 
+ *
+ * @param INT $device_id Device id
+ * @param INT $sim_no Device sim number
+ * @return BOOL|ARRAY $device
+ */
+function check_sim_no ( $device_id, $sim_no, $app){
+    
+	global $wpdb;
+	$sql_query = "SELECT * FROM `{$app}` WHERE `sim-no` = '" . $sim_no . "' AND `id` !=" . $device_id . ";"; 
+	$result = $wpdb->get_results( $sql_query , ARRAY_A );
+	if( is_array( $result ) ){
+		$device = $result;
+	}else{
+		$device = false;
+	}
+        
+	return $device;
+}
 
 

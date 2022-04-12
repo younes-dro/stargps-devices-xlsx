@@ -632,7 +632,8 @@
                 $(document).on('click', 'button.update-rapide', function(){
                     var device_id = $(this).data('id');
                     var data_form = $('#form-'+device_id).serializeArray();
-//                    console.log(data_form);
+                    console.log(data_form);
+                    //return;
 			$.ajax({
 				url: starGPSDevicesManagementXlsxParams.admin_ajax,
 				type: "POST",
@@ -644,7 +645,13 @@
 				},
 				success: function (data) {
                                     var result = $.parseJSON(data);
-                                    console.log(result);
+                                    //console.log(data);
+                                    
+					if (result.re === 'duplicate_sim_no') {
+						$("span.spinner-"+device_id).removeClass("stargps-is-active");
+                                                $("span.confirm-"+device_id).html("Duplicate SIM NO !");
+                                                return;
+					}                                    
 					if (result.re === 'yes') {
 						$("span.spinner-"+device_id).removeClass("stargps-is-active");
                                                 $("span.confirm-"+device_id).html("Updated!");
