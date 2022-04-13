@@ -367,3 +367,10 @@ div.update-delete-button{
 div.update-delete-button button.stargps-devices-management-btn {
     margin-right: 10px; 
 }
+.ui-dialog .ui-dialog-titlebar-close span{
+    display: none!important;
+}
+.ui-dialog .ui-dialog-titlebar-close{
+    padding-right: 21px!important;
+    padding-bottom: 31px!important;    
+}
