@@ -15,6 +15,9 @@ function stargps_device_management_get_files_xlsx(){
 		$table .= '<th scope="col" class="manage-column ">Nom ficher </th>';
 		$table .= '<th scope="col"  class="manage-column ">Size</th>';
 		$table .= '<th scope="col"  class="manage-column ">Run</th>';
+                if ( current_user_can( 'administrator' ) ) {
+		$table .= '<th scope="col"  class="manage-column ">Supprimer</th>'; 
+                }
 		$table .= '</tr>'; 
 		$table .= '</thead>';
 		$table .= '<tbody id="the-list">';
@@ -24,10 +27,13 @@ function stargps_device_management_get_files_xlsx(){
 			if ( is_file( $file ) ) {
 				$filesize = size_format( filesize( $file ) );
 				$filename = basename( $file );
-				$table .= '<tr>';
+				$table .= '<tr id="table_' . $filename . '">';
 				$table .= '<td>' . $filename . '</td>';
 				$table .= '<td>' . $filesize . '</td>';                                
 				$table .= '<td><button data-name="' . $filename . '"  type="button" title="Lancer"  class="import-xlxs dashicons dashicons-controls-play"></button></td>';                                                                
+                                if ( current_user_can( 'administrator' ) ) {
+				$table .= '<td><button data-name="' . $filename . '"  type="button" title="Lancer"  class="delete-xlxs dashicons dashicons-table-col-delete"></button><span class="spinner-small stargps-spinner"></span></td>';                                                                
+                                }
 				$table .= '</tr>';
 			}
 		}
@@ -42,16 +48,10 @@ function stargps_device_management_get_files_xlsx(){
  */
 function stargps_device_management_get_table_select_menu(){
 	global $wpdb;
+	$TABLE_SCHEMA =  $wpdb->dbname;
+	$PREFIX = $wpdb->prefix;        
         
-	if( ( $_SERVER['SERVER_NAME'] ) === '127.0.0.2' ){
-		$TABLE_SCHEMA = 'stargps-management';
-		$PREFIX = 'wp';
-	}else{
-		$TABLE_SCHEMA = 'wptestdb';
-		$PREFIX = 'wptest';                
-	}
-        
-	$table_xlsx = "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = '" .$TABLE_SCHEMA . "' AND TABLE_NAME LIKE '" . $PREFIX . "_xlsx_%'";
+	$table_xlsx = "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = '" .$TABLE_SCHEMA . "' AND TABLE_NAME LIKE '" . $PREFIX . "xlsx_%'";
         
 	$tables = $wpdb->get_results( $table_xlsx, ARRAY_A ); 
         
@@ -69,15 +69,64 @@ function stargps_device_management_get_table_select_menu(){
 		echo 'Pas de Table';
 	}
 }
-function  stargps_device_management_head_table_xlsx( $from ='' ){
-    $select_all_recharge= '';
-	( $from === 'devices') ? $select_all_recharge = '<span class="select-all-recharge dashicons dashicons-saved"></span><span class="spinner-small"></span>' : '';
+function stargps_device_management_get_table_select_menu_80(){
+	global $wpdb;
+	$TABLE_SCHEMA =  $wpdb->dbname;
+	$PREFIX = $wpdb->prefix;        
+        
+	$table_xlsx = "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = '" .$TABLE_SCHEMA . "' AND TABLE_NAME LIKE '" . $PREFIX . "xlsx_%'";
+        
+	$tables = $wpdb->get_results( $table_xlsx, ARRAY_A ); 
+        
+	if ( is_array( $tables ) && count( $tables ) ) {
+	?>
+	<label>Application: </label>
+            <select name="app" id="app_80">
+                <option id="" value=""> - </option>
+	<?php foreach ( $tables as $key => $table ) { ?>
+		<option value="<?php echo $table['TABLE_NAME'] ?>"><?php echo $table['TABLE_NAME'] ?></option>                
+	<?php } ?>
+	</select>         
+	<?php             
+	}else{
+		echo 'Pas de Table';
+	}
+}
+function stargps_device_management_get_table_select_menu_new_devices(){
+	global $wpdb;
+	$TABLE_SCHEMA =  $wpdb->dbname;
+	$PREFIX = $wpdb->prefix;        
+        
+	$table_xlsx = "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = '" .$TABLE_SCHEMA . "' AND TABLE_NAME LIKE '" . $PREFIX . "xlsx_%'";
+        
+	$tables = $wpdb->get_results( $table_xlsx, ARRAY_A ); 
+        
+	if ( is_array( $tables ) && count( $tables ) ) {
+	?>
+	<label>Application: </label>
+            <select name="app" id="app_new_devices">
+                <option id="" value=""> - </option>
+	<?php foreach ( $tables as $key => $table ) { ?>
+		<option value="<?php echo $table['TABLE_NAME'] ?>"><?php echo $table['TABLE_NAME'] ?></option>                
+	<?php } ?>
+	</select>         
+	<?php             
+	}else{
+		echo 'Pas de Table';
+	}
+}
+function  stargps_device_management_head_table_xlsx( $from ='' , $select_all = false ){
     
+    $check_box = '';
     
+	( $select_all ) ? $check_box = '<th scope="col" class="manage-column "><input type="checkbox" id="checkAll" /></th>' : '';
+   
+
 	$table = '<table class="wp-list-table widefat fixed striped table-view-list posts">';
 	$table .= '<thead>';
 	$table .= '<tr>';
-
+        $table .= $check_box;
+	$table .= '<th scope="col" class="manage-column ">N°</th>';
 	$table .= '<th scope="col" class="manage-column ">ID</th>';
 	$table .= '<th scope="col"  class="manage-column ">Customer</th>';
 //	$table .= '<th scope="col"  class="manage-column ">B</th>';
@@ -132,6 +181,49 @@ function  stargps_device_management_head_remove_data_table() {
     echo $table;
     
     
+}
+function stargps_device_management_get_table_select_menu_relancer(){
+	global $wpdb;
+	$TABLE_SCHEMA =  $wpdb->dbname;
+	$PREFIX = $wpdb->prefix;        
+        
+	$table_xlsx = "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = '" .$TABLE_SCHEMA . "' AND TABLE_NAME LIKE '" . $PREFIX . "xlsx_%'";
+        
+	$tables = $wpdb->get_results( $table_xlsx, ARRAY_A ); 
+        
+	if ( is_array( $tables ) && count( $tables ) ) {
+	?>
+	<label>Application: </label>
+            <select name="app" id="app_relancer">
+                <option id="" value=""> - </option>
+	<?php foreach ( $tables as $key => $table ) { ?>
+		<option value="<?php echo $table['TABLE_NAME'] ?>"><?php echo $table['TABLE_NAME'] ?></option>                
+	<?php } ?>
+	</select>         
+	<?php             
+	}else{
+		echo 'Pas de Table';
+	}
+}
+/**
+ * To check  sim no 
+ *
+ * @param INT $device_id Device id
+ * @param INT $sim_no Device sim number
+ * @return BOOL|ARRAY $device
+ */
+function check_sim_no ( $device_id, $sim_no, $app){
+    
+	global $wpdb;
+	$sql_query = "SELECT * FROM `{$app}` WHERE `sim-no` = '" . $sim_no . "' AND `id` !=" . $device_id . ";"; 
+	$result = $wpdb->get_results( $sql_query , ARRAY_A );
+	if( is_array( $result ) ){
+		$device = $result;
+	}else{
+		$device = false;
+	}
+        
+	return $device;
 }
 
 

@@ -74,21 +74,54 @@ class Stargps_Devices_Management {
 		
                 add_action('wp_ajax_import_xlsx', array ( $plugin_admin_xlsx , 'import_xlsx' ) );
 		add_action('wp_ajax_nopriv_import_xlsx', array ( $plugin_admin_xlsx, 'import_xlsx' ) );
+                
+		add_action('wp_ajax_delete_xlxs', array ( $plugin_admin_xlsx , 'delete_xlxs' ) );
+		add_action('wp_ajax_nopriv_delete_xlxs', array ( $plugin_admin_xlsx, 'delete_xlxs' ) );                  
 		
                 add_action( 'wp_ajax_stargps_device_management_devices_date_recharge_xlsx' , array ( $plugin_admin_xlsx, 'stargps_devices_management_query_date_recharge' ) );                
 		add_action( 'wp_ajax_nopriv_stargps_device_management_devices_date_recharge_xlsx' , array ( $plugin_admin_xlsx, 'stargps_devices_management_query_date_recharge' ) );                
 		
                 add_action( 'wp_ajax_stargps_device_management_send_recharge_sim_xlsx' , array ( $plugin_admin_xlsx, 'stargps_device_management_send_recharge_sim_xlsx' ) );                                                                
 		add_action( 'wp_ajax_nopriv_stargps_device_management_send_recharge_sim_xlsx' , array ( $plugin_admin_xlsx, 'stargps_device_management_send_recharge_sim_xlsx' ) );                                                                                
+                
+                add_action( 'wp_ajax_stargps_device_management_confirm_send_recharge_sim_xlsx' , array ( $plugin_admin_xlsx, 'stargps_device_management_confirm_send_recharge_sim_xlsx' ) );                                                                
+		add_action( 'wp_ajax_nopriv_stargps_device_management_confirm_send_recharge_sim_xlsx' , array ( $plugin_admin_xlsx, 'stargps_device_management_confirm_send_recharge_sim_xlsx' ) );                
 		
                 add_action( 'wp_ajax_stargps_device_management_send_valider_recharge_sim_xlsx' , array ( $plugin_admin_xlsx, 'stargps_device_management_send_valider_recharge_sim_xlsx' ) );                                                                
 		add_action( 'wp_ajax_nopriv_stargps_device_management_send_valider_recharge_sim_xlsx' , array ( $plugin_admin_xlsx, 'stargps_device_management_send_valider_recharge_sim_xlsx' ) );                
 		
 		add_action('wp_ajax_stargps_device_management_remove_table', array ( $plugin_admin_xlsx , 'stargps_device_management_remove_table' ) );
 		add_action('wp_ajax_nopriv_stargps_device_management_remove_table', array ( $plugin_admin_xlsx, 'stargps_device_management_remove_table' ) );                              
-                
+                                
                 add_action( 'wp_ajax_stargps_device_management_date_recharge_80_jours' , array ( $plugin_admin_xlsx, 'stargps_devices_management_query_date_recharge' ) );                
 		add_action( 'wp_ajax_nopriv_stargps_device_management_date_recharge_80_jours' , array ( $plugin_admin_xlsx, 'stargps_devices_management_query_date_recharge' ) );                  
+               
+		add_action( 'wp_ajax_stargps_device_management_devices_recharge_manuelle_xlsx' , array ( $plugin_admin_xlsx, 'stargps_device_management_devices_recharge_manuelle_xlsx' ) );                                                                                
+		add_action( 'wp_ajax_nopriv_stargps_device_management_devices_recharge_manuelle_xlsx' , array ( $plugin_admin_xlsx, 'stargps_device_management_devices_recharge_manuelle_xlsx' ) );                                                                                                
+                
+		add_action('wp_ajax_confirm_upload', array ( $plugin_admin_xlsx , 'confirm_upload_callback' ) );
+		add_action('wp_ajax_nopriv_confirm_upload', array ( $plugin_admin_xlsx, 'confirm_upload_callback' ) );
+                
+		add_action('wp_ajax_cancel_upload', array ( $plugin_admin_xlsx , 'cancel_upload_callback' ) );
+		add_action('wp_ajax_nopriv_cancel_upload', array ( $plugin_admin_xlsx, 'cancel_upload_callback' ) );
+                
+		add_action('wp_ajax_generate_form_rows', array ( $plugin_admin_xlsx , 'generate_form_rows' ) );
+		add_action('wp_ajax_nopriv_generate_form_rows', array ( $plugin_admin_xlsx, 'generate_form_rows' ) );  
+               
+		add_action('wp_ajax_add_new_devices', array ( $plugin_admin_xlsx , 'add_new_devices' ) );
+		add_action('wp_ajax_nopriv_add_new_devices', array ( $plugin_admin_xlsx, 'add_new_devices' ) );
+                
+		add_action('wp_ajax_stargps_device_management_relancer', array ( $plugin_admin_xlsx , 'relancer' ) );
+		add_action('wp_ajax_nopriv_stargps_device_management_relancer', array ( $plugin_admin_xlsx, 'relancer' ) );
+                
+		add_action('wp_ajax_stargps_device_management_update_rapide', array ( $plugin_admin_xlsx , 'update_rapide' ) );
+		add_action('wp_ajax_nopriv_stargps_device_management_update_rapide', array ( $plugin_admin_xlsx, 'update_rapide' ) ); 
+            
+		add_action('wp_ajax_stargps_device_management_update_dialog_form', array ( $plugin_admin_xlsx , 'update_dialog_form' ) );
+		add_action('wp_ajax_nopriv_stargps_device_management_update_dialog_form', array ( $plugin_admin_xlsx, 'update_dialog_form' ) );                
+                
+		add_action('wp_ajax_stargps_device_management_delete_devices', array ( $plugin_admin_xlsx , 'delete_devices' ) );
+		add_action('wp_ajax_nopriv_stargps_device_management_delete_devices', array ( $plugin_admin_xlsx, 'delete_devices' ) );                
 	}
         
         public function stargps_device_management_remove_table(){
