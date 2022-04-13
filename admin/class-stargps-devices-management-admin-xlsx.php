@@ -197,7 +197,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                 
 		$createSQL = "CREATE TABLE IF NOT EXISTS `$table_name`
 		( `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT, ".implode(" VARCHAR(191) , ", $table_columns ). " 
-		LONGTEXT, UNIQUE KEY (`id`) , UNIQUE KEY `uniq_id` (`idimei`,`sim-no`) ) $charset_collate;";
+		LONGTEXT, `activated` tinyint(1) DEFAULT 1, `deactivated` tinyint(1) DEFAULT 0, `expired` tinyint(1) DEFAULT 0 ,   UNIQUE KEY (`id`) , UNIQUE KEY `uniq_id` (`idimei`,`sim-no`) ) $charset_collate;";
                 
 		$createdTable = dbDelta( $createSQL );           
 
