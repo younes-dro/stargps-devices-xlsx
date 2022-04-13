@@ -41,7 +41,25 @@
             <label>Expiry date: </label>
             <input type="text" name="ExpiryDate_80_jours" class="form-control next_recharge date_picker" value="" />
         </div>        
-    </div><!-- .devicesForm -->    
+    </div><!-- .devicesForm -->  
+    
+    <div class="devicesForm">        
+        <div class="column">
+            <label>Order by: </label>
+            <select name="order-by-80-jours" id="order-by-80-jours">
+                <option value="id" selected="">ID</option>
+                <option value="customer-name">Customer Name</option>
+                <option value="#">Groupe</option>
+                <option value="expiry">Expiry date</option>
+                <option value="date-recharge">Date Recharge</option>
+                <option value="next-recharge">Next Recharge</option>
+            </select>
+            <select name="order-80-jours" id="order-80-jours">
+                <option value="ASC">ASC</option>
+                <option value="DESC">DESC</option>
+            </select>
+        </div>            
+    </div>    
 
     <div class="submit-wrapper">   
         <a id="stargps_device_management_date_recharge_80_jours" class="stargps-devices-management-btn">Submit</a>
