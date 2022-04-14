@@ -71,8 +71,8 @@
 </div>
 <div id="update-devices-dialog" class="hidden" style="max-width:900px">
     <form action="" id="update-dialog-form">
-        <input type="text" name="device_ids" id="device_ids" value="">
-        <input type="text" name="update_app" id="update_app" value="">
+        <input type="hidden" name="device_ids" id="device_ids" value="">
+        <input type="hidden" name="update_app" id="update_app" value="">
 
         <table class="form-table">
             <tbody>

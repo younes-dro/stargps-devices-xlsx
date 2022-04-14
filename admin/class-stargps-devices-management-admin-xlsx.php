@@ -310,6 +310,15 @@ class Stargps_Devices_Management_Admin_Xlsx {
                     if( ! empty( $_POST['sim_no'] ) ){
                         $where.= " AND `sim-no` LIKE '%". $_POST['sim_no'] ."%'"; 
                     }
+                    if ( $_POST['order_by'] === 'next-recharge' ){
+                        $order_by = " ORDER BY STR_TO_DATE( `next-recharge` , '%d-%m-%Y') "  . $_POST['order'];
+                    }else if( $_POST['order_by'] === 'date-recharge' ){
+                        $order_by = " ORDER BY STR_TO_DATE( `date-recharge` , '%d-%m-%Y') "  . $_POST['order'];
+                    }else if( $_POST['order_by'] === 'expiry' ){
+                        $order_by = " ORDER BY STR_TO_DATE( `expiry` , '%d-%m-%Y') "  . $_POST['order'];
+                    }else{
+                        $order_by = " ORDER BY `" .  $_POST['order_by'] . "` " . $_POST['order'];
+                    }                    
                 }else{
                     $select_all = true;
                     if( ! empty( $_POST['date_recharge'] ) ){
@@ -349,7 +358,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
                 }
              
 		$sql = "SELECT * FROM {$table_devices} " . $where . $order_by . " ;";
-               
+                               
 		$devices = $wpdb->get_results( $sql , ARRAY_A );
 
                 $row_increment = 1; 
@@ -778,10 +787,8 @@ class Stargps_Devices_Management_Admin_Xlsx {
                     exit();
                 }
                 
-//                echo '<pre>';
-//                var_dump($_POST);
-//                echo '</pre>';
-                
+
+                $order_by = "";                
                 $where = ' WHERE 1=1';
                 $title = "";
                 if( $_POST['mois'] === 'mois_en_cours' ) {
@@ -824,12 +831,21 @@ class Stargps_Devices_Management_Admin_Xlsx {
                     }
                     if( ! empty( $_POST['sim_no'] ) ){
                         $where.= " AND `sim-no` LIKE '%". $_POST['sim_no'] ."%'"; 
-                    } 
+                    }
+                    if ( $_POST['order_by'] === 'next-recharge' ){
+                        $order_by = " ORDER BY STR_TO_DATE( `next-recharge` , '%d-%m-%Y') "  . $_POST['order'];
+                    }else if( $_POST['order_by'] === 'date-recharge' ){
+                        $order_by = " ORDER BY STR_TO_DATE( `date-recharge` , '%d-%m-%Y') "  . $_POST['order'];
+                    }else if( $_POST['order_by'] === 'expiry' ){
+                        $order_by = " ORDER BY STR_TO_DATE( `expiry` , '%d-%m-%Y') "  . $_POST['order'];
+                    }else{
+                        $order_by = " ORDER BY `" .  $_POST['order_by'] . "` " . $_POST['order'];
+                    }                    
              
-		$sql = "SELECT * FROM {$table_devices} " . $where . " ;";
+		$sql = "SELECT * FROM {$table_devices} " . $where .  $order_by . " ;";
                 
-//                echo $sql;
-//                exit();
+                // echo $sql;
+                // exit();
 		$devices = $wpdb->get_results( $sql , ARRAY_A );
 
 

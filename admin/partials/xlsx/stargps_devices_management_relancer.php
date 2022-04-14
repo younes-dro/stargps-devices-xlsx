@@ -49,7 +49,24 @@
             <label>Expiry date: </label>
             <input type="text" name="ExpiryDate_relancer" class="form-control next_recharge date_picker" value="" />
         </div>        
-    </div><!-- .devicesForm -->        
+    </div><!-- .devicesForm --> 
+    <div class="devicesForm">        
+        <div class="column">
+            <label>Order by: </label>
+            <select name="order-by-relancer" id="order-by-relancer">
+                <option value="id" selected="">ID</option>
+                <option value="customer-name">Customer Name</option>
+                <option value="#">Groupe</option>
+                <option value="expiry">Expiry date</option>
+                <option value="date-recharge">Date Recharge</option>
+                <option value="next-recharge">Next Recharge</option>
+            </select>
+            <select name="order-relancer" id="order-relancer">
+                <option value="ASC">ASC</option>
+                <option value="DESC">DESC</option>
+            </select>
+        </div>            
+    </div> <!-- .devicesForm -->      
     <div class="submit-wrapper">
         <a id="stargps_device_management_date_recharge_relancer" class="stargps-devices-management-btn">Submit</a>
     </div>
