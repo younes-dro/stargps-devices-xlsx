@@ -567,9 +567,17 @@
                                    
 				},
 				success: function (data) {
-                                    //console.log(data);
-                                    //return;
+//                                    console.log(data);
+//                                    return;
                                     var result = $.parseJSON(data);
+					if (result.re === 'duplicate_sim_no') {
+						$(this).find("span.stargps-spinner").removeClass("stargps-is-active stargps-spinner").addClass("dashicons dashicons-no").text('Duplicate SIM NO !'); 
+                                                return;
+					}
+					if (result.re === 'duplicate_idimei') {
+						$(this).find("span.stargps-spinner").removeClass("stargps-is-active stargps-spinner").addClass("dashicons dashicons-no").text('Duplicate idimei !'); 
+                                                return;
+					}                                        
 					if (result.re === 'yes') {
 						$(this).find("span.stargps-spinner").removeClass("stargps-is-active stargps-spinner").addClass("dashicons dashicons-saved");
                                                 return;

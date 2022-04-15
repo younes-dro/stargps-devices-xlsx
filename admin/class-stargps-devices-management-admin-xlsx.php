@@ -735,6 +735,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
                 $html .= '<input type="text" name="expiry_date" value="' . $expiry_date . '" />';                
                 $html .= '<input type="text" name="sim_op" placeholder="SIM Operateur" />';
                 $html .= '<input type="text" name="remarks" placeholder="Remarks" />';
+                $html .= '<input type="text" name="target_name" placeholder="Target name" />';
                 $html .= '<span class="stargps-spinner"></span></div>';
                 $html .= '<input type="hidden" name="num_rows" value="' . $num_rows . '">';
                 $html .= '<input type="hidden" name="selected_app" value="' . $app . '">';
@@ -746,18 +747,19 @@ class Stargps_Devices_Management_Admin_Xlsx {
         }
         public function add_new_devices(){
 		global $wpdb;
-                
+                                
 		$number_array = count( $_POST['new_devices'] );
                 
 		$app_key = $number_array - 1;
 		$table_name = $_POST['new_devices'][$app_key]['value'];
-
+                
+               
 			$data = array(
 				'customer-name' =>  $_POST['new_devices'][0]['value'] , 
 				'#' =>  $_POST['new_devices'][1]['value'] ,
 				'login' =>  $_POST['new_devices'][2]['value'] ,
 				'tel-clt' =>  $_POST['new_devices'][3]['value'] ,
-				'target-name' =>  $_POST['new_devices'][0]['value'] ,
+				'target-name' =>  $_POST['new_devices'][12]['value'] ,
 				'idimei' =>  $_POST['new_devices'][4]['value'] ,
 				'sim-no' =>  $_POST['new_devices'][5]['value'] ,
 				'type' =>  $_POST['new_devices'][6]['value'] ,
@@ -766,9 +768,18 @@ class Stargps_Devices_Management_Admin_Xlsx {
 				'date-recharge' => $_POST['new_devices'][7]['value'],
 				'next-recharge' => $_POST['new_devices'][8]['value'],
 				'app' =>  $table_name ,                                    
-				'remarks' =>  $_POST['new_devices'][11]['value']   ); 
+				'remarks' =>  $_POST['new_devices'][11]['value']   );
                         
-				if( $wpdb->insert( $table_name, $data) ){    
+			if( check_sim_no_new_device( $_POST['new_devices'][5]['value'], $table_name ) ){
+				echo json_encode( ['re' => 'duplicate_sim_no'] );
+				exit();    
+			}
+			if(check_idimei_new_device( $_POST['new_devices'][4]['value'], $table_name ) ){
+				echo json_encode( ['re' => 'duplicate_idimei'] );
+				exit();    
+			}                        
+                        
+			if( $wpdb->insert( $table_name, $data) ){    
 					echo json_encode(['re' => 'yes']);
 				}else{
 					echo json_encode(['re' => 'no']);

@@ -206,10 +206,11 @@ function stargps_device_management_get_table_select_menu_relancer(){
 	}
 }
 /**
- * To check  sim no 
+ * To check  sim no when updating device 
  *
  * @param INT $device_id Device id
  * @param INT $sim_no Device sim number
+ * @param STRING $app Table name
  * @return BOOL|ARRAY $device
  */
 function check_sim_no ( $device_id, $sim_no, $app){
@@ -225,5 +226,44 @@ function check_sim_no ( $device_id, $sim_no, $app){
         
 	return $device;
 }
-
+/**
+ * To check  sim no when adding new device 
+ *
+ * @param INT $sim_no Device sim number
+ * @param STRING $app Table name
+ * @return BOOL|ARRAY $device
+ */
+function check_sim_no_new_device (  $sim_no, $app ){
+    
+	global $wpdb;
+	$sql_query = "SELECT * FROM `{$app}` WHERE `sim-no` = '" . trim( $sim_no ) . "';"; 
+	$result = $wpdb->get_results( $sql_query , ARRAY_A );
+	if( is_array( $result ) ){
+		$device = $result;
+	}else{
+		$device = false;
+	}
+        
+	return $device;
+}
+/**
+ * To check  IDIMEI when adding new device 
+ *
+ * @param INT $idimei Device idimei
+ * @param STRING $app Table name
+ * @return BOOL|ARRAY $device
+ */
+function check_idimei_new_device (  $idimei, $app ){
+    
+	global $wpdb;
+	$sql_query = "SELECT * FROM `{$app}` WHERE `idimei` = '" . trim( $idimei ) . "';"; 
+	$result = $wpdb->get_results( $sql_query , ARRAY_A );
+	if( is_array( $result ) ){
+		$device = $result;
+	}else{
+		$device = false;
+	}
+        
+	return $device;
+}
 

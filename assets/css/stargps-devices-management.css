@@ -294,8 +294,10 @@ div.newRows label{
 }
 div.newRows span{
     cursor: pointer;
-    width: 40px;
+    width: 214px;
     display: inline-block;
+    border: 1px solid;
+    padding: 3px;
 }
 div.column.customer_search{
     position: relative;
