@@ -652,9 +652,9 @@
                                    
 				},
 				success: function (data) {
-                                    var result = $.parseJSON(data);
-                                    //console.log(data);
-                                    
+//                                    console.log(data);
+//                                    return;
+                                    var result = $.parseJSON(data); 
 					if (result.re === 'duplicate_sim_no') {
 						$("span.spinner-"+device_id).removeClass("stargps-is-active");
                                                 $("span.confirm-"+device_id).html("Duplicate SIM NO !");
@@ -785,7 +785,7 @@ $(document).on('click', '#run-update', function(){
 			tr_line_to_fade_out.push(this.value);
 		});
     
-		var c =  confirm("Supprimer définitivement les devices selectionnés ?");
+		var c =  confirm("Change Device status to 'Removed'. If it is in Status 'Removed', it will be permanently deleted?");
 		if ( c === false ){
 			$('.elementDevice').prop('checked', false);
 			return;
@@ -801,8 +801,8 @@ $(document).on('click', '#run-update', function(){
                                    
 				},
 				success: function (data) {
-                                   //console.log(data);
-                                   //return;
+//                                   console.log(data);
+//                                   return;
                                     var result = $.parseJSON(data);
                                     
 					if (result.re === 'yes') {

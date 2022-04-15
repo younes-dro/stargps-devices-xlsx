@@ -117,9 +117,13 @@ function stargps_device_management_get_table_select_menu_new_devices(){
 }
 function  stargps_device_management_head_table_xlsx( $from ='' , $select_all = false ){
     
-    $check_box = '';
-    
-	( $select_all ) ? $check_box = '<th scope="col" class="manage-column "><input type="checkbox" id="checkAll" /></th>' : '';
+	$check_box = '';
+	$status = '';    
+	if( $select_all ){
+		$check_box = '<th scope="col" class="manage-column "><input type="checkbox" id="checkAll" /></th>'; 
+                $status = '<th scope="col" class="manage-column ">Status</th>'; 
+	}
+	
    
 
 	$table = '<table class="wp-list-table widefat fixed striped table-view-list posts">';
@@ -127,6 +131,7 @@ function  stargps_device_management_head_table_xlsx( $from ='' , $select_all = f
 	$table .= '<tr>';
         $table .= $check_box;
 	$table .= '<th scope="col" class="manage-column ">N°</th>';
+        $table .= $status;        
 	$table .= '<th scope="col" class="manage-column ">ID</th>';
 	$table .= '<th scope="col"  class="manage-column ">Customer</th>';
 //	$table .= '<th scope="col"  class="manage-column ">B</th>';
@@ -265,5 +270,44 @@ function check_idimei_new_device (  $idimei, $app ){
 	}
         
 	return $device;
+}
+function get_selected_status( $status ){
+	$options_status = '';
+	if( $status === 'active' ){
+		$options_status .=   '<option value="active" selected>Enable</option>';  
+	} else {
+		$options_status .=   '<option value="active">Enable</option>';  
+	}
+	if( $status === 'disabled' ){
+		$options_status .=   '<option value="disabled" selected>Pause</option>';
+	} else {
+		$options_status .=   '<option value="disabled">Pause</option>';
+	}
+	if( $status === 'expired' ){
+		$options_status .=   '<option value="expired" selected>Expired</option>';
+	} else {
+		$options_status .=   '<option value="expired">Expired</option>';
+	}
+	if( $status === 'removed' ){
+		$options_status .=   '<option value="removed" selected>Removed</option>';
+	} else {
+		$options_status .=   '<option value="removed">Removed</option>';
+	}
+        
+        return $options_status; 
+
+}
+function get_device_status ( $device_id , $app ){
+	global $wpdb;
+	$sql_query = "SELECT `status` FROM `{$app}` WHERE `id` = '" . trim( $device_id ) . "';"; 
+	$result = $wpdb->get_results( $sql_query , ARRAY_A );
+	if( is_array( $result ) ){
+		$status = $result;
+	}else{
+		$status = false;
+	}
+        
+	return $status;    
+    
 }
 

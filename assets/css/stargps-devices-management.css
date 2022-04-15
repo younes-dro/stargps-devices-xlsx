@@ -377,3 +377,19 @@ div.update-delete-button button.stargps-devices-management-btn {
     padding-right: 21px!important;
     padding-bottom: 31px!important;    
 }
+span.dashicons.dashicons-saved{
+    color: #0edf0e;
+    font-size: 35px;
+}
+span.dashicons.dashicons-warning{
+    color:#ff9e00;
+    font-size: 26px;    
+}
+span.dashicons.dashicons-controls-pause{
+    font-size: 28px;
+    color: #a3a1a1;   
+}
+span.dashicons.dashicons-no{
+    color: #e40a0a;
+    font-size: 26px;
+}

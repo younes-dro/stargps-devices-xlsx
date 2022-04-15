@@ -197,7 +197,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                 
 		$createSQL = "CREATE TABLE IF NOT EXISTS `$table_name`
 		( `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT, ".implode(" VARCHAR(191) , ", $table_columns ). " 
-		LONGTEXT, UNIQUE KEY (`id`) , UNIQUE KEY `uniq_id` (`idimei`,`sim-no`) ) $charset_collate;";
+		LONGTEXT,`status` VARCHAR(10) , UNIQUE KEY (`id`) , UNIQUE KEY `uniq_id` (`idimei`,`sim-no`) ) $charset_collate;";
                 
 		$createdTable = dbDelta( $createSQL );           
 
@@ -245,6 +245,8 @@ class Stargps_Devices_Management_Admin_Xlsx {
 					$table_columns_insert[11] => $l11,
 					$table_columns_insert[12] => $l12,                                    
 					$table_columns_insert[13] => $l13 );
+                                
+                                $data['status'] = 'active';
                                 
 				if( $wpdb->insert( $table_name, $data) ){                                                         
 					$count++;
@@ -380,11 +382,24 @@ class Stargps_Devices_Management_Admin_Xlsx {
 				foreach ( $devices as $device ) {
                                     $check_box_device = "";
                                     
+                                    if( $device['status']  === 'active' ){
+                                        $status = '<td><span class="dashicons dashicons-saved"></span></td>';                                    
+                                    } else if ( $device['status']  === 'disabled' ){
+                                        $status = '<td><span class="dashicons dashicons-controls-pause"></span></td>';                                    
+                                    } else if ( $device['status']  === 'expired' ){
+                                    
+                                        $status = '<td><span class="dashicons dashicons-warning"></span></td>';                                    
+                                    } else if ( $device['status']  === 'removed' ){
+                                    
+                                        $status = '<td><span class="dashicons dashicons-no"></span></td>';                                    
+                                    }   
+                                    
                                     ( $select_all ) ? $check_box_device = '<td><input type="checkbox" value="' . $device['id'] . '" name="elementDevice" class="elementDevice" /></td>' : '';                                    
                                     $no_need = ( DateTime::createFromFormat('d-m-Y', $device['date-recharge'] ) === false ) ? 'style="background-color: #b2b0c8;"' : '';
                                     echo '<tr data-id=' . $device['id'] . ' class="line-'.$device['id'].'"' . $no_need. '>';
                                     echo $check_box_device;
                                     echo '<td><b>' . $row_increment . '</b><span data-id=' . $device['id'] . '  class="dashicons dashicons-edit modification_rapide"> Edit</span></td>';                                    
+                                    echo $status;
                                     echo '<td>' . $device['id'] . '</td>';
                                     echo '<td class="customer-name">' . $device['customer-name'] . '</td>';
                                     echo '<td>' . $device['login'] . '</td>';
@@ -415,7 +430,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                  * Edit 
                                  */
                                 echo '<tr class="edit-' . $device['id'] . ' inline-edit-row ">';
-                                echo '<td colspan="15">';
+                                echo '<td colspan="16">';
                                 echo '<form id="form-' . $device['id'] . '">';
                                 echo '<fieldset class="inline-edit-col-left">';
                                 //echo '<legend class="inline-edit-legend">Modification rapide</legend>';
@@ -446,6 +461,10 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                 echo '<label><span class="title">Recharge: </span><span class="input-text-wrap"><input type="text" name="date-recharge" value="' . $device['date-recharge'] . '" autocomplete="off" spellcheck="false"></span></label>';                                
                                 
                                 echo '<label><span class="title">Remarks: </span><span class="input-text-wrap"><input type="text" name="remarks" value="' . $device['remarks'] . '" autocomplete="off" spellcheck="false"></span></label>';
+                                if ( current_user_can( 'administrator' ) ){
+
+                                echo '<label><span class="title">Status: </span><span class="input-text-wrap"><select name="status">' . get_selected_status( $device['status'] ) . '</select></span></label>';
+                                }
                                 echo '</div>';
                                 echo '</fieldset>';
                                 echo '<input type="hidden" name="table-app" value="' . $_POST['app'] . '">';
@@ -736,6 +755,10 @@ class Stargps_Devices_Management_Admin_Xlsx {
                 $html .= '<input type="text" name="sim_op" placeholder="SIM Operateur" />';
                 $html .= '<input type="text" name="remarks" placeholder="Remarks" />';
                 $html .= '<input type="text" name="target_name" placeholder="Target name" />';
+                $html .= '<select name="status">'
+                        . '<option value="active" selected>Enable</option>'
+                        . '<option value="disabled">Pause</option>'
+                        . '<option value="expired">Expired</option></select>';
                 $html .= '<span class="stargps-spinner"></span></div>';
                 $html .= '<input type="hidden" name="num_rows" value="' . $num_rows . '">';
                 $html .= '<input type="hidden" name="selected_app" value="' . $app . '">';
@@ -768,7 +791,8 @@ class Stargps_Devices_Management_Admin_Xlsx {
 				'date-recharge' => $_POST['new_devices'][7]['value'],
 				'next-recharge' => $_POST['new_devices'][8]['value'],
 				'app' =>  $table_name ,                                    
-				'remarks' =>  $_POST['new_devices'][11]['value']   );
+				'remarks' =>  $_POST['new_devices'][11]['value'],
+				'status' => $_POST['new_devices'][13]['value'] );
                         
 			if( check_sim_no_new_device( $_POST['new_devices'][5]['value'], $table_name ) ){
 				echo json_encode( ['re' => 'duplicate_sim_no'] );
@@ -893,7 +917,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
 				echo '<td>' . $device['date-recharge'] . '</td>';
 				echo '<td>' . $device['next-recharge'] . '</td>'; 
 				echo '<td>' . $device['app'] . '</td>'; 
-                                echo '<td>' . $device['remarks'] . '</td>';                                         
+                                echo '<td>' . $device['remarks'] . '</td>'; 
 				echo '</tr>';
                                 $row_increment++;
                                 }
@@ -911,9 +935,13 @@ class Stargps_Devices_Management_Admin_Xlsx {
 		
                 // Admin
                 if ( current_user_can( 'administrator' ) ){
-                    $table_name = $_POST['data_form'][10]['value'];
+//                    echo '<pre>';
+//                    var_dump($_POST);
+//                    echo '</pre>';
+//                    exit();
+                    $table_name = $_POST['data_form'][11]['value'];
                     $sim_no = trim( $_POST['data_form'][3]['value'] );
-                    $device_id = $_POST['data_form'][11]['value'];
+                    $device_id = $_POST['data_form'][12]['value'];
                     
                     if( check_sim_no($device_id, $sim_no, $table_name ) ){
                         echo json_encode(['re' => 'duplicate_sim_no']);
@@ -941,7 +969,8 @@ class Stargps_Devices_Management_Admin_Xlsx {
 				'expiry' => $_POST['data_form'][7]['value'] ,
 				'date-recharge' => $date_recharge ,
 				'next-recharge' => $next_recharge ,                                 
-				'remarks' =>  $_POST['data_form'][9]['value']   );  
+				'remarks' =>  $_POST['data_form'][9]['value'],
+                            'status' =>  $_POST['data_form'][10]['value']);  
                         
                         $where = ['id' => $device_id ];
                         
@@ -1054,17 +1083,41 @@ class Stargps_Devices_Management_Admin_Xlsx {
 		$table_name = $_POST['app'];
                 $device_ids = explode('-', $_POST['device_ids']);
 
-                $ids = implode( ',', array_map( 'absint', $device_ids ) );
-                $sql = "DELETE FROM `{$table_name}` WHERE ID IN($ids)";
+                //$ids = implode( ',', array_map( 'absint', $device_ids ) );
+                $ids = array_map( 'absint', $device_ids ) ;
+                $n = 0;
+                foreach ( $ids as $value ) {
+                    if( $value === 0 ){
+                        continue;
+                    } 
+                    if (get_device_status( $value, $table_name )[0]['status'] === 'removed' ){
+                        $sql = "DELETE FROM `{$table_name}` WHERE `id` ='" . $value . "'; ";
+                       if( $wpdb->query( $sql ) ){
+                        $n++;
+                       }
+                        
+                    } else {
+			$data = array(
+                            'status' => 'removed');  
+                        
+                        $where = ['id' => $value ];
+                        
+                        $wpdb->update( $table_name, $data, $where );                     
+                    }
                 
-                
-                if( $n = $wpdb->query( $sql ) ){
+                                    
+                }
+//                exit();
+//                $sql = "DELETE FROM `{$table_name}` WHERE ID IN($ids)";
+//                
+//                
+//                if( $n = $wpdb->query( $sql ) ){
                     echo json_encode(['re' => 'yes' , 'n' => $n]);
                     
-                }else{
-                       echo json_encode(['re' => 'no']);                    
-                       
-                }
+//                }else{
+//                       echo json_encode(['re' => 'no']);                    
+//                       
+//                }
                                 
                 
                 exit();               
