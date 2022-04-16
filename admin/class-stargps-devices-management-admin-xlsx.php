@@ -283,10 +283,10 @@ class Stargps_Devices_Management_Admin_Xlsx {
                 $where = ' WHERE 1=1';
                 $select_all = false;
                 if( isset( $_POST['recharge_80_j'] ) ){
-                   
+//                   $select_all = true;
                     $days_ago = date("Y-m-d" , strtotime( date( "Y-m-d", strtotime( "-80 day" ) ) ) );
                     
-                    $where.= " AND  STR_TO_DATE( `date-recharge` , '%d-%m-%Y') <= '" . $days_ago . "' ";
+                    $where.= " AND  STR_TO_DATE( `date-recharge` , '%d-%m-%Y') < '" . $days_ago . "' ";
                     
                     if( ! empty( $_POST['date_recharge'] ) ){
                        $where.= " AND `date-recharge` = '". $_POST['date_recharge'] ."'";
@@ -398,7 +398,11 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                     $no_need = ( DateTime::createFromFormat('d-m-Y', $device['date-recharge'] ) === false ) ? 'style="background-color: #b2b0c8;"' : '';
                                     echo '<tr data-id=' . $device['id'] . ' class="line-'.$device['id'].'"' . $no_need. '>';
                                     echo $check_box_device;
-                                    echo '<td><b>' . $row_increment . '</b><span data-id=' . $device['id'] . '  class="dashicons dashicons-edit modification_rapide"> Edit</span></td>';                                    
+                                    echo '<td><b>' . $row_increment . '</b>';
+                                    if ($select_all){
+                                    echo '<span data-id=' . $device['id'] . '  class="dashicons dashicons-edit modification_rapide"> Edit</span>'; 
+                                    }
+                                    echo '</td>';                                    
                                     echo $status;
                                     echo '<td>' . $device['id'] . '</td>';
                                     echo '<td class="customer-name">' . $device['customer-name'] . '</td>';
@@ -426,6 +430,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
 				echo '<td>' . $device['app'] . '</td>'; 
                                 echo '<td>' . $device['remarks'] . '</td>';                                         
 				echo '</tr>';
+                                if ( $select_all ){
                                 /**
                                  * Edit 
                                  */
@@ -478,6 +483,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                 echo '</div>';
                                 echo '</td>';
                                 echo '</tr>';
+                                }
                                 $row_increment++;
                                 }
                                 echo '</tbody>'; 

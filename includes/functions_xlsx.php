@@ -121,7 +121,7 @@ function  stargps_device_management_head_table_xlsx( $from ='' , $select_all = f
 	$status = '';    
 	if( $select_all ){
 		$check_box = '<th scope="col" class="manage-column "><input type="checkbox" id="checkAll" /></th>'; 
-                $status = '<th scope="col" class="manage-column ">Status</th>'; 
+               
 	}
 	
    
@@ -131,7 +131,7 @@ function  stargps_device_management_head_table_xlsx( $from ='' , $select_all = f
 	$table .= '<tr>';
         $table .= $check_box;
 	$table .= '<th scope="col" class="manage-column ">N°</th>';
-        $table .= $status;        
+        $table .= '<th scope="col" class="manage-column ">Status</th>';        
 	$table .= '<th scope="col" class="manage-column ">ID</th>';
 	$table .= '<th scope="col"  class="manage-column ">Customer</th>';
 //	$table .= '<th scope="col"  class="manage-column ">B</th>';
