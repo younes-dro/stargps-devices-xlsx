@@ -567,9 +567,17 @@
                                    
 				},
 				success: function (data) {
-                                    //console.log(data);
-                                    //return;
+//                                    console.log(data);
+//                                    return;
                                     var result = $.parseJSON(data);
+					if (result.re === 'duplicate_sim_no') {
+						$(this).find("span.stargps-spinner").removeClass("stargps-is-active stargps-spinner").addClass("dashicons dashicons-no").text('Duplicate SIM NO !'); 
+                                                return;
+					}
+					if (result.re === 'duplicate_idimei') {
+						$(this).find("span.stargps-spinner").removeClass("stargps-is-active stargps-spinner").addClass("dashicons dashicons-no").text('Duplicate idimei !'); 
+                                                return;
+					}                                        
 					if (result.re === 'yes') {
 						$(this).find("span.stargps-spinner").removeClass("stargps-is-active stargps-spinner").addClass("dashicons dashicons-saved");
                                                 return;
@@ -644,9 +652,9 @@
                                    
 				},
 				success: function (data) {
-                                    var result = $.parseJSON(data);
-                                    //console.log(data);
-                                    
+//                                    console.log(data);
+//                                    return;
+                                    var result = $.parseJSON(data); 
 					if (result.re === 'duplicate_sim_no') {
 						$("span.spinner-"+device_id).removeClass("stargps-is-active");
                                                 $("span.confirm-"+device_id).html("Duplicate SIM NO !");
@@ -777,7 +785,7 @@ $(document).on('click', '#run-update', function(){
 			tr_line_to_fade_out.push(this.value);
 		});
     
-		var c =  confirm("Supprimer définitivement les devices selectionnés ?");
+		var c =  confirm("Change Device status to 'Removed'. If it is in Status 'Removed', it will be permanently deleted?");
 		if ( c === false ){
 			$('.elementDevice').prop('checked', false);
 			return;
@@ -793,16 +801,16 @@ $(document).on('click', '#run-update', function(){
                                    
 				},
 				success: function (data) {
-                                   //console.log(data);
-                                   //return;
+//                                   console.log(data);
+//                                   return;
                                     var result = $.parseJSON(data);
                                     
 					if (result.re === 'yes') {
                                             $(this).next("span.deleting-message").text( result.n + " devices" + " Deleted!");
                                              $('.elementDevice').prop('checked', false);
                                                  $.each(tr_line_to_fade_out, function( i , v ){
-                                                     $('tr.line-'+v).fadeOut("slow");
-                                                     $('tr.edit-'+v).fadeOut("slow");
+                                                    // $('tr.line-'+v).fadeOut("slow");
+                                                     //$('tr.edit-'+v).fadeOut("slow");
                                                  });
                                             return;
 					}
