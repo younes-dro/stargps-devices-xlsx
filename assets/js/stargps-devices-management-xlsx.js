@@ -809,8 +809,8 @@ $(document).on('click', '#run-update', function(){
                                             $(this).next("span.deleting-message").text( result.n + " devices" + " Deleted!");
                                              $('.elementDevice').prop('checked', false);
                                                  $.each(tr_line_to_fade_out, function( i , v ){
-                                                     $('tr.line-'+v).fadeOut("slow");
-                                                     $('tr.edit-'+v).fadeOut("slow");
+                                                    // $('tr.line-'+v).fadeOut("slow");
+                                                     //$('tr.edit-'+v).fadeOut("slow");
                                                  });
                                             return;
 					}

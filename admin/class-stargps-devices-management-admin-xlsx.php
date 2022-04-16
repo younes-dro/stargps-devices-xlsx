@@ -743,18 +743,18 @@ class Stargps_Devices_Management_Admin_Xlsx {
                 $html .= '<form name="new_devices">';
                 $html .= '<div class="line">';
                 $html .= '<input type="text" name="customer-name" placeholder="Customer name" />';
-                $html .= '<input type="number" name="groupe" placeholder="Group ID" />';
                 $html .= '<input type="text" name="login" placeholder="Login" />';
                 $html .= '<input type="text" name="tel_ctl" placeholder="Tel Client" />';
+                $html .= '<input type="text" name="target_name" placeholder="Target name" />';
                 $html .= '<input type="text" name="idimei" placeholder="IDIMEI" />';
                 $html .= '<input type="text" name="sim_no" placeholder="SIM No" />';
                 $html .= '<input type="text" name="type" placeholder="Type" />';
+                $html .= '<input type="text" name="expiry_date" value="' . $expiry_date . '" />';
+                $html .= '<input type="text" name="sim_op" placeholder="SIM Operateur" />';
                 $html .= '<input type="text" name="date_recharge"  value="' . $date_recharge . '" />';
                 $html .= '<input type="text" name="next_recharge"  value="' . $next_recharge . '" />';                
-                $html .= '<input type="text" name="expiry_date" value="' . $expiry_date . '" />';                
-                $html .= '<input type="text" name="sim_op" placeholder="SIM Operateur" />';
                 $html .= '<input type="text" name="remarks" placeholder="Remarks" />';
-                $html .= '<input type="text" name="target_name" placeholder="Target name" />';
+                
                 $html .= '<select name="status">'
                         . '<option value="active" selected>Enable</option>'
                         . '<option value="disabled">Pause</option>'
@@ -776,23 +776,27 @@ class Stargps_Devices_Management_Admin_Xlsx {
 		$app_key = $number_array - 1;
 		$table_name = $_POST['new_devices'][$app_key]['value'];
                 
-               
+//               echo '<pre>';
+//               var_dump($_POST);
+//               echo '</pre>';
+//               exit();
 			$data = array(
 				'customer-name' =>  $_POST['new_devices'][0]['value'] , 
-				'#' =>  $_POST['new_devices'][1]['value'] ,
-				'login' =>  $_POST['new_devices'][2]['value'] ,
-				'tel-clt' =>  $_POST['new_devices'][3]['value'] ,
-				'target-name' =>  $_POST['new_devices'][12]['value'] ,
+				'login' =>  $_POST['new_devices'][1]['value'] ,
+				'tel-clt' =>  $_POST['new_devices'][2]['value'] ,
+				'target-name' =>  $_POST['new_devices'][3]['value'] ,
 				'idimei' =>  $_POST['new_devices'][4]['value'] ,
 				'sim-no' =>  $_POST['new_devices'][5]['value'] ,
 				'type' =>  $_POST['new_devices'][6]['value'] ,
-				'expiry' => $_POST['new_devices'][9]['value'],
-				'sim-op' =>   $_POST['new_devices'][10]['value'] ,
-				'date-recharge' => $_POST['new_devices'][7]['value'],
-				'next-recharge' => $_POST['new_devices'][8]['value'],
-				'app' =>  $table_name ,                                    
+				'expiry' => $_POST['new_devices'][7]['value'],
+				'sim-op' =>   $_POST['new_devices'][8]['value'] ,
+				'date-recharge' => $_POST['new_devices'][9]['value'],
+				'next-recharge' => $_POST['new_devices'][10]['value'],
 				'remarks' =>  $_POST['new_devices'][11]['value'],
-				'status' => $_POST['new_devices'][13]['value'] );
+				'status' => $_POST['new_devices'][12]['value'],
+				'app' =>  $_POST['new_devices'][14]['value'] ,                                    
+				
+				 );
                         
 			if( check_sim_no_new_device( $_POST['new_devices'][5]['value'], $table_name ) ){
 				echo json_encode( ['re' => 'duplicate_sim_no'] );
