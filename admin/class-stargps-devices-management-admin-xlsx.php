@@ -344,6 +344,9 @@ class Stargps_Devices_Management_Admin_Xlsx {
                     if( ! empty( $_POST['tel_clt'] ) ){
                         $where.= " AND `tel-clt` LIKE '%". $_POST['tel_clt'] ."%'"; 
                     }
+                    if( $_POST['status'] != 'all' ){
+                        $where.= " AND `status` = '". $_POST['status'] ."'"; 
+                    }                    
                     if( ! empty( $_POST['sim_no'] ) ){
                         $where.= " AND `sim-no` LIKE '%". $_POST['sim_no'] ."%'"; 
                     }
