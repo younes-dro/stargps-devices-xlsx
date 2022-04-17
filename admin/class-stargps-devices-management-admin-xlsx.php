@@ -313,6 +313,9 @@ class Stargps_Devices_Management_Admin_Xlsx {
                     if( ! empty( $_POST['sim_no'] ) ){
                         $where.= " AND `sim-no` LIKE '%". $_POST['sim_no'] ."%'"; 
                     }
+                    if( $_POST['status'] != 'all' ){
+                        $where.= " AND `status` = '". $_POST['status'] ."'"; 
+                    }                    
                     if ( $_POST['order_by'] === 'next-recharge' ){
                         $order_by = " ORDER BY STR_TO_DATE( `next-recharge` , '%d-%m-%Y') "  . $_POST['order'];
                     }else if( $_POST['order_by'] === 'date-recharge' ){

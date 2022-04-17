@@ -453,7 +453,7 @@
 				url: starGPSDevicesManagementXlsxParams.admin_ajax,
 				type: "POST",
 				context: this,
-				data: { 'action': 'stargps_device_management_date_recharge_80_jours' , 'app': $('#app_80').val(), 'recharge_80_j' : '1','date_recharge': $('input[name=DateOfRecharge_80_jours]').val(),'next_recharge': $('input[name=NextOfRecharge_80_jours]').val(), 'expiry_date': $('input[name=ExpiryDate_80_jours]').val(), 'customer_name': $('#customer_name_80_jours').val(), 'type_device': $('#type_device_80_jours').val(), 'imei': $('#imei_80_jours').val(), 'tel_clt': $('#tel_clt_80_jours').val(), 'sim_no': $('#sim_no_80_jours').val(), 'order_by': $('#order-by-80-jours').val(), 'order': $('#order-80-jours').val()},
+				data: { 'action': 'stargps_device_management_date_recharge_80_jours' , 'app': $('#app_80').val(), 'recharge_80_j' : '1','date_recharge': $('input[name=DateOfRecharge_80_jours]').val(),'next_recharge': $('input[name=NextOfRecharge_80_jours]').val(), 'expiry_date': $('input[name=ExpiryDate_80_jours]').val(), 'customer_name': $('#customer_name_80_jours').val(), 'type_device': $('#type_device_80_jours').val(), 'imei': $('#imei_80_jours').val(), 'tel_clt': $('#tel_clt_80_jours').val(), 'sim_no': $('#sim_no_80_jours').val(), 'order_by': $('#order-by-80-jours').val(), 'order': $('#order-80-jours').val(), 'status': $('#status-devices-80-jours').val(),},
 				beforeSend: function () {
                                     $("div.listDevices80 span.stargps-spinner").addClass("stargps-is-active").show();
                                     $('div.resultDevices80').html('');
