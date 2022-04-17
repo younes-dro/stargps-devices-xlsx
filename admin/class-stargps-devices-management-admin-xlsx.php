@@ -884,6 +884,9 @@ class Stargps_Devices_Management_Admin_Xlsx {
                     if( ! empty( $_POST['sim_no'] ) ){
                         $where.= " AND `sim-no` LIKE '%". $_POST['sim_no'] ."%'"; 
                     }
+                    if( $_POST['status'] != 'all' ){
+                        $where.= " AND `status` = '". $_POST['status'] ."'"; 
+                    }                    
                     if ( $_POST['order_by'] === 'next-recharge' ){
                         $order_by = " ORDER BY STR_TO_DATE( `next-recharge` , '%d-%m-%Y') "  . $_POST['order'];
                     }else if( $_POST['order_by'] === 'date-recharge' ){
@@ -909,7 +912,18 @@ class Stargps_Devices_Management_Admin_Xlsx {
 				foreach ( $devices as $device ) {
                                     $no_need = ( DateTime::createFromFormat('d-m-Y', $device['date-recharge'] ) === false ) ? 'style="background-color: #b2b0c8;"' : '';
                                     echo '<tr ' . $no_need. '>';
-                                    echo '<td><b>' . $row_increment . '</b></td>';                                    
+                                    echo '<td><b>' . $row_increment . '</b></td>';  
+                                                                        if( $device['status']  === 'active' ){
+                                        $status = '<td><span class="dashicons dashicons-saved"></span></td>';                                    
+                                    } else if ( $device['status']  === 'disabled' ){
+                                        $status = '<td><span class="dashicons dashicons-controls-pause"></span></td>';                                    
+                                    } else if ( $device['status']  === 'expired' ){
+                                    
+                                        $status = '<td><span class="dashicons dashicons-warning"></span></td>';                                    
+                                    } else if ( $device['status']  === 'removed' ){
+                                    
+                                        $status = '<td><span class="dashicons dashicons-no"></span></td>';                                    
+                                    }
                                     echo '<td>' . $device['id'] . '</td>';
                                     echo '<td>' . $device['customer-name'] . '</td>';
                                     echo '<td>' . $device['login'] . '</td>';

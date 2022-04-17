@@ -604,7 +604,7 @@
 				url: starGPSDevicesManagementXlsxParams.admin_ajax,
 				type: "POST",
 				context: this,
-				data: { 'action': 'stargps_device_management_relancer' , 'app': $('#app_relancer').val(), 'mois' : $('#relancer').val(), 'date_recharge': $('input[name=DateOfRecharge_relancer]').val(),'next_recharge': $('input[name=NextOfRecharge_relancer]').val(), 'expiry_date': $('input[name=ExpiryDate_relancer]').val(), 'customer_name': $('#customer_name_relancer').val(), 'type_device': $('#type_device_relancer').val(), 'imei': $('#imei_relancer').val(), 'tel_clt': $('#tel_clt_relancer').val(), 'sim_no': $('#sim_no_relancer').val(),'order_by': $('#order-by-relancer').val(), 'order': $('#order-relancer').val()},
+				data: { 'action': 'stargps_device_management_relancer' , 'app': $('#app_relancer').val(), 'mois' : $('#relancer').val(), 'date_recharge': $('input[name=DateOfRecharge_relancer]').val(),'next_recharge': $('input[name=NextOfRecharge_relancer]').val(), 'expiry_date': $('input[name=ExpiryDate_relancer]').val(), 'customer_name': $('#customer_name_relancer').val(), 'type_device': $('#type_device_relancer').val(), 'imei': $('#imei_relancer').val(), 'tel_clt': $('#tel_clt_relancer').val(), 'sim_no': $('#sim_no_relancer').val(),'order_by': $('#order-by-relancer').val(), 'order': $('#order-relancer').val(), 'status': $('#status-devices-relancer').val()},
 				beforeSend: function () {
                                     $("div.listDevicesRelancer span.stargps-spinner").addClass("stargps-is-active").show();
                                     $('div.resultDevicesRelancer').html('');
