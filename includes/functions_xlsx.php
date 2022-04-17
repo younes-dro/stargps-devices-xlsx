@@ -310,4 +310,18 @@ function get_device_status ( $device_id , $app ){
 	return $status;    
     
 }
+function get_length_date ( $date , $field ){
+    
+    if( strlen( $date ) === 10 ){
+        
+        return " AND `{$field}` = '". $_POST['date_recharge'] ."'";
+    }
+    
+    if( strlen( $date ) === 7 ){
+        return " AND month(STR_TO_DATE( `{$field}` , '%d-%m-%Y') ) = '".  substr( $date, 0, 2 ) . "' AND year(STR_TO_DATE( `{$field}` , '%d-%m-%Y') ) = '" . substr( $date, 3, 4) . "' ";
+    }
+    if( strlen( $date ) === 4 ){
+        return "  AND year(STR_TO_DATE( `{$field}` , '%d-%m-%Y') ) = '" .  $date . "' ";
+    }    
+}
 

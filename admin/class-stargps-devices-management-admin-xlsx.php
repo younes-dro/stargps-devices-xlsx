@@ -290,13 +290,16 @@ class Stargps_Devices_Management_Admin_Xlsx {
                     
                     $where .= " AND `id` NOT IN ( SELECT `id` from {$table_devices} WHERE  month(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = month(curdate() ) AND year(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = year(curdate()) ) ";
                     if( ! empty( $_POST['date_recharge'] ) ){
-                       $where.= " AND `date-recharge` = '". $_POST['date_recharge'] ."'";
+                        $where.= get_length_date( $_POST['date_recharge'] , 'date-recharge' ); 
+                       //$where.= " AND `date-recharge` = '". $_POST['date_recharge'] ."'";
                     }
                     if( ! empty( $_POST['next_recharge'] ) ){
-                       $where.= " AND `next-recharge` = '". $_POST['next_recharge'] ."'";
+                        $where.= get_length_date( $_POST['next_recharge'] , 'next-recharge' ); 
+//                       $where.= " AND `next-recharge` = '". $_POST['next_recharge'] ."'";
                     }
                     if( ! empty( $_POST['expiry_date'] ) ){
-                       $where.= " AND `expiry` = '". $_POST['expiry_date'] ."'";
+                        $where.= get_length_date( $_POST['expiry_date'] , 'expiry' ); 
+//                       $where.= " AND `expiry` = '". $_POST['expiry_date'] ."'";
                     }                     
                     if( ! empty( $_POST['customer_name'] ) ){
                        $where.= " AND `customer-name` LIKE '%". $_POST['customer_name'] ."%'"; 
@@ -328,13 +331,16 @@ class Stargps_Devices_Management_Admin_Xlsx {
                 }else{
                     $select_all = true;
                     if( ! empty( $_POST['date_recharge'] ) ){
-                       $where.= " AND `date-recharge` = '". $_POST['date_recharge'] ."'";
+                       $where.= get_length_date( $_POST['date_recharge'] , 'date-recharge' ); 
+                       //$where.= " AND `date-recharge` = '". $_POST['date_recharge'] ."'";
                     }
                     if( ! empty( $_POST['next_recharge'] ) ){
-                       $where.= " AND `next-recharge` = '". $_POST['next_recharge'] ."'";
+                       $where.= get_length_date( $_POST['next_recharge'] , 'next-recharge' ); 
+//                       $where.= " AND `next-recharge` = '". $_POST['next_recharge'] ."'";
                     }
                     if( ! empty( $_POST['expiry_date'] ) ){
-                       $where.= " AND `expiry` = '". $_POST['expiry_date'] ."'";
+                        $where.= get_length_date( $_POST['expiry_date'] , 'expiry' ); 
+//                       $where.= " AND `expiry` = '". $_POST['expiry_date'] ."'";
                     }                    
                     if( ! empty( $_POST['customer_name'] ) ){
                        $where.= " AND `customer-name` LIKE '%". $_POST['customer_name'] ."%'"; 
@@ -367,7 +373,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
                 }
              
 		$sql = "SELECT * FROM {$table_devices} " . $where . $order_by . " ;";
-                               
+                          
 		$devices = $wpdb->get_results( $sql , ARRAY_A );
 
                 $row_increment = 1; 
@@ -861,13 +867,16 @@ class Stargps_Devices_Management_Admin_Xlsx {
                     $title = "Devices date d'expiration du mois:" . $last_month;
                 }
                     if( ! empty( $_POST['date_recharge'] ) ){
-                       $where.= " AND `date-recharge` = '". $_POST['date_recharge'] ."'";
+                        $where.= get_length_date( $_POST['date_recharge'] , 'date-recharge' ); 
+                       //$where.= " AND `date-recharge` = '". $_POST['date_recharge'] ."'";
                     }
                     if( ! empty( $_POST['next_recharge'] ) ){
-                       $where.= " AND `next-recharge` = '". $_POST['next_recharge'] ."'";
+                        $where.= get_length_date( $_POST['next_recharge'] , 'next-recharge' ); 
+//                       $where.= " AND `next-recharge` = '". $_POST['next_recharge'] ."'";
                     }
                     if( ! empty( $_POST['expiry_date'] ) ){
-                       $where.= " AND `expiry` = '". $_POST['expiry_date'] ."'";
+                        $where.= get_length_date( $_POST['expiry_date'] , 'expiry' ); 
+//                       $where.= " AND `expiry` = '". $_POST['expiry_date'] ."'";
                     }                     
                     if( ! empty( $_POST['customer_name'] ) ){
                        $where.= " AND `customer-name` LIKE '%". $_POST['customer_name'] ."%'"; 
@@ -913,7 +922,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                     $no_need = ( DateTime::createFromFormat('d-m-Y', $device['date-recharge'] ) === false ) ? 'style="background-color: #b2b0c8;"' : '';
                                     echo '<tr ' . $no_need. '>';
                                     echo '<td><b>' . $row_increment . '</b></td>';  
-                                                                        if( $device['status']  === 'active' ){
+                                     if( $device['status']  === 'active' ){
                                         $status = '<td><span class="dashicons dashicons-saved"></span></td>';                                    
                                     } else if ( $device['status']  === 'disabled' ){
                                         $status = '<td><span class="dashicons dashicons-controls-pause"></span></td>';                                    
@@ -924,7 +933,9 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                     
                                         $status = '<td><span class="dashicons dashicons-no"></span></td>';                                    
                                     }
+                                    echo $status;
                                     echo '<td>' . $device['id'] . '</td>';
+                                    
                                     echo '<td>' . $device['customer-name'] . '</td>';
                                     echo '<td>' . $device['login'] . '</td>';
                                     echo '<td>' . $device['tel-clt'] . '</td>';

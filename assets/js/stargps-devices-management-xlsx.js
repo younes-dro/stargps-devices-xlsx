@@ -214,7 +214,8 @@
                                     $(".stargps-spinner").addClass("stargps-is-active").show();
                                     $('div.resultDevices').html('');
 				},
-				success: function (data) {         
+				success: function (data) {  
+//                                    console.log(data);
 					if (data.error) {
 						
 						alert(data.error.msg);
