@@ -61,8 +61,8 @@
             </div> 
         <div class="column">
                <select name="status-devices-80-jours" id="status-devices-80-jours">
-                   <option value="all" selected>Tout</option>
-                    <option value="active">Activé</option>
+                   <option value="all">Tout</option>
+                    <option value="active" selected>Activé</option>
                     <option value="disabled">Désactivé</option>
                     <option value="expired">Expiré</option>
                     <option value="removed">Supprimé</option>
