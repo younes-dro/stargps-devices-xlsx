@@ -58,7 +58,17 @@
                 <option value="ASC">ASC</option>
                 <option value="DESC">DESC</option>
             </select>
-        </div>            
+        </div>    
+        <div class="column">
+               <select name="status-devices" id="status-devices">
+                   <option value="all" selected>Tout</option>
+                    <option value="active">Activé</option>
+                    <option value="disabled">Désactivé</option>
+                    <option value="expired">Expiré</option>
+                    <option value="removed">Supprimé</option>
+               </select>
+            
+        </div>
     </div>    
     <div class="submit-wrapper">
         <a id="stargps_device_management_date_recharge" class="stargps-devices-management-btn">Submit</a>

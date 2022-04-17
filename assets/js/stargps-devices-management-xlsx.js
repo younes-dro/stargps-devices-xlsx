@@ -209,12 +209,13 @@
 				url: starGPSDevicesManagementXlsxParams.admin_ajax,
 				type: "POST",
 				context: this,
-				data: { 'action': 'stargps_device_management_devices_date_recharge_xlsx' ,'date_recharge': $('input[name=DateOfRecharge]').val(),'next_recharge': $('input[name=NextOfRecharge]').val(), 'expiry_date': $('input[name=ExpiryDate]').val(), 'customer_name': $('#customer_name').val(), 'type_device': $('#type_device').val(), 'app': $('#app').val(), 'imei': $('#imei').val(), 'tel_clt': $('#tel_clt').val(), 'sim_no': $('#sim_no').val(), 'order_by': $('#order-by').val(), 'order': $('#order').val(), 'stargps_device_management_nonce': starGPSDevicesManagementXlsxParams.stargps_device_management_nonce },
+				data: { 'action': 'stargps_device_management_devices_date_recharge_xlsx' ,'date_recharge': $('input[name=DateOfRecharge]').val(),'next_recharge': $('input[name=NextOfRecharge]').val(), 'expiry_date': $('input[name=ExpiryDate]').val(), 'customer_name': $('#customer_name').val(), 'type_device': $('#type_device').val(), 'app': $('#app').val(), 'imei': $('#imei').val(), 'tel_clt': $('#tel_clt').val(), 'sim_no': $('#sim_no').val(), 'order_by': $('#order-by').val(), 'order': $('#order').val(), 'status': $('#status-devices').val(), 'stargps_device_management_nonce': starGPSDevicesManagementXlsxParams.stargps_device_management_nonce },
 				beforeSend: function () {
                                     $(".stargps-spinner").addClass("stargps-is-active").show();
                                     $('div.resultDevices').html('');
 				},
-				success: function (data) {         
+				success: function (data) {  
+//                                    console.log(data);
 					if (data.error) {
 						
 						alert(data.error.msg);
@@ -453,7 +454,7 @@
 				url: starGPSDevicesManagementXlsxParams.admin_ajax,
 				type: "POST",
 				context: this,
-				data: { 'action': 'stargps_device_management_date_recharge_80_jours' , 'app': $('#app_80').val(), 'recharge_80_j' : '1','date_recharge': $('input[name=DateOfRecharge_80_jours]').val(),'next_recharge': $('input[name=NextOfRecharge_80_jours]').val(), 'expiry_date': $('input[name=ExpiryDate_80_jours]').val(), 'customer_name': $('#customer_name_80_jours').val(), 'type_device': $('#type_device_80_jours').val(), 'imei': $('#imei_80_jours').val(), 'tel_clt': $('#tel_clt_80_jours').val(), 'sim_no': $('#sim_no_80_jours').val(), 'order_by': $('#order-by-80-jours').val(), 'order': $('#order-80-jours').val()},
+				data: { 'action': 'stargps_device_management_date_recharge_80_jours' , 'app': $('#app_80').val(), 'recharge_80_j' : '1','date_recharge': $('input[name=DateOfRecharge_80_jours]').val(),'next_recharge': $('input[name=NextOfRecharge_80_jours]').val(), 'expiry_date': $('input[name=ExpiryDate_80_jours]').val(), 'customer_name': $('#customer_name_80_jours').val(), 'type_device': $('#type_device_80_jours').val(), 'imei': $('#imei_80_jours').val(), 'tel_clt': $('#tel_clt_80_jours').val(), 'sim_no': $('#sim_no_80_jours').val(), 'order_by': $('#order-by-80-jours').val(), 'order': $('#order-80-jours').val(), 'status': $('#status-devices-80-jours').val(),},
 				beforeSend: function () {
                                     $("div.listDevices80 span.stargps-spinner").addClass("stargps-is-active").show();
                                     $('div.resultDevices80').html('');
@@ -604,7 +605,7 @@
 				url: starGPSDevicesManagementXlsxParams.admin_ajax,
 				type: "POST",
 				context: this,
-				data: { 'action': 'stargps_device_management_relancer' , 'app': $('#app_relancer').val(), 'mois' : $('#relancer').val(), 'date_recharge': $('input[name=DateOfRecharge_relancer]').val(),'next_recharge': $('input[name=NextOfRecharge_relancer]').val(), 'expiry_date': $('input[name=ExpiryDate_relancer]').val(), 'customer_name': $('#customer_name_relancer').val(), 'type_device': $('#type_device_relancer').val(), 'imei': $('#imei_relancer').val(), 'tel_clt': $('#tel_clt_relancer').val(), 'sim_no': $('#sim_no_relancer').val(),'order_by': $('#order-by-relancer').val(), 'order': $('#order-relancer').val()},
+				data: { 'action': 'stargps_device_management_relancer' , 'app': $('#app_relancer').val(), 'mois' : $('#relancer').val(), 'date_recharge': $('input[name=DateOfRecharge_relancer]').val(),'next_recharge': $('input[name=NextOfRecharge_relancer]').val(), 'expiry_date': $('input[name=ExpiryDate_relancer]').val(), 'customer_name': $('#customer_name_relancer').val(), 'type_device': $('#type_device_relancer').val(), 'imei': $('#imei_relancer').val(), 'tel_clt': $('#tel_clt_relancer').val(), 'sim_no': $('#sim_no_relancer').val(),'order_by': $('#order-by-relancer').val(), 'order': $('#order-relancer').val(), 'status': $('#status-devices-relancer').val()},
 				beforeSend: function () {
                                     $("div.listDevicesRelancer span.stargps-spinner").addClass("stargps-is-active").show();
                                     $('div.resultDevicesRelancer').html('');

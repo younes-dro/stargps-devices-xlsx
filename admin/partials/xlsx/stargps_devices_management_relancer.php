@@ -65,7 +65,17 @@
                 <option value="ASC">ASC</option>
                 <option value="DESC">DESC</option>
             </select>
-        </div>            
+        </div> 
+        <div class="column">
+               <select name="status-devices-relancer" id="status-devices-relancer">
+                   <option value="all" selected>Tout</option>
+                    <option value="active">Activé</option>
+                    <option value="disabled">Désactivé</option>
+                    <option value="expired">Expiré</option>
+                    <option value="removed">Supprimé</option>
+               </select>
+            
+        </div>        
     </div> <!-- .devicesForm -->      
     <div class="submit-wrapper">
         <a id="stargps_device_management_date_recharge_relancer" class="stargps-devices-management-btn">Submit</a>
