@@ -466,17 +466,17 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                 if ( current_user_can( 'administrator' ) ){
                                 echo '<label><span class="title">SIM no: </span><span class="input-text-wrap"><input type="text" name="sim-no" value="' . $device['sim-no'] . '" autocomplete="off" spellcheck="false"></span></label>';                                
                                 echo '<label><span class="title">Groupe ID: </span><span class="input-text-wrap"><input type="text" name="groupe-id" value="' . $device['#'] . '" autocomplete="off" spellcheck="false"></span></label>';                                
-                                echo '<label><span class="title">Next Re: </span><span class="input-text-wrap"><input type="text" name="next-recharge" value="' . $device['next-recharge'] . '" autocomplete="off" spellcheck="false"></span></label>';                                                                
+                                echo '<label><span class="title">Next Re: </span><span class="input-text-wrap"><input type="text" class="date_picker" name="next-recharge" value="' . $device['next-recharge'] . '" autocomplete="off" spellcheck="false"></span></label>';                                                                
                                 }
                                 
                                 echo '<label><span class="title">Type Device: </span><span class="input-text-wrap"><input type="text" name="type" class="ptitle" value="' . $device['type'] . '"></span></label>';
-                                echo '<label><span class="title">Expiry: </span><span class="input-text-wrap"><input type="text" name="expiry" value="' . $device['expiry'] . '" autocomplete="off" spellcheck="false"></span></label>';
+                                echo '<label><span class="title">Expiry: </span><span class="input-text-wrap"><input type="text" class="date_picker" name="expiry" value="' . $device['expiry'] . '" autocomplete="off" spellcheck="false"></span></label>';
                                 echo '</div>';
                                 echo '</fieldset>';
                                 echo '<fieldset class="inline-edit-col-left">';
                                 //echo '<legend class="inline-edit-legend">-----</legend>';                                
                                 echo '<div class="inline-edit-col">';
-                                echo '<label><span class="title">Recharge: </span><span class="input-text-wrap"><input type="text" name="date-recharge" value="' . $device['date-recharge'] . '" autocomplete="off" spellcheck="false"></span></label>';                                
+                                echo '<label><span class="title">Recharge: </span><span class="input-text-wrap"><input type="text" class="date_picker" name="date-recharge" value="' . $device['date-recharge'] . '" autocomplete="off" spellcheck="false"></span></label>';                                
                                 
                                 echo '<label><span class="title">Remarks: </span><span class="input-text-wrap"><input type="text" name="remarks" value="' . $device['remarks'] . '" autocomplete="off" spellcheck="false"></span></label>';
                                 if ( current_user_can( 'administrator' ) ){

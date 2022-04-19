@@ -222,6 +222,9 @@
 					} else {
 						
                                                 $('div.resultDevices').html( data );
+                                                $('.date_picker').datepicker({
+                                                    dateFormat : 'dd-mm-yy'
+                                                });
                                                 fill_customer_name();
 						//console.log(data);
 					}

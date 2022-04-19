@@ -109,11 +109,11 @@
                 </tr> 
                 <tr>
                     <th scope="row"><label for="type-device">Date Recharge</label></th>
-                    <td><input name="date-recharge"  type="text" value="0" class=".date_picker regular-text"></td>
+                    <td><input name="date-recharge"  type="text" value="0" class="date_picker regular-text"></td>
                 </tr>                 
                 <tr>
                     <th scope="row"><label for="expiry">Expiry</label></th>
-                    <td><input name="expiry" type="text" value="0" class="regular-text"></td>
+                    <td><input name="expiry" type="text" value="0" class="date_picker regular-text"></td>
                 </tr> 
                 <tr>
                     <th scope="row"><label for="operator">Operator</label></th>
