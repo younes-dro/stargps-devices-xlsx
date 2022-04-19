@@ -747,7 +747,8 @@ $(document).on('click', '#run-update', function(){
                                    
 				},
 				success: function (data) {
-                                   
+//                                   console.log(data);
+//                                   return;
                                     var result = $.parseJSON(data);
                                     
 					if (result.re === 'yes') {

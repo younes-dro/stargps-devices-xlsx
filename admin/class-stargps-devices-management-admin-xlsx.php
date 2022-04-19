@@ -1066,6 +1066,11 @@ class Stargps_Devices_Management_Admin_Xlsx {
                 $n = count($device_ids);
                 $condition = 0;
                 $data = array();
+                
+//                echo '<pre>';
+//                var_dump($_POST['data_form']);
+//                echo '</pre>';
+//                exit();
                 for ( $i = 0; $i < $n -1 ; $i++){
                   
                   if( $_POST['data_form'][2]['value'] != "0"){
@@ -1089,15 +1094,19 @@ class Stargps_Devices_Management_Admin_Xlsx {
                       $condition++;
                   }
                   if( $_POST['data_form'][7]['value'] != "0"){
-                      $data['expiry'] = $_POST['data_form'][7]['value']; 
+                      $data['date-recharge'] = $_POST['data_form'][7]['value']; 
                       $condition++;
-                  }
+                  }                  
                   if( $_POST['data_form'][8]['value'] != "0"){
-                      $data['sim-op'] = $_POST['data_form'][8]['value'];
+                      $data['expiry'] = $_POST['data_form'][8]['value']; 
                       $condition++;
                   }
                   if( $_POST['data_form'][9]['value'] != "0"){
-                      $data['remarks'] = $_POST['data_form'][9]['value'];
+                      $data['sim-op'] = $_POST['data_form'][9]['value'];
+                      $condition++;
+                  }
+                  if( $_POST['data_form'][10]['value'] != "0"){
+                      $data['remarks'] = $_POST['data_form'][10]['value'];
                       $condition++;
                   } 
                   

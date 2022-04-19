@@ -83,6 +83,7 @@
     <form action="" id="update-dialog-form">
         <input type="hidden" name="device_ids" id="device_ids" value="">
         <input type="hidden" name="update_app" id="update_app" value="">
+        <div class="notice notice-warning">Les champs de valeur 0 seront ignorés lors de la mise à jour</div>
 
         <table class="form-table">
             <tbody>
@@ -106,6 +107,10 @@
                     <th scope="row"><label for="type-device">Type device</label></th>
                     <td><input name="type-device" type="text" value="0" class="regular-text"></td>
                 </tr> 
+                <tr>
+                    <th scope="row"><label for="type-device">Date Recharge</label></th>
+                    <td><input name="date-recharge"  type="text" value="0" class=".date_picker regular-text"></td>
+                </tr>                 
                 <tr>
                     <th scope="row"><label for="expiry">Expiry</label></th>
                     <td><input name="expiry" type="text" value="0" class="regular-text"></td>
