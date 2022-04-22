@@ -481,10 +481,10 @@ Supprimer la valeur (laisser le champ vide sans espace blanc )</p></div>';
                                 echo '<label><span class="title">Recharge: </span><span class="input-text-wrap"><input type="text" class="date_picker" name="date-recharge" value="' . $device['date-recharge'] . '" autocomplete="off" spellcheck="false"></span></label>';                                
                                 
                                 echo '<label><span class="title">Remarks: </span><span class="input-text-wrap"><input type="text" name="remarks" value="' . $device['remarks'] . '" autocomplete="off" spellcheck="false"></span></label>';
-                                if ( current_user_can( 'administrator' ) ){
+                               // if ( current_user_can( 'administrator' ) ){
 
                                 echo '<label><span class="title">Status: </span><span class="input-text-wrap"><select name="status">' . get_selected_status( $device['status'] ) . '</select></span></label>';
-                                }
+                                //}
                                 echo '</div>';
                                 echo '</fieldset>';
                                 echo '<input type="hidden" name="table-app" value="' . $_POST['app'] . '">';
@@ -1029,8 +1029,11 @@ Supprimer la valeur (laisser le champ vide sans espace blanc )</p></div>';
                     
                 // User  
                 }else{
-                    $table_name = $_POST['data_form'][7]['value'];
-                    $device_id = $_POST['data_form'][8]['value'];                    
+                    //echo '<pre>';
+                    //var_dump($_POST);
+                    //echo '</pre>';
+                    $table_name = $_POST['data_form'][8]['value'];
+                    $device_id = $_POST['data_form'][9]['value'];                    
                     if( isset( $_POST['data_form'][5]['value'] ) && !empty( trim ( $_POST['data_form'][5]['value'] ) ) ){
                             $date_recharge = trim ( $_POST['data_form'][5]['value'] ) ; 
                             $next_recharge = date("d-m-Y" , strtotime( "+80 days", strtotime( $date_recharge   ) ) );
@@ -1046,7 +1049,8 @@ Supprimer la valeur (laisser le champ vide sans espace blanc )</p></div>';
 				'expiry' => $_POST['data_form'][4]['value'] ,
 				'date-recharge' => $date_recharge ,
 				'next-recharge' => $next_recharge ,                                 
-				'remarks' =>  $_POST['data_form'][6]['value']   );  
+				'remarks' =>  $_POST['data_form'][6]['value'],
+                            'status' =>  $_POST['data_form'][7]['value'] );  
                         
                         $where = ['id' => $device_id ];
                         
