@@ -288,7 +288,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
                     
                     $where.= " AND  STR_TO_DATE( `date-recharge` , '%d-%m-%Y') < '" . $days_ago . "' ";
                     
-                    $where .= " AND `id` NOT IN ( SELECT `id` from {$table_devices} WHERE  month(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = month(curdate() ) AND year(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = year(curdate()) ) ";
+                    $where .= " AND `id` NOT IN ( SELECT `id` from {$table_devices} WHERE  month(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = month(curdate() ) AND year(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) <= year(curdate()) ) ";
                     if( ! empty( $_POST['date_recharge'] ) ){
                         $where.= get_length_date( $_POST['date_recharge'] , 'date-recharge' ); 
                        //$where.= " AND `date-recharge` = '". $_POST['date_recharge'] ."'";
