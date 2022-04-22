@@ -222,6 +222,9 @@
 					} else {
 						
                                                 $('div.resultDevices').html( data );
+                                                $('.date_picker').datepicker({
+                                                    dateFormat : 'dd-mm-yy'
+                                                });
                                                 fill_customer_name();
 						//console.log(data);
 					}
@@ -747,7 +750,8 @@ $(document).on('click', '#run-update', function(){
                                    
 				},
 				success: function (data) {
-                                   
+//                                   console.log(data);
+//                                   return;
                                     var result = $.parseJSON(data);
                                     
 					if (result.re === 'yes') {

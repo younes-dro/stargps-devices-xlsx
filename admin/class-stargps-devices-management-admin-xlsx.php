@@ -466,17 +466,19 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                 if ( current_user_can( 'administrator' ) ){
                                 echo '<label><span class="title">SIM no: </span><span class="input-text-wrap"><input type="text" name="sim-no" value="' . $device['sim-no'] . '" autocomplete="off" spellcheck="false"></span></label>';                                
                                 echo '<label><span class="title">Groupe ID: </span><span class="input-text-wrap"><input type="text" name="groupe-id" value="' . $device['#'] . '" autocomplete="off" spellcheck="false"></span></label>';                                
-                                echo '<label><span class="title">Next Re: </span><span class="input-text-wrap"><input type="text" name="next-recharge" value="' . $device['next-recharge'] . '" autocomplete="off" spellcheck="false"></span></label>';                                                                
+                                echo '<label><span class="title">Next Re: </span><span class="input-text-wrap"><input type="text" class="date_picker" name="next-recharge" value="' . $device['next-recharge'] . '" autocomplete="off" spellcheck="false"></span></label>';
+                                echo '<div style="padding: 10px;margin:0;" class="notice notice-error notice-warning"><p>Si Vous voulez que la date "Next recharge" soit calculée automatiquement.
+Supprimer la valeur (laisser le champ vide sans espace blanc )</p></div>';
                                 }
                                 
                                 echo '<label><span class="title">Type Device: </span><span class="input-text-wrap"><input type="text" name="type" class="ptitle" value="' . $device['type'] . '"></span></label>';
-                                echo '<label><span class="title">Expiry: </span><span class="input-text-wrap"><input type="text" name="expiry" value="' . $device['expiry'] . '" autocomplete="off" spellcheck="false"></span></label>';
+                                echo '<label><span class="title">Expiry: </span><span class="input-text-wrap"><input type="text" class="date_picker" name="expiry" value="' . $device['expiry'] . '" autocomplete="off" spellcheck="false"></span></label>';
                                 echo '</div>';
                                 echo '</fieldset>';
                                 echo '<fieldset class="inline-edit-col-left">';
                                 //echo '<legend class="inline-edit-legend">-----</legend>';                                
                                 echo '<div class="inline-edit-col">';
-                                echo '<label><span class="title">Recharge: </span><span class="input-text-wrap"><input type="text" name="date-recharge" value="' . $device['date-recharge'] . '" autocomplete="off" spellcheck="false"></span></label>';                                
+                                echo '<label><span class="title">Recharge: </span><span class="input-text-wrap"><input type="text" class="date_picker" name="date-recharge" value="' . $device['date-recharge'] . '" autocomplete="off" spellcheck="false"></span></label>';                                
                                 
                                 echo '<label><span class="title">Remarks: </span><span class="input-text-wrap"><input type="text" name="remarks" value="' . $device['remarks'] . '" autocomplete="off" spellcheck="false"></span></label>';
                                 if ( current_user_can( 'administrator' ) ){
@@ -1066,6 +1068,11 @@ class Stargps_Devices_Management_Admin_Xlsx {
                 $n = count($device_ids);
                 $condition = 0;
                 $data = array();
+                
+//                echo '<pre>';
+//                var_dump($_POST['data_form']);
+//                echo '</pre>';
+//                exit();
                 for ( $i = 0; $i < $n -1 ; $i++){
                   
                   if( $_POST['data_form'][2]['value'] != "0"){
@@ -1089,17 +1096,27 @@ class Stargps_Devices_Management_Admin_Xlsx {
                       $condition++;
                   }
                   if( $_POST['data_form'][7]['value'] != "0"){
-                      $data['expiry'] = $_POST['data_form'][7]['value']; 
+                      $data['date-recharge'] = $_POST['data_form'][7]['value'];
+                      $next_recharge = date("d-m-Y" , strtotime( "+80 days", strtotime( $_POST['data_form'][7]['value'] ) ) ); 
+                      $data['next-recharge'] = $next_recharge;
                       $condition++;
-                  }
+                  }                  
                   if( $_POST['data_form'][8]['value'] != "0"){
-                      $data['sim-op'] = $_POST['data_form'][8]['value'];
+                      $data['expiry'] = $_POST['data_form'][8]['value']; 
                       $condition++;
                   }
                   if( $_POST['data_form'][9]['value'] != "0"){
-                      $data['remarks'] = $_POST['data_form'][9]['value'];
+                      $data['sim-op'] = $_POST['data_form'][9]['value'];
                       $condition++;
-                  } 
+                  }
+                  if( $_POST['data_form'][10]['value'] != "0"){
+                      $data['remarks'] = $_POST['data_form'][10]['value'];
+                      $condition++;
+                  }
+                  if( $_POST['data_form'][11]['value'] != "0"){
+                      $data['status'] = $_POST['data_form'][11]['value'];
+                      $condition++;
+                  }                   
                   
                   if ( $condition === 0){
                       break;

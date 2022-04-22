@@ -41,8 +41,8 @@
         <div class="column">
             <label>Expiry date: </label>
             <input type="text" name="ExpiryDate" class="form-control next_recharge date_picker" value="" />
-        </div>            
-    </div>
+        </div> 
+        </div>        
     <div class="devicesForm">        
         <div class="column">
             <label>Order by: </label>
@@ -83,6 +83,7 @@
     <form action="" id="update-dialog-form">
         <input type="hidden" name="device_ids" id="device_ids" value="">
         <input type="hidden" name="update_app" id="update_app" value="">
+        <div class="notice notice-warning">Les champs de valeur 0 seront ignorés lors de la mise à jour</div>
 
         <table class="form-table">
             <tbody>
@@ -107,8 +108,12 @@
                     <td><input name="type-device" type="text" value="0" class="regular-text"></td>
                 </tr> 
                 <tr>
+                    <th scope="row"><label for="type-device">Date Recharge</label></th>
+                    <td><input name="date-recharge"  type="text" value="0" class="date_picker regular-text"></td>
+                </tr>                 
+                <tr>
                     <th scope="row"><label for="expiry">Expiry</label></th>
-                    <td><input name="expiry" type="text" value="0" class="regular-text"></td>
+                    <td><input name="expiry" type="text" value="0" class="date_picker regular-text"></td>
                 </tr> 
                 <tr>
                     <th scope="row"><label for="operator">Operator</label></th>
@@ -117,7 +122,19 @@
                 <tr>
                     <th scope="row"><label for="remarks">Remarks</label></th>
                     <td><input name="remarks" type="text" value="0" class="regular-text"></td>
-                </tr>        
+                </tr>
+                <tr>
+                    <th scope="row"><label for="status">Status</label></th>
+                    <td>
+            <select name="status">
+                <option value="0" selected>0</option>
+                <option value="active">Enable</option>
+                <option value="disabled">Pause</option>
+                <option value="expired">Expired</option>
+                <option value="removed">Removed</option>
+            </select>                         
+                    </td>
+                </tr>                
             </tbody>
         </table>
         <p class="submit">
