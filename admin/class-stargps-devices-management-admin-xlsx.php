@@ -390,6 +390,8 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                     echo '<input type="hidden" id="delete-devices-app" value="'. $_POST['app'] . '" >';
                                     echo '</div>';
                                 }
+                                echo '<button class="download button button-primary stargps-devices-management-btn" data-sql="'.$sql.'">Generate xlsx file</button>';
+                                echo '<span class="download_xlsx"></span>';
                                 echo stargps_device_management_head_table_xlsx( 'devices', $select_all );
 				echo '<tbody id="the-list">'; 
 				foreach ( $devices as $device ) {
@@ -918,6 +920,8 @@ Supprimer la valeur (laisser le champ vide sans espace blanc )</p></div>';
                 $row_increment = 1; 
 		if ( is_array( $devices ) && count( $devices ) ){
 				echo '<h2>' . $title . ' <br>Nombre de resultat: ' . count( $devices ) . '</h2><br>';
+                                echo '<button class="download button button-primary stargps-devices-management-btn" data-sql="'.$sql.'">Generate xlsx file</button>';
+                                echo '<span class="download_xlsx"></span>';
                                 echo stargps_device_management_head_table_xlsx( 'devices' );
 				echo '<tbody id="the-list">'; 
 				foreach ( $devices as $device ) {
@@ -1185,5 +1189,45 @@ Supprimer la valeur (laisser le champ vide sans espace blanc )</p></div>';
                 
                 exit();               
 
-        }        
+        } 
+        public function download (){
+            global $wpdb;
+            
+            require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/libraries/vendor/autoload.php';
+           
+            
+            $write_array[] = array("Status","Customer name","ID", "Login", "Tel Client", "Target Name", "IMEI", "SIM NO", "Type Device", "Expiry Date", "Operator", "Date Recharge", "Date Next Recharge", "APP", "Remarks");
+            
+            $devices = $wpdb->get_results(  stripslashes( $_POST['sql'] ) , ARRAY_A );
+            
+            foreach ( $devices as $device ) {
+                $name_app = $device['app'];
+                $write_array[] = array( $device['status'], $device['customer-name'], $device['id'], $device['login'], $device['tel-clt'], $device['target-name'], $device['idimei'], $device['sim-no'], $device['type'], $device['expiry'], $device['sim-op'], $device['date-recharge'], $device['next-recharge'], $device['app'], $device['remarks'] );
+            }
+
+            
+            $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet;
+            $sheet = $spreadsheet->getActiveSheet()->fromArray($write_array,NULL,'A1');
+            $sheet->getStyle('A1:'.$sheet->getHighestColumn().'1')->getFont()->setBold(true);
+            $sheet->getStyle('A1:'.$sheet->getHighestColumn().'1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('cccccc');
+            $sheet->setTitle("Export");
+            
+            $date = date( 'd-m-y-'.substr( (string)microtime(), 1, 8 ) );
+            $date = str_replace( ".", "", $date );
+            $filename = "export_" . str_replace( " ", "_", $name_app ) . "_" . $date.".xlsx";
+            $filePath = $this->xlsx_folder . '/' . $filename; 
+            try {
+                $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
+                $writer->save($filePath);
+                
+            } catch( Exception $e ) {
+                exit( $e->getMessage() );
+            }
+            $upload_dir = wp_upload_dir();
+            
+            echo '<a href="' . $upload_dir['baseurl'] . '/satargps-xlsx/' . $filename . '"><span class="dashicons dashicons-download"></span>';
+
+            
+            exit();
+        }
 }
