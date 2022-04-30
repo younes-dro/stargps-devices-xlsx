@@ -835,9 +835,35 @@ $(document).on('click', '#run-update', function(){
                                     
                                     //$(this).prev("span.stargps-spinner").removeClass("stargps-is-active").hide();
 				}
-			});    
-             
-});
+			}); 
+                    });
+                    $(document).on('click', 'button.download', function(e){
+                            
+//                       console.log($(this).data('sql'));
+			$.ajax({
+				url: starGPSDevicesManagementXlsxParams.admin_ajax,
+				type: "POST",
+				context: this,
+				data: { 'action': 'stargps_device_management_download' , 'sql': $(this).data('sql') },
+				beforeSend: function () {
+                                    $(this).prop( "disabled", true );
+                                    $(this).next("span.download_xlsx").text('Generating file xlsx ... ');
+                                   
+				},
+				success: function (data) {
+//                                   console.log(data);
+                                   $(this).next("span.download_xlsx").html(data);
+				},
+				error: function (response, textStatus, errorThrown ) {
+					console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+				},
+				complete: function () {
+                                    $(this).prop( "disabled", false );
+                                    
+                                    //$(this).prev("span.stargps-spinner").removeClass("stargps-is-active").hide();
+				}
+			});                            
+                        });
 
 
 })(jQuery);

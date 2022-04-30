@@ -288,7 +288,7 @@ class Stargps_Devices_Management_Admin_Xlsx {
                     
                     $where.= " AND  STR_TO_DATE( `date-recharge` , '%d-%m-%Y') < '" . $days_ago . "' ";
                     
-                    $where .= " AND `id` NOT IN ( SELECT `id` from {$table_devices} WHERE  month(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = month(curdate() ) AND year(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = year(curdate()) ) ";
+                    $where .= " AND `id` NOT IN ( SELECT `id` from {$table_devices} WHERE  month(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) = month(curdate() ) AND year(STR_TO_DATE( `expiry` , '%d-%m-%Y') ) <= year(curdate()) ) ";
                     if( ! empty( $_POST['date_recharge'] ) ){
                         $where.= get_length_date( $_POST['date_recharge'] , 'date-recharge' ); 
                        //$where.= " AND `date-recharge` = '". $_POST['date_recharge'] ."'";
@@ -390,6 +390,8 @@ class Stargps_Devices_Management_Admin_Xlsx {
                                     echo '<input type="hidden" id="delete-devices-app" value="'. $_POST['app'] . '" >';
                                     echo '</div>';
                                 }
+                                echo '<button class="download button button-primary stargps-devices-management-btn" data-sql="'.$sql.'">Generate xlsx file</button>';
+                                echo '<span class="download_xlsx"></span>';
                                 echo stargps_device_management_head_table_xlsx( 'devices', $select_all );
 				echo '<tbody id="the-list">'; 
 				foreach ( $devices as $device ) {
@@ -481,10 +483,10 @@ Supprimer la valeur (laisser le champ vide sans espace blanc )</p></div>';
                                 echo '<label><span class="title">Recharge: </span><span class="input-text-wrap"><input type="text" class="date_picker" name="date-recharge" value="' . $device['date-recharge'] . '" autocomplete="off" spellcheck="false"></span></label>';                                
                                 
                                 echo '<label><span class="title">Remarks: </span><span class="input-text-wrap"><input type="text" name="remarks" value="' . $device['remarks'] . '" autocomplete="off" spellcheck="false"></span></label>';
-                                if ( current_user_can( 'administrator' ) ){
+                               // if ( current_user_can( 'administrator' ) ){
 
                                 echo '<label><span class="title">Status: </span><span class="input-text-wrap"><select name="status">' . get_selected_status( $device['status'] ) . '</select></span></label>';
-                                }
+                                //}
                                 echo '</div>';
                                 echo '</fieldset>';
                                 echo '<input type="hidden" name="table-app" value="' . $_POST['app'] . '">';
@@ -918,6 +920,8 @@ Supprimer la valeur (laisser le champ vide sans espace blanc )</p></div>';
                 $row_increment = 1; 
 		if ( is_array( $devices ) && count( $devices ) ){
 				echo '<h2>' . $title . ' <br>Nombre de resultat: ' . count( $devices ) . '</h2><br>';
+                                echo '<button class="download button button-primary stargps-devices-management-btn" data-sql="'.$sql.'">Generate xlsx file</button>';
+                                echo '<span class="download_xlsx"></span>';
                                 echo stargps_device_management_head_table_xlsx( 'devices' );
 				echo '<tbody id="the-list">'; 
 				foreach ( $devices as $device ) {
@@ -1029,8 +1033,11 @@ Supprimer la valeur (laisser le champ vide sans espace blanc )</p></div>';
                     
                 // User  
                 }else{
-                    $table_name = $_POST['data_form'][7]['value'];
-                    $device_id = $_POST['data_form'][8]['value'];                    
+                    //echo '<pre>';
+                    //var_dump($_POST);
+                    //echo '</pre>';
+                    $table_name = $_POST['data_form'][8]['value'];
+                    $device_id = $_POST['data_form'][9]['value'];                    
                     if( isset( $_POST['data_form'][5]['value'] ) && !empty( trim ( $_POST['data_form'][5]['value'] ) ) ){
                             $date_recharge = trim ( $_POST['data_form'][5]['value'] ) ; 
                             $next_recharge = date("d-m-Y" , strtotime( "+80 days", strtotime( $date_recharge   ) ) );
@@ -1046,7 +1053,8 @@ Supprimer la valeur (laisser le champ vide sans espace blanc )</p></div>';
 				'expiry' => $_POST['data_form'][4]['value'] ,
 				'date-recharge' => $date_recharge ,
 				'next-recharge' => $next_recharge ,                                 
-				'remarks' =>  $_POST['data_form'][6]['value']   );  
+				'remarks' =>  $_POST['data_form'][6]['value'],
+                            'status' =>  $_POST['data_form'][7]['value'] );  
                         
                         $where = ['id' => $device_id ];
                         
@@ -1181,5 +1189,45 @@ Supprimer la valeur (laisser le champ vide sans espace blanc )</p></div>';
                 
                 exit();               
 
-        }        
+        } 
+        public function download (){
+            global $wpdb;
+            
+            require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/libraries/vendor/autoload.php';
+           
+            
+            $write_array[] = array("Status","Customer name","ID", "Login", "Tel Client", "Target Name", "IMEI", "SIM NO", "Type Device", "Expiry Date", "Operator", "Date Recharge", "Date Next Recharge", "APP", "Remarks");
+            
+            $devices = $wpdb->get_results(  stripslashes( $_POST['sql'] ) , ARRAY_A );
+            
+            foreach ( $devices as $device ) {
+                $name_app = $device['app'];
+                $write_array[] = array( $device['status'], $device['customer-name'], $device['id'], $device['login'], $device['tel-clt'], $device['target-name'], $device['idimei'], $device['sim-no'], $device['type'], $device['expiry'], $device['sim-op'], $device['date-recharge'], $device['next-recharge'], $device['app'], $device['remarks'] );
+            }
+
+            
+            $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet;
+            $sheet = $spreadsheet->getActiveSheet()->fromArray($write_array,NULL,'A1');
+            $sheet->getStyle('A1:'.$sheet->getHighestColumn().'1')->getFont()->setBold(true);
+            $sheet->getStyle('A1:'.$sheet->getHighestColumn().'1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('cccccc');
+            $sheet->setTitle("Export");
+            
+            $date = date( 'd-m-y-'.substr( (string)microtime(), 1, 8 ) );
+            $date = str_replace( ".", "", $date );
+            $filename = "export_" . str_replace( " ", "_", $name_app ) . "_" . $date.".xlsx";
+            $filePath = $this->xlsx_folder . '/' . $filename; 
+            try {
+                $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
+                $writer->save($filePath);
+                
+            } catch( Exception $e ) {
+                exit( $e->getMessage() );
+            }
+            $upload_dir = wp_upload_dir();
+            
+            echo '<a href="' . $upload_dir['baseurl'] . '/satargps-xlsx/' . $filename . '"><span class="dashicons dashicons-download"></span>';
+
+            
+            exit();
+        }
 }
